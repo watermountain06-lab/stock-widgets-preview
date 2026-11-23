@@ -38,10 +38,10 @@
    "evebitda": 15.37
   },
   "CSGP": {
-   "per": 65.8,
+   "per": 67.3,
    "psr": 3.24,
    "pbr": 1.49,
-   "pcr": 28.21,
+   "pcr": 33.41,
    "evebitda": 22.26
   },
   "CCI": {
@@ -105,9 +105,9 @@
    "evebitda": 16.11
   },
   "IRM": {
-   "per": 66.38,
+   "per": 66.81,
    "psr": 3.9,
-   "evebitda": 18.38
+   "evebitda": 18.42
   },
   "KIM": {
    "per": 23.71,
@@ -152,7 +152,7 @@
    "per": 18.7,
    "psr": 6.35,
    "pcr": 17.21,
-   "evebitda": 18.09
+   "evebitda": 18.15
   },
   "SPG": {
    "per": 16.19,
@@ -176,7 +176,9 @@
   "VICI": {
    "per": 11.1,
    "psr": 6.41,
-   "pbr": 0.92
+   "pbr": 0.92,
+   "pcr": 9.86,
+   "evebitda": 10.98
   },
   "WELL": {
    "per": 104.5,
@@ -209,11 +211,13 @@
  "cardRows": {
   "AMT": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "BXP": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
+  "CSGP": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "DLR": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "EQIX": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "ESS": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "EXR": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "FRT": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
+  "IRM": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "KIM": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "MAA": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
   "REG": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",

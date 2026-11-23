@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 2.1%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="algnFundVerdict">해석 제한</span></div>
       <div class="logic-score" id="algnFundScore">49.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-positive" id="algnPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="algnPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="algnPeerScore">70.0<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="algnPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="algnPeerVerdict">중간</span></div>
+      <div class="logic-score" id="algnPeerScore">68.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="algnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="algnSelfVerdict">싼 편</span></div>
@@ -923,7 +923,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$155.17</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 ALGN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">93.8</div><div class="sc-tile" data-vc="self" data-m="per">98</div><div class="sc-tile" data-vc="self" data-m="pbr">94</div><div class="sc-tile" data-vc="self" data-m="psr">91</div><div class="sc-tile" data-vc="self" data-m="pcr">89</div><div class="sc-tile" data-vc="self" data-m="evebitda">98</div><div class="vs-pill" data-vs-pill="self">싸다</div>
@@ -931,10 +931,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.47 ~ 1.55(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">70.0</div><div class="sc-tile" data-vc="peer" data-m="per">74</div><div class="sc-tile" data-vc="peer" data-m="pbr">72</div><div class="sc-tile lost" data-vc="peer" data-m="psr">60</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">63</div><div class="sc-tile" data-vc="peer" data-m="evebitda">82</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">68.9</div><div class="sc-tile lost" data-vc="peer" data-m="per">68</div><div class="sc-tile" data-vc="peer" data-m="pbr">72</div><div class="sc-tile lost" data-vc="peer" data-m="psr">60</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">63</div><div class="sc-tile" data-vc="peer" data-m="evebitda">82</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 22.6배(5년 중앙값 36.4배)로 자기 이력 93.8점(싸다), 동종업 70.0점(싸다)이다. <strong>현금흐름 내재가치(기본 $100.18)는 현재가의 65%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $100.18)는 현재가의 65%다. 현재가를 정당화하려면 영업이익률이 22.8%까지 올라야 한다(최근 4분기 14.9%, 5년 중앙값 15.6%). 내재가치에서 차입금 $0M를 빼고 현금·단기투자 $1.1B를 더한다. 이 카드는 일회성 항목이 최근 4분기 이익의 30%를 넘으면 이익 기반 판정을 보류한다. ALGN은 일회성 비용에서 일회성 이익을 뺀 순액이 약 29%라 판정을 냈지만, 비용만 세면 약 31%로 보류됐을 수도 있는 경계 사례다. 일회성은 2025년 구조조정으로 닫은 설비의 가속 감가상각(4분기 $63M 등), 영국 부가가치세(VAT) 분쟁 충당 약 $43M(2026년 7월 영국 상급심이 투명 교정장치는 VAT 면제 대상이 아니라고 판결 — 회사는 항소 예정), Invisalign 소비자 반독점 소송(Snow) 합의 약 $32M, 2026년 3분기 새 구조조정 비용 $28M이고, 1분기 매각 예정 자산 평가이익 $12M이 반대 방향이다(세율 21% 일괄 적용한 카드 추정). 이 일회성은 GAAP 이익을 낮춰 PER을 높게 보이게 한다 — 걷어내면 PER이 더 낮아져 자기 이력 기준으로는 더 싸 보이지만, 현금흐름 칸이 요구하는 이익률에는 여전히 못 미쳐 판정은 같다. 회사는 4분기에도 구조조정 비용 $7~9M을 예상했다. 회사 비GAAP 이익은 여기에 주식 보상과 인수 무형자산 상각까지 빼서 더 높게 잡는데, 둘은 매년 반복되는 비용이라 카드는 GAAP에 남긴다. 남은 위험도 있다 — 영국 VAT는 일회성 충당과 별개로 9월 7일부터 영국 청구서에 VAT 20%가 붙어(정가는 그대로) 영국 고객 부담이 커졌고, 치과 직접 구매자 반독점 집단소송은 2026년 10월 연방 항소법원이 회사 승소 판결을 뒤집어 다시 진행된다(충당금 없음). 성장은 둔화 중이다 — 3분기 교정장치 물량이 6.6% 늘었지만 평균 가격이 내려 매출은 4.2% 증가에 그쳤고, 스캐너·CAD/CAM 매출은 장비 투자 위축과 저가·리스형 판매 확대로 7.6% 줄었다. 회사는 3분기에 2026년 매출 전망을 $4,110~4,130M(약 +2%)로 낮췄고(2분기 땐 +3~4%), 4분기 매출 $1,000~1,020M은 1년 전보다 적은 수준이다. 반면 2026년 GAAP 영업이익률은 약 16.2%, 4분기는 약 20%로 오를 것으로 봤다. 7월에 행동주의 펀드 Elliott와 협의한 뒤 독립 이사 3명 추가(8월 1명 선임), 외부 컨설팅을 낀 전략·운영 모델 검토(결과 미공시), 2026년 자사주 매입 $400~500M을 발표했고, 11월 가속 자사주 매입 $270M으로 올해 매입이 약 $500M이 된다. 경영진 교체기다 — 10월에 2015년부터 CEO였던 Joe Hogan이 물러나고 P&G 헬스케어 사업 CEO 출신 Jennifer Davis가 12월 31일부터 CEO를 맡는다고 발표했고, 7월에는 이사회 의장도 바뀌었다. 차입금이 없고(운용리스 약 $146M뿐) 현금이 약 $1.1B다. 유동부채의 절반 넘는 약 $1.16B는 이미 돈을 받고 교정장치를 보낼 의무(선수수익)라 유동비율이 실제보다 낮아 보인다. 동종업 점수는 S&P500 헬스케어 기준이다.</div>
+    <div class="vs-premise">PER 22.6배(5년 중앙값 36.4배)로 자기 이력 93.8점(싸다), 동종업 68.9점(중간)이다. <strong>현금흐름 내재가치(기본 $100.18)는 현재가의 65%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $100.18)는 현재가의 65%다. 현재가를 정당화하려면 영업이익률이 22.8%까지 올라야 한다(최근 4분기 14.9%, 5년 중앙값 15.6%). 내재가치에서 차입금 $0M를 빼고 현금·단기투자 $1.1B를 더한다. 이 카드는 일회성 항목이 최근 4분기 이익의 30%를 넘으면 이익 기반 판정을 보류한다. ALGN은 일회성 비용에서 일회성 이익을 뺀 순액이 약 29%라 판정을 냈지만, 비용만 세면 약 31%로 보류됐을 수도 있는 경계 사례다. 일회성은 2025년 구조조정으로 닫은 설비의 가속 감가상각(4분기 $63M 등), 영국 부가가치세(VAT) 분쟁 충당 약 $43M(2026년 7월 영국 상급심이 투명 교정장치는 VAT 면제 대상이 아니라고 판결 — 회사는 항소 예정), Invisalign 소비자 반독점 소송(Snow) 합의 약 $32M, 2026년 3분기 새 구조조정 비용 $28M이고, 1분기 매각 예정 자산 평가이익 $12M이 반대 방향이다(세율 21% 일괄 적용한 카드 추정). 이 일회성은 GAAP 이익을 낮춰 PER을 높게 보이게 한다 — 걷어내면 PER이 더 낮아져 자기 이력 기준으로는 더 싸 보이지만, 현금흐름 칸이 요구하는 이익률에는 여전히 못 미쳐 판정은 같다. 회사는 4분기에도 구조조정 비용 $7~9M을 예상했다. 회사 비GAAP 이익은 여기에 주식 보상과 인수 무형자산 상각까지 빼서 더 높게 잡는데, 둘은 매년 반복되는 비용이라 카드는 GAAP에 남긴다. 남은 위험도 있다 — 영국 VAT는 일회성 충당과 별개로 9월 7일부터 영국 청구서에 VAT 20%가 붙어(정가는 그대로) 영국 고객 부담이 커졌고, 치과 직접 구매자 반독점 집단소송은 2026년 10월 연방 항소법원이 회사 승소 판결을 뒤집어 다시 진행된다(충당금 없음). 성장은 둔화 중이다 — 3분기 교정장치 물량이 6.6% 늘었지만 평균 가격이 내려 매출은 4.2% 증가에 그쳤고, 스캐너·CAD/CAM 매출은 장비 투자 위축과 저가·리스형 판매 확대로 7.6% 줄었다. 회사는 3분기에 2026년 매출 전망을 $4,110~4,130M(약 +2%)로 낮췄고(2분기 땐 +3~4%), 4분기 매출 $1,000~1,020M은 1년 전보다 적은 수준이다. 반면 2026년 GAAP 영업이익률은 약 16.2%, 4분기는 약 20%로 오를 것으로 봤다. 7월에 행동주의 펀드 Elliott와 협의한 뒤 독립 이사 3명 추가(8월 1명 선임), 외부 컨설팅을 낀 전략·운영 모델 검토(결과 미공시), 2026년 자사주 매입 $400~500M을 발표했고, 11월 가속 자사주 매입 $270M으로 올해 매입이 약 $500M이 된다. 경영진 교체기다 — 10월에 2015년부터 CEO였던 Joe Hogan이 물러나고 P&G 헬스케어 사업 CEO 출신 Jennifer Davis가 12월 31일부터 CEO를 맡는다고 발표했고, 7월에는 이사회 의장도 바뀌었다. 차입금이 없고(운용리스 약 $146M뿐) 현금이 약 $1.1B다. 유동부채의 절반 넘는 약 $1.16B는 이미 돈을 받고 교정장치를 보낼 의무(선수수익)라 유동비율이 실제보다 낮아 보인다. 동종업 점수는 S&P500 헬스케어 기준이다.</div>
   </div>
 
   <div class="grid-2">
@@ -1018,7 +1018,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $1.0B(+1.9%), 영업이익률 16.7%(1년 전 9.7%). 주가는 1년 새 +16%<span class="tag">배수 5년 최저권·매출 성장 느려짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $100.18)는 현재가의 65%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $100.18)는 현재가의 65%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 3일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1104,7 +1104,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 43.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$193.33</span> <span class="op-sub op-up" data-an="upside">+24.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1312,12 +1312,12 @@ const MULTIPLE_DATA = {
     title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/20 종가',
     unit: 'PER', max: 70, algnValue: null,
     peers: [
-      { name:'ISRG', value:45.8, status:'reference' },
+      { name:'ISRG', value:48.4, status:'reference' },
       { name:'DXCM', value:31.1, status:'reference' },
-      { name:'SYK', value:32.1, status:'reference' },
-      { name:'BSX', value:17.0, status:'reference' },
+      { name:'SYK', value:33.0, status:'reference' },
+      { name:'BSX', value:17.8, status:'reference' },
       { name:'EW', value:58.9, status:'reference' },
-      { name:'PODD', value:25.0, status:'reference' }
+      { name:'PODD', value:21.7, status:'reference' }
     ]
   },
   pbr: {
@@ -1495,7 +1495,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ALGN
 const ALGN_SCORES = {
   fundamental: 49.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 70.0,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 68.9,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 93.8,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1826,7 +1826,7 @@ const ALGN_FUNDAMENTAL = {"ticker": "ALGN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py ALGN --self v2/ALGN_multiples.json --card
 /* VALUATION:BEGIN */
-const ALGN_VALUATION = {"peer": {"score": 70.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 73.9, "rank": 13, "peers": 46}, {"metric": "pbr", "score": 71.7, "rank": 16, "peers": 53}, {"metric": "psr", "score": 60.3, "rank": 24, "peers": 58}, {"metric": "pcr", "score": 62.5, "rank": 22, "peers": 56}, {"metric": "evebitda", "score": 81.8, "rank": 11, "peers": 55}]}, "self": {"score": 93.8, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.5, "percentile": 2.5, "current": 22.59, "min": 21.06, "median": 36.42, "max": 95.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 93.5, "percentile": 6.5, "current": 2.54, "min": 2.31, "median": 4.5, "max": 15.14, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 91.1, "percentile": 8.9, "current": 2.63, "min": 2.28, "median": 4.35, "max": 14.18, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.2, "percentile": 10.8, "current": 18.15, "min": 14.33, "median": 38.12, "max": 100.47, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 11.41, "min": 10.78, "median": 19.49, "max": 48.49, "days": 1255, "currentNote": null}]}};
+const ALGN_VALUATION = {"peer": {"score": 68.9, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 68.0, "rank": 17, "peers": 50}, {"metric": "pbr", "score": 71.7, "rank": 16, "peers": 53}, {"metric": "psr", "score": 60.3, "rank": 24, "peers": 58}, {"metric": "pcr", "score": 62.5, "rank": 22, "peers": 56}, {"metric": "evebitda", "score": 81.8, "rank": 11, "peers": 55}]}, "self": {"score": 93.8, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.5, "percentile": 2.5, "current": 22.59, "min": 21.06, "median": 36.42, "max": 95.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 93.5, "percentile": 6.5, "current": 2.54, "min": 2.31, "median": 4.5, "max": 15.14, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 91.1, "percentile": 8.9, "current": 2.63, "min": 2.28, "median": 4.35, "max": 14.18, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.2, "percentile": 10.8, "current": 18.15, "min": 14.33, "median": 38.12, "max": 100.47, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 11.41, "min": 10.78, "median": 19.49, "max": 48.49, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2115,7 +2115,7 @@ const ALGN_ACTIVITY = {"ticker": "ALGN", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/algn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ALGN_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 12, mean: 193.33, median: 200,
+const ALGN_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 12, mean: 193.33, median: 200,
   low: 162, high: 240, strongBuy: 5, buy: 3, hold: 7, sell: 1, strongSell: 0 };
 (function(){
   const A = ALGN_ANALYST, last = (typeof ALGN_DAILY !== 'undefined' && ALGN_DAILY.length) ? ALGN_DAILY[ALGN_DAILY.length - 1] : null;

@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">결제 처리 6곳 PER 비교 (점수는 S&amp;P500 결제·거래소·금융 데이터 기준) (FISV 값 없음·GPN 값 없음) · 11/20 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">결제 처리 6곳 PER 비교 (점수는 S&amp;P500 결제·거래소·금융 데이터 기준) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1075,12 +1075,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">30명 · 목표가 21</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">22</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 23.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 73.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.3%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">31명 · 목표가 21</span>명</span>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">23</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 22.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 74.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.2%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$36.10</span> <span class="op-sub op-up" data-an="upside">+39.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1285,13 +1285,15 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '결제 처리 6곳 PER 비교 (점수는 S&P500 결제·거래소·금융 데이터 기준) (FISV 값 없음·GPN 값 없음) · 11/20 종가',
-    unit: 'PER', max: 40, fisValue: null,
+    title: '결제 처리 6곳 PER 비교 (점수는 S&P500 결제·거래소·금융 데이터 기준) · 11/20 종가',
+    unit: 'PER', max: 145, fisValue: null,
     peers: [
-      { name:'JKHY', value:24.5, status:'reference' },
-      { name:'PYPL', value:10.1, status:'reference' },
-      { name:'V', value:34.2, status:'reference' },
-      { name:'MA', value:34.4, status:'reference' }
+      { name:'FISV', value:11.9, status:'reference' },
+      { name:'GPN', value:125.8, status:'reference' },
+      { name:'JKHY', value:23.5, status:'reference' },
+      { name:'PYPL', value:10.2, status:'reference' },
+      { name:'V', value:32.6, status:'reference' },
+      { name:'MA', value:32.7, status:'reference' }
     ]
   },
   pbr: {
@@ -1796,7 +1798,7 @@ const FIS_FUNDAMENTAL = {"ticker": "FIS", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py FIS --self v2/FIS_multiples.json --card
 /* VALUATION:BEGIN */
-const FIS_VALUATION = {"peer": {"score": 98.8, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 13}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 16}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 17}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 16}, {"metric": "evebitda", "score": 93.8, "rank": 2, "peers": 16}]}, "self": {"score": 99.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 3.86, "min": 3.86, "median": 64.13, "max": 363.85, "days": 893, "currentNote": null}, {"metric": "pbr", "score": 99.3, "percentile": 0.7, "current": 0.82, "min": 0.75, "median": 1.66, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 1.03, "min": 1.03, "median": 3.3, "max": 5.48, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 4.79, "min": 4.79, "median": 14.67, "max": 76.1, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 7.32, "min": 7.32, "median": 13.25, "max": 19.67, "days": 1001, "currentNote": null}]}};
+const FIS_VALUATION = {"peer": {"score": 98.8, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 16}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 16}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 17}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 16}, {"metric": "evebitda", "score": 93.8, "rank": 2, "peers": 16}]}, "self": {"score": 99.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 3.86, "min": 3.86, "median": 64.13, "max": 363.85, "days": 893, "currentNote": null}, {"metric": "pbr", "score": 99.3, "percentile": 0.7, "current": 0.82, "min": 0.75, "median": 1.66, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 1.03, "min": 1.03, "median": 3.3, "max": 5.48, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 4.79, "min": 4.79, "median": 14.67, "max": 76.1, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 7.32, "min": 7.32, "median": 13.25, "max": 19.67, "days": 1001, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2084,8 +2086,8 @@ const FIS_ACTIVITY = {"ticker": "FIS", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/fis/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const FIS_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 30, nTargets: 21, mean: 36.1, median: 33,
-  low: 30, high: 54, strongBuy: 5, buy: 2, hold: 22, sell: 1, strongSell: 0 };
+const FIS_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 31, nTargets: 21, mean: 36.1, median: 33,
+  low: 30, high: 54, strongBuy: 5, buy: 2, hold: 23, sell: 1, strongSell: 0 };
 (function(){
   const A = FIS_ANALYST, last = (typeof FIS_DAILY !== 'undefined' && FIS_DAILY.length) ? FIS_DAILY[FIS_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

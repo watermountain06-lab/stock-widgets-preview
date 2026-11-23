@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'Align Technology'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1097149/'
 SEC = S_
@@ -66,7 +66,7 @@ NEWS = [
      '4분기 매출 $1.048B(+5.3%) · 교정장치 물량 +7.7% · 희석 EPS $1.89(구조조정 설비 가속 감가상각 포함) · 2025년 희석 EPS $5.65 — 다음 날 주가 +8.9%', 'q4', 'Align Technology 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 12, 'mean': 193.33, 'median': 200, 'low': 162, 'high': 240, 'sb': 5, 'b': 3, 'h': 7, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 부문 지도(seg_map_propose 뒤 원문 대조). 원문: Q3 2026 보도자료 839.3 + 175.5 = 1,014.8 ──

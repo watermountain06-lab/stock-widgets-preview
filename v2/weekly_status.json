@@ -1,7 +1,7 @@
 {
- "session": "2026-11-13",
- "started": "2026-11-15T11:27:14+0000",
- "finished": "2026-11-15T13:53:17+0000",
+ "session": "2026-11-20",
+ "started": "2026-11-23T13:33:50+0000",
+ "finished": "2026-11-23T16:29:04+0000",
  "newFilings": [
   {
    "ticker": "AEE",
@@ -23,6 +23,13 @@
    "period": "2026-09-30",
    "filed": "2026-11-09",
    "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "DIS",
+   "form": "10-K",
+   "period": "2026-10-03",
+   "filed": "2026-11-17",
+   "cardAsOf": "2026-06-27"
   },
   {
    "ticker": "DUK",
@@ -53,6 +60,20 @@
    "cardAsOf": "2026-06-30"
   },
   {
+   "ticker": "HD",
+   "form": "10-Q",
+   "period": "2026-11-01",
+   "filed": "2026-11-20",
+   "cardAsOf": "2026-08-02"
+  },
+  {
+   "ticker": "INTU",
+   "form": "10-Q",
+   "period": "2026-10-31",
+   "filed": "2026-11-19",
+   "cardAsOf": "2026-07-31"
+  },
+  {
    "ticker": "NEE",
    "form": "10-Q",
    "period": "2026-09-30",
@@ -78,6 +99,13 @@
    "form": "10-Q",
    "period": "2026-09-30",
    "filed": "2026-11-06",
+   "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "PTC",
+   "form": "10-K",
+   "period": "2026-09-30",
+   "filed": "2026-11-20",
    "cardAsOf": "2026-06-30"
   },
   {
@@ -120,6 +148,7 @@
  "peerDrift": [
   "A",
   "ABT",
+  "ADM",
   "ADP",
   "AEE",
   "AEP",
@@ -129,27 +158,30 @@
   "ALLE",
   "AME",
   "AMGN",
+  "AMT",
   "AOS",
   "APTV",
   "ATO",
-  "AVY",
   "BA",
   "BBY",
-  "BE",
+  "BFB",
   "BIIB",
   "BKNG",
   "BLK",
   "BMY",
   "BRO",
   "BSX",
-  "CAT",
+  "CASY",
   "CCL",
+  "CEG",
+  "CHD",
   "CHRW",
+  "CL",
   "CMG",
-  "CMI",
   "CNP",
   "COO",
   "COP",
+  "COST",
   "CPAY",
   "CRH",
   "CSX",
@@ -160,9 +192,12 @@
   "DAL",
   "DE",
   "DECK",
+  "DG",
   "DGX",
   "DHI",
   "DHR",
+  "DIS",
+  "DLTR",
   "DOV",
   "DPZ",
   "DRI",
@@ -172,14 +207,17 @@
   "EBAY",
   "ED",
   "EFX",
+  "EL",
   "ELV",
   "EME",
   "EMR",
   "EOG",
+  "ES",
   "ETN",
   "EVRG",
   "EXPD",
   "EXPE",
+  "EXR",
   "FAST",
   "FCX",
   "FDS",
@@ -187,6 +225,7 @@
   "FIS",
   "FISV",
   "FIX",
+  "FRT",
   "GD",
   "GE",
   "GEHC",
@@ -194,7 +233,9 @@
   "GRMN",
   "GWW",
   "HAS",
+  "HCA",
   "HD",
+  "HII",
   "HRL",
   "HSIC",
   "HUBB",
@@ -203,16 +244,22 @@
   "IEX",
   "ILMN",
   "INCY",
+  "INVH",
   "IQV",
   "IR",
+  "IRM",
   "ISRG",
   "ITW",
   "JBHT",
   "JKHY",
   "JNJ",
+  "KIM",
   "KMB",
   "KMI",
+  "KO",
+  "L",
   "LH",
+  "LII",
   "LIN",
   "LLY",
   "LMT",
@@ -220,35 +267,41 @@
   "LULU",
   "LUV",
   "LVS",
-  "LYB",
   "MA",
+  "MAS",
   "MCD",
+  "MDLZ",
+  "MKC",
   "MMM",
+  "MNST",
+  "MO",
   "MRK",
   "MRSH",
   "MTD",
   "NCLH",
   "NDSN",
-  "NEE",
   "NI",
-  "NOC",
   "NSC",
-  "NWSA",
   "ODFL",
   "OKE",
   "OTIS",
   "PAYX",
   "PCAR",
+  "PEP",
   "PFE",
+  "PG",
   "PH",
   "PHM",
   "PKG",
+  "PLD",
+  "PM",
   "PNW",
   "PODD",
   "PPL",
   "PSX",
   "PWR",
   "PYPL",
+  "REG",
   "REGN",
   "RL",
   "RMD",
@@ -256,19 +309,23 @@
   "RSG",
   "RTX",
   "RVTY",
+  "SBAC",
+  "SHW",
+  "SJM",
   "SO",
   "SPCX",
+  "SWK",
   "SYK",
   "SYY",
   "T",
   "TDG",
   "TECH",
+  "TGT",
   "TJX",
   "TMO",
   "TPR",
   "TSCO",
   "TT",
-  "TWLO",
   "UBER",
   "UHS",
   "ULTA",
@@ -287,27 +344,30 @@
   "WEC",
   "WM",
   "WMB",
+  "WMT",
   "WSM",
   "WST",
   "WTW",
+  "WY",
   "WYNN",
+  "XEL",
   "XYL",
   "ZBH"
  ],
  "peerFiles": [
-  "communication_services: 20종목 · 제외 3 · 기준일 2026-11-13",
-  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-11-13",
-  "consumer_staples: 33종목 · 제외 2 · 기준일 2026-11-13",
-  "energy: 21종목 · 제외 1 · 기준일 2026-11-13",
-  "health_care: 59종목 · 제외 0 · 기준일 2026-11-13",
-  "industrials: 81종목 · 제외 1 · 기준일 2026-11-13",
-  "materials: 25종목 · 제외 1 · 기준일 2026-11-13",
-  "real_estate: 28종목 · 제외 3 · 기준일 2026-11-13",
-  "utilities: 31종목 · 제외 0 · 기준일 2026-11-13",
-  "asset_managers: 12종목 · 제외 2 · 기준일 2026-11-13",
-  "insurers: 16종목 · 제외 2 · 기준일 2026-11-13",
-  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-11-13",
-  "brokers_fees: 24종목 · 제외 0 · 기준일 2026-11-13"
+  "communication_services: 20종목 · 제외 3 · 기준일 2026-11-20",
+  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-11-20",
+  "consumer_staples: 33종목 · 제외 2 · 기준일 2026-11-20",
+  "energy: 21종목 · 제외 1 · 기준일 2026-11-20",
+  "health_care: 59종목 · 제외 0 · 기준일 2026-11-20",
+  "industrials: 81종목 · 제외 1 · 기준일 2026-11-20",
+  "materials: 25종목 · 제외 1 · 기준일 2026-11-20",
+  "real_estate: 29종목 · 제외 2 · 기준일 2026-11-20",
+  "utilities: 31종목 · 제외 0 · 기준일 2026-11-20",
+  "asset_managers: 12종목 · 제외 2 · 기준일 2026-11-20",
+  "insurers: 16종목 · 제외 2 · 기준일 2026-11-20",
+  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-11-20",
+  "brokers_fees: 24종목 · 제외 0 · 기준일 2026-11-20"
  ],
  "peerFilesKept": [],
  "peerSecRefresh": {
@@ -320,7 +380,26 @@
  ],
  "verdictChanges": [
   {
-   "ticker": "BSX",
+   "ticker": "ADP",
+   "old": [
+    [
+     0,
+     0,
+     -2
+    ],
+    "적정~고평가"
+   ],
+   "new": [
+    [
+     0,
+     -1,
+     -2
+    ],
+    "고평가"
+   ]
+  },
+  {
+   "ticker": "ALGN",
    "old": [
     [
      1,
@@ -339,57 +418,114 @@
    ]
   },
   {
-   "ticker": "EBAY",
+   "ticker": "CHD",
    "old": [
     [
-     -1,
      0,
+     -1,
      -2
     ],
     "고평가"
    ],
    "new": [
     [
-     -1,
-     -1,
+     0,
+     0,
      -2
     ],
-    "고평가"
+    "적정~고평가"
    ]
   },
   {
-   "ticker": "ED",
+   "ticker": "FISV",
    "old": [
     [
-     -1,
+     0,
+     0,
+     null
+    ],
+    "판정 보류"
+   ],
+   "new": [
+    [
+     0,
      1,
+     null
+    ],
+    "판정 보류"
+   ]
+  },
+  {
+   "ticker": "GEHC",
+   "old": [
+    [
+     1,
+     0,
      -2
     ],
     "적정~고평가"
    ],
    "new": [
     [
-     -1,
-     0,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "FDS",
-   "old": [
-    [
      1,
      1,
      -2
     ],
     "적정"
+   ]
+  },
+  {
+   "ticker": "VRSK",
+   "old": [
+    [
+     1,
+     0,
+     -2
+    ],
+    "적정~고평가"
    ],
    "new": [
     [
      1,
+     -1,
+     -2
+    ],
+    "적정~고평가"
+   ]
+  },
+  {
+   "ticker": "VRT",
+   "old": [
+    [
+     1,
      0,
+     -2
+    ],
+    "적정~고평가"
+   ],
+   "new": [
+    [
+     1,
+     -1,
+     -2
+    ],
+    "적정~고평가"
+   ]
+  },
+  {
+   "ticker": "VZ",
+   "old": [
+    [
+     0,
+     0,
+     -2
+    ],
+    "적정~고평가"
+   ],
+   "new": [
+    [
+     0,
+     1,
      -2
     ],
     "적정~고평가"
@@ -397,10 +533,17 @@
   }
  ],
  "failed": [
-  "HPQ",
-  "LYB",
-  "TWLO"
+  "INTU",
+  "SNDK"
  ],
- "problems": [],
- "knownProblems": []
+ "problems": [
+  "DIS: 새 공시(2026-11-17) 자동 반영 실패 — 이전 분기에 둠",
+  "INTU: 새 공시(2026-11-19) 자동 반영 실패 — 이전 분기에 둠"
+ ],
+ "knownProblems": [
+  "INTU 실패 — INTU: 부문 합이 매출과 313백만 달러 다르다(한도 매출의 3%) — SEG_MAP 확인 (처음 본 날 2026-11-21)",
+  "SNDK 실패 — SNDK: 멈춤 — 홈페이지 가격이 suspicious (처음 본 날 2026-11-20)",
+  "DIS: 새 공시(2026-11-17) 자동 반영 실패 — 이전 분기에 둠 (처음 본 날 2026-11-18)",
+  "INTU: 새 공시(2026-11-19) 자동 반영 실패 — 이전 분기에 둠 (처음 본 날 2026-11-21)"
+ ]
 }

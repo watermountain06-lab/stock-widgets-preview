@@ -63,7 +63,7 @@ _js = '<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직�
 h = h.replace(_js, '${d1(A.now.ccc)}' + _tail)
 ''']
 ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 23, 'mean': 319.57, 'median': 320, 'low': 180, 'high': 400, 'sb': 13, 'b': 7, 'h': 9, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 구독·서비스 2개(수동 지도, 제품 축). 원문 대조: Q2 FY27 766.8/161.2(2026-10-23) ──

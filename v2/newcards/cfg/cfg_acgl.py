@@ -48,7 +48,7 @@ NEWS = [
      '보통주 순이익 $1,228M · 희석 EPS $3.35(1년 전 $2.42) · 영업 EPS $2.98 — 다음 날 주가 +1.9%', 'q4', 'Arch Capital 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 15, 'mean': 111.87, 'median': 111, 'low': 95, 'high': 125, 'sb': 7, 'b': 2, 'h': 10, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 POST = [r"""

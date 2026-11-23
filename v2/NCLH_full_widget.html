@@ -1066,7 +1066,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 38.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 57.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$19.42</span> <span class="op-sub op-up" data-an="upside">+21.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1272,14 +1272,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '크루즈·여행 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/20 종가',
-    unit: 'PER', max: 65, nclhValue: null,
+    unit: 'PER', max: 60, nclhValue: null,
     peers: [
-      { name:'RCL', value:18.3, status:'reference' },
-      { name:'CCL', value:11.5, status:'reference' },
+      { name:'RCL', value:17.6, status:'reference' },
+      { name:'CCL', value:11.6, status:'reference' },
       { name:'BKNG', value:15.7, status:'reference' },
-      { name:'EXPE', value:14.7, status:'reference' },
-      { name:'MAR', value:42.0, status:'reference' },
-      { name:'HLT', value:52.3, status:'reference' }
+      { name:'EXPE', value:13.7, status:'reference' },
+      { name:'MAR', value:40.6, status:'reference' },
+      { name:'HLT', value:48.1, status:'reference' }
     ]
   },
   pbr: {
@@ -1780,7 +1780,7 @@ const NCLH_FUNDAMENTAL = {"ticker": "NCLH", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py NCLH --self v2/NCLH_multiples.json --card
 /* VALUATION:BEGIN */
-const NCLH_VALUATION = {"peer": {"score": 69.4, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 97.7, "rank": 2, "peers": 44}, {"metric": "pbr", "score": 81.8, "rank": 7, "peers": 33}, {"metric": "psr", "score": 86.4, "rank": 7, "peers": 44}, {"metric": "pcr", "score": 2.3, "rank": 43, "peers": 43}, {"metric": "evebitda", "score": 78.6, "rank": 10, "peers": 42}]}, "self": {"score": 75.8, "window": ["2024-02-28", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.1, "percentile": 1.9, "current": 8.83, "min": 8.33, "median": 17.15, "max": 76.21, "days": 687, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 2.33, "min": 2.33, "median": 6.39, "max": 30.2, "days": 687, "currentNote": null}, {"metric": "psr", "score": 93.3, "percentile": 6.7, "current": 0.72, "min": 0.64, "median": 0.93, "max": 1.37, "days": 687, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 8.13, "median": 38.46, "max": 43.42, "days": 120, "currentNote": "negative"}, {"metric": "evebitda", "score": 87.6, "percentile": 12.4, "current": 8.46, "min": 7.86, "median": 9.62, "max": 12.8, "days": 687, "currentNote": null}]}};
+const NCLH_VALUATION = {"peer": {"score": 69.4, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 97.8, "rank": 2, "peers": 45}, {"metric": "pbr", "score": 81.8, "rank": 7, "peers": 33}, {"metric": "psr", "score": 86.4, "rank": 7, "peers": 44}, {"metric": "pcr", "score": 2.3, "rank": 43, "peers": 43}, {"metric": "evebitda", "score": 78.6, "rank": 10, "peers": 42}]}, "self": {"score": 75.8, "window": ["2024-02-28", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.1, "percentile": 1.9, "current": 8.83, "min": 8.33, "median": 17.15, "max": 76.21, "days": 687, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 2.33, "min": 2.33, "median": 6.39, "max": 30.2, "days": 687, "currentNote": null}, {"metric": "psr", "score": 93.3, "percentile": 6.7, "current": 0.72, "min": 0.64, "median": 0.93, "max": 1.37, "days": 687, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 8.13, "median": 38.46, "max": 43.42, "days": 120, "currentNote": "negative"}, {"metric": "evebitda", "score": 87.6, "percentile": 12.4, "current": 8.46, "min": 7.86, "median": 9.62, "max": 12.8, "days": 687, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2069,7 +2069,7 @@ const NCLH_ACTIVITY = {"ticker": "NCLH", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/nclh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NCLH_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 19, mean: 19.42, median: 19,
+const NCLH_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 19, mean: 19.42, median: 19,
   low: 13, high: 32, strongBuy: 9, buy: 1, hold: 15, sell: 1, strongSell: 0 };
 (function(){
   const A = NCLH_ANALYST, last = (typeof NCLH_DAILY !== 'undefined' && NCLH_DAILY.length) ? NCLH_DAILY[NCLH_DAILY.length - 1] : null;

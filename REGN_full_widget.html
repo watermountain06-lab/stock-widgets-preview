@@ -1095,7 +1095,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 67.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 32.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$950.50</span> <span class="op-sub op-up" data-an="upside">+3.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1303,11 +1303,11 @@ const MULTIPLE_DATA = {
     title: '대형 제약·바이오 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (GILD 값 없음) · 11/20 종가',
     unit: 'PER', max: 55, regnValue: null,
     peers: [
-      { name:'LLY', value:45.2, status:'reference' },
+      { name:'LLY', value:43.7, status:'reference' },
       { name:'ABBV', value:31.3, status:'reference' },
-      { name:'VRTX', value:30.0, status:'reference' },
-      { name:'AMGN', value:27.1, status:'reference' },
-      { name:'BMY', value:12.9, status:'reference' }
+      { name:'VRTX', value:33.2, status:'reference' },
+      { name:'AMGN', value:25.3, status:'reference' },
+      { name:'BMY', value:13.0, status:'reference' }
     ]
   },
   pbr: {
@@ -1814,7 +1814,7 @@ const REGN_FUNDAMENTAL = {"ticker": "REGN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py REGN --self v2/REGN_multiples.json --card
 /* VALUATION:BEGIN */
-const REGN_VALUATION = {"peer": {"score": 53.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.1, "rank": 12, "peers": 46}, {"metric": "pbr", "score": 66.0, "rank": 19, "peers": 53}, {"metric": "psr", "score": 32.8, "rank": 40, "peers": 58}, {"metric": "pcr", "score": 42.9, "rank": 33, "peers": 56}, {"metric": "evebitda", "score": 50.9, "rank": 28, "peers": 55}]}, "self": {"score": 40.4, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 31.6, "percentile": 68.4, "current": 20.33, "min": 7.78, "median": 18.08, "max": 32.5, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 61.3, "percentile": 38.7, "current": 2.84, "min": 1.77, "median": 3.48, "max": 4.7, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 49.0, "percentile": 51.0, "current": 5.64, "min": 3.65, "median": 5.6, "max": 9.82, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 16.8, "percentile": 83.2, "current": 24.89, "min": 7.59, "median": 19.53, "max": 39.8, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 43.3, "percentile": 56.7, "current": 16.35, "min": 5.88, "median": 15.67, "max": 28.6, "days": 1255, "currentNote": null}]}};
+const REGN_VALUATION = {"peer": {"score": 53.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.0, "rank": 13, "peers": 50}, {"metric": "pbr", "score": 66.0, "rank": 19, "peers": 53}, {"metric": "psr", "score": 32.8, "rank": 40, "peers": 58}, {"metric": "pcr", "score": 42.9, "rank": 33, "peers": 56}, {"metric": "evebitda", "score": 50.9, "rank": 28, "peers": 55}]}, "self": {"score": 40.4, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 31.6, "percentile": 68.4, "current": 20.33, "min": 7.78, "median": 18.08, "max": 32.5, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 61.3, "percentile": 38.7, "current": 2.84, "min": 1.77, "median": 3.48, "max": 4.7, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 49.0, "percentile": 51.0, "current": 5.64, "min": 3.65, "median": 5.6, "max": 9.82, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 16.8, "percentile": 83.2, "current": 24.89, "min": 7.59, "median": 19.53, "max": 39.8, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 43.3, "percentile": 56.7, "current": 16.35, "min": 5.88, "median": 15.67, "max": 28.6, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2103,7 +2103,7 @@ const REGN_ACTIVITY = {"ticker": "REGN", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/regn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const REGN_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 28, mean: 950.5, median: 972,
+const REGN_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 28, mean: 950.5, median: 972,
   low: 770, high: 1175, strongBuy: 15, buy: 4, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = REGN_ANALYST, last = (typeof REGN_DAILY !== 'undefined' && REGN_DAILY.length) ? REGN_DAILY[REGN_DAILY.length - 1] : null;

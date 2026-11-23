@@ -84,8 +84,8 @@ NEWS = [
     ('neutral', '2026년 2월 24일 장 마감 뒤 — 2025년 연간 실적', '2026-02-25',
      '4분기 보통주 순이익 $296M · 희석 EPS $0.32(1년 전 $0.23) · AFFO $1.08 · 2025년 EPS $1.17 — 다음 날 주가 −0.8%', 'q4', 'Realty Income 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 25, 'nt': 15, 'mean': 63.85, 'median': 63, 'low': 59, 'high': 72, 'sb': 6, 'b': 1, 'h': 17, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST = {'rating': 'Hold', 'n': 25, 'nt': 17, 'mean': 64.46, 'median': 63.75, 'low': 59, 'high': 72, 'sb': 6, 'b': 1, 'h': 17, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-23'
 
 
 AUTO = True

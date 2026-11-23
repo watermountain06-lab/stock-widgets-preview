@@ -56,7 +56,7 @@ NEWS = [
      '반복 매출 +9% · GAAP 희석 EPS $2.42(디지털 자산 평가이익 주당 약 $1.59 포함) · 조정 EPS $1.59(+2%) · 조정 EPS 전망 상향 — 그날 주가 −6.2%', 'q2', 'Broadridge 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 9, 'nt': 6, 'mean': 205.33, 'median': 214, 'low': 180, 'high': 230, 'sb': 1, 'b': 4, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 POST = [r"""

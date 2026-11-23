@@ -49,7 +49,7 @@ NEWS = [
      '매출 $1.66B · 지배주주 순이익 $353M · 희석 EPS $2.19(1년 전 $1.55)', 'q3', 'CF Industries 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 22, 'nt': 15, 'mean': 128.8, 'median': 130, 'low': 110, 'high': 162, 'sb': 3, 'b': 3, 'h': 13, 's': 1, 'ss': 2}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 제품 부문 5개(수동 지도, 기타는 OtherProductsMember만). 원문 대조: Q2 2026 759/613/586/193/71(2026-10-25) ──

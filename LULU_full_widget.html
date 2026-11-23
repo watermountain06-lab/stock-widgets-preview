@@ -1067,7 +1067,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 2.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 81.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 16.2%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$102.39</span> <span class="op-sub op-down" data-an="upside">−0.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1275,10 +1275,10 @@ const MULTIPLE_DATA = {
     title: '의류·신발 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/20 종가',
     unit: 'PER', max: 30, luluValue: null,
     peers: [
-      { name:'NKE', value:15.7, status:'reference' },
+      { name:'NKE', value:15.8, status:'reference' },
       { name:'DECK', value:10.3, status:'reference' },
-      { name:'RL', value:23.1, status:'reference' },
-      { name:'TPR', value:16.5, status:'reference' },
+      { name:'RL', value:21.1, status:'reference' },
+      { name:'TPR', value:15.4, status:'reference' },
       { name:'TJX', value:25.9, status:'reference' },
       { name:'ROST', value:25.8, status:'reference' }
     ]
@@ -1784,7 +1784,7 @@ const LULU_FUNDAMENTAL = {"ticker": "LULU", "basis": "quarter", "asOf": "2026-08
 //
 // 갱신: python3 v2/build_peer_score.py LULU --self v2/LULU_multiples.json --card
 /* VALUATION:BEGIN */
-const LULU_VALUATION = {"peer": {"score": 91.9, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 44}, {"metric": "pbr", "score": 84.8, "rank": 6, "peers": 33}, {"metric": "psr", "score": 84.1, "rank": 8, "peers": 44}, {"metric": "pcr", "score": 92.9, "rank": 4, "peers": 42}, {"metric": "evebitda", "score": 97.6, "rank": 2, "peers": 42}]}, "self": {"score": 97.5, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.5, "percentile": 2.5, "current": 8.4, "min": 7.52, "median": 28.71, "max": 73.3, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 97.5, "percentile": 2.5, "current": 2.26, "min": 2.02, "median": 11.07, "max": 21.61, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 97.5, "percentile": 2.5, "current": 0.98, "min": 0.87, "median": 4.49, "max": 10.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 97.5, "percentile": 2.5, "current": 8.0, "min": 7.16, "median": 28.01, "max": 498.28, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.5, "percentile": 2.5, "current": 3.75, "min": 3.3, "median": 16.08, "max": 41.8, "days": 1255, "currentNote": null}]}};
+const LULU_VALUATION = {"peer": {"score": 91.9, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 45}, {"metric": "pbr", "score": 84.8, "rank": 6, "peers": 33}, {"metric": "psr", "score": 84.1, "rank": 8, "peers": 44}, {"metric": "pcr", "score": 92.9, "rank": 4, "peers": 42}, {"metric": "evebitda", "score": 97.6, "rank": 2, "peers": 42}]}, "self": {"score": 97.5, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.5, "percentile": 2.5, "current": 8.4, "min": 7.52, "median": 28.71, "max": 73.3, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 97.5, "percentile": 2.5, "current": 2.26, "min": 2.02, "median": 11.07, "max": 21.61, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 97.5, "percentile": 2.5, "current": 0.98, "min": 0.87, "median": 4.49, "max": 10.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 97.5, "percentile": 2.5, "current": 8.0, "min": 7.16, "median": 28.01, "max": 498.28, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.5, "percentile": 2.5, "current": 3.75, "min": 3.3, "median": 16.08, "max": 41.8, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2073,7 +2073,7 @@ const LULU_ACTIVITY = {"ticker": "LULU", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/lulu/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const LULU_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 23, mean: 102.39, median: 100,
+const LULU_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 23, mean: 102.39, median: 100,
   low: 44, high: 169, strongBuy: 1, buy: 0, hold: 30, sell: 1, strongSell: 5 };
 (function(){
   const A = LULU_ANALYST, last = (typeof LULU_DAILY !== 'undefined' && LULU_DAILY.length) ? LULU_DAILY[LULU_DAILY.length - 1] : null;

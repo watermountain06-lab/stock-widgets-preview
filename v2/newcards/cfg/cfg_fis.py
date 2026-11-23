@@ -54,8 +54,8 @@ NEWS = [
     ('neutral', '2026년 1월 12일 장 전 — Issuer Solutions 인수·Worldpay 지분 매각 마감', None,
      '1월 9일 Global Payments의 Issuer Solutions를 $13.5B(현금 $7.7B + Worldpay 지분)에 인수하고 Worldpay 지분 45%를 모두 넘김', 'deal', 'FIS 공시 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 30, 'nt': 21, 'mean': 36.1, 'median': 33, 'low': 30, 'high': 54, 'sb': 5, 'b': 2, 'h': 22, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST = {'rating': 'Hold', 'n': 31, 'nt': 21, 'mean': 36.1, 'median': 33, 'low': 30, 'high': 54, 'sb': 5, 'b': 2, 'h': 23, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-23'
 
 
 POST = [r"""

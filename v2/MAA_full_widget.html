@@ -572,7 +572,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="maaPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="maaPeerVerdict">중간</span></div>
-      <div class="logic-score" id="maaPeerScore">56.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="maaPeerScore">55.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="maaSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="maaSelfVerdict">싼 편</span></div>
@@ -903,9 +903,9 @@ Chart.overrides.doughnut.animation = false;
 · 잔존가치 비중 — 내재가치가 0 이하라 의미 없음
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">56.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">48</div><div class="sc-tile lost" data-vc="peer" data-m="psr">68</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">45</div><div class="sc-tile" data-vc="peer" data-m="evebitda">88</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">55.2</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">48</div><div class="sc-tile lost" data-vc="peer" data-m="psr">68</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">43</div><div class="sc-tile" data-vc="peer" data-m="evebitda">84</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER은 34.2배로 5년 중앙값(31.6배)보다 높지만 PSR·PBR·EV/EBITDA가 5년 바닥권이라 자기 이력 79.3점(싸다), 동종업 56.3점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
+    <div class="vs-premise">PER은 34.2배로 5년 중앙값(31.6배)보다 높지만 PSR·PBR·EV/EBITDA가 5년 바닥권이라 자기 이력 79.3점(싸다), 동종업 55.2점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. 내재가치에서 차입금 $5.8B를 빼고 현금·단기투자 $26M를 더한다. 리츠는 건물 감가상각이 커서 GAAP 순이익이 실제 현금 창출보다 작게 나오고, 업계는 FFO(순이익에 부동산 감가상각을 되더하고 매각 이익을 뺀 값)로 본다 — MAA의 2026년 연간 Core FFO 전망은 주당 $8.43~8.55(직전 $8.41~8.65)로 지난 4분기 GAAP EPS($3.30)의 약 2.6배다(전망과 지난 실적이라 기간은 다르다). 이 카드는 다른 카드와 같은 GAAP 배수로 보므로 PER이 높게 나온다. 사이트에는 리츠 전용 평가(FFO·순자산가치)가 아직 없고, 현금흐름 내재가치가 0 이하인 것은 모델 구조 탓이다 — 감가상각을 뺀 영업이익을 장부 투하자본에 비춰 보면 자본수익률이 할인율 10%보다 낮아 성장할수록 가치가 깎이고, 실제로는 법인세가 거의 없는데 5년 뒤 세율을 일반 기업 21%로 수렴시키며, 거기서 순차입금·비지배지분을 뺀다(할인율 10%에서는 성장이 없어도 사업 가치가 순차입금 수준에 그친다). 손익계산서에 영업이익 줄이 없어 영업이익은 매출에서 부동산 운영비용(감가상각 포함)·관리비·일반관리비를 뺀 값으로 쓴다 — 이자·매각 이익·기타 영업외 손익은 밖이다. 최근 4분기 순이익에는 매각 이익 $56M과 투자 이익 $17M, 2025년 4분기 소송 비용·합의 $53M이 함께 들어 있다(회사 조정 항목을 분기별로 나눠 보면 이익 쪽 약 21%, 비용 쪽 약 16%, 순액 약 4%). FCF의 설비투자는 기존 단지 개량 지출만 넣었고 신규 개발(1~9월 $214M)과 인수($59M)는 넣지 않았다 — 현금흐름 모델의 재투자는 실제 지출이 아니라 매출 증가 ÷ 매출/투하자본으로 따로 추정한다. 운영 파트너십 유닛($132M, 장부가)과 연결 부동산 법인의 비지배지분($12M)은 주주가치에서 뺀다. Series I 우선주($43M)는 2026년 10월 1일 모두 상환해 넣지 않았다.</div>
   </div>
 
@@ -1071,13 +1071,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">26명 · 목표가 20</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">26명 · 목표가 22</span>명</span>
         <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">8</span> · 유지 <span data-an="hold">15</span> · 매도 <span data-an="sell">3</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 30.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 57.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 11.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
-        <span class="op-val"><span data-an="mean">$135.30</span> <span class="op-sub op-up" data-an="upside">+19.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
+        <span class="op-val"><span data-an="mean">$134.82</span> <span class="op-sub op-up" data-an="upside">+19.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1457,7 +1457,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MAA
 const MAA_SCORES = {
   fundamental: 42.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 56.3,          // S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json)
+  peer: 55.2,          // S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json)
   selfHistory: 79.3,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1790,7 +1790,7 @@ const MAA_FUNDAMENTAL = {"ticker": "MAA", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py MAA --self v2/MAA_multiples.json --card
 /* VALUATION:BEGIN */
-const MAA_VALUATION = {"peer": {"score": 56.3, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 33.3, "rank": 19, "peers": 27}, {"metric": "pbr", "score": 48.0, "rank": 14, "peers": 25}, {"metric": "psr", "score": 67.9, "rank": 10, "peers": 28}, {"metric": "pcr", "score": 45.0, "rank": 12, "peers": 20}, {"metric": "evebitda", "score": 87.5, "rank": 4, "peers": 24}]}, "self": {"score": 79.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 37.5, "percentile": 62.5, "current": 34.22, "min": 23.46, "median": 31.55, "max": 61.51, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 92.6, "percentile": 7.4, "current": 2.48, "min": 2.24, "median": 2.88, "max": 4.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 5.89, "min": 5.89, "median": 8.06, "max": 15.2, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.5, "percentile": 30.5, "current": 21.04, "min": 17.46, "median": 22.05, "max": 27.48, "days": 1021, "currentNote": null}, {"metric": "evebitda", "score": 96.7, "percentile": 3.3, "current": 15.42, "min": 14.52, "median": 18.12, "max": 32.12, "days": 1255, "currentNote": null}]}};
+const MAA_VALUATION = {"peer": {"score": 55.2, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 33.3, "rank": 19, "peers": 27}, {"metric": "pbr", "score": 48.0, "rank": 14, "peers": 25}, {"metric": "psr", "score": 67.9, "rank": 10, "peers": 28}, {"metric": "pcr", "score": 42.9, "rank": 13, "peers": 21}, {"metric": "evebitda", "score": 84.0, "rank": 5, "peers": 25}]}, "self": {"score": 79.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 37.5, "percentile": 62.5, "current": 34.22, "min": 23.46, "median": 31.55, "max": 61.51, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 92.6, "percentile": 7.4, "current": 2.48, "min": 2.24, "median": 2.88, "max": 4.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 5.89, "min": 5.89, "median": 8.06, "max": 15.2, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.5, "percentile": 30.5, "current": 21.04, "min": 17.46, "median": 22.05, "max": 27.48, "days": 1021, "currentNote": null}, {"metric": "evebitda", "score": 96.7, "percentile": 3.3, "current": 15.42, "min": 14.52, "median": 18.12, "max": 32.12, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2079,8 +2079,8 @@ const MAA_ACTIVITY = {"ticker": "MAA", "status": "N/A", "reason": "리츠라 재
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/maa/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MAA_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 26, nTargets: 20, mean: 135.3, median: 134,
-  low: 122, high: 155, strongBuy: 7, buy: 1, hold: 15, sell: 2, strongSell: 1 };
+const MAA_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 26, nTargets: 22, mean: 134.82, median: 134,
+  low: 121, high: 155, strongBuy: 7, buy: 1, hold: 15, sell: 2, strongSell: 1 };
 (function(){
   const A = MAA_ANALYST, last = (typeof MAA_DAILY !== 'undefined' && MAA_DAILY.length) ? MAA_DAILY[MAA_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

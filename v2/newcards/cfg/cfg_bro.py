@@ -57,7 +57,7 @@ NEWS = [
      '매출 $1.61B(+35.7%, 인수 포함) · 희석 EPS $0.59(1년 전 $0.73) · 조정 EPS $0.93 — 다음 날 주가 −6.9%', 'q4', 'Brown & Brown 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 16, 'mean': 75.44, 'median': 76, 'low': 60, 'high': 85, 'sb': 5, 'b': 3, 'h': 12, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(영업 부문 Revenues, 손 표와 일치, 2026-11-05) ──

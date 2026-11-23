@@ -1106,7 +1106,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 61.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 33.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$101.11</span> <span class="op-sub op-up" data-an="upside">+2.4%</span></span>
       </div>
       <div class="op-cell">
@@ -1312,14 +1312,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '생활용품·식음료 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) · 11/20 종가',
-    unit: 'PER', max: 45, clValue: null,
+    unit: 'PER', max: 40, clValue: null,
     peers: [
-      { name:'PG', value:25.6, status:'reference' },
-      { name:'KO', value:29.1, status:'reference' },
-      { name:'PEP', value:18.4, status:'reference' },
-      { name:'MDLZ', value:24.3, status:'reference' },
-      { name:'KMB', value:19.6, status:'reference' },
-      { name:'CHD', value:35.6, status:'reference' }
+      { name:'PG', value:25.5, status:'reference' },
+      { name:'KO', value:28.5, status:'reference' },
+      { name:'PEP', value:17.7, status:'reference' },
+      { name:'MDLZ', value:20.9, status:'reference' },
+      { name:'KMB', value:20.3, status:'reference' },
+      { name:'CHD', value:34.1, status:'reference' }
     ]
   },
   pbr: {
@@ -1828,7 +1828,7 @@ const CL_FUNDAMENTAL = {"ticker": "CL", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py CL --self v2/CL_multiples.json --card
 /* VALUATION:BEGIN */
-const CL_VALUATION = {"peer": {"score": 26.4, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 52.0, "rank": 13, "peers": 25}, {"metric": "pbr", "score": 0.0, "rank": 29, "peers": 28}, {"metric": "psr", "score": 20.0, "rank": 25, "peers": 30}, {"metric": "pcr", "score": 41.4, "rank": 18, "peers": 29}, {"metric": "evebitda", "score": 18.5, "rank": 23, "peers": 27}]}, "self": {"score": 41.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 55.2, "percentile": 44.8, "current": 25.42, "min": 21.0, "median": 25.65, "max": 32.39, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 39.8, "percentile": 60.2, "current": 272.45, "min": 70.61, "median": 198.04, "max": 1471.58, "days": 1054, "currentNote": null}, {"metric": "psr", "score": 36.3, "percentile": 63.7, "current": 3.69, "min": 3.01, "median": 3.59, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 73.0, "percentile": 27.0, "current": 20.71, "min": 17.41, "median": 24.27, "max": 34.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.6, "percentile": 99.4, "current": 22.32, "min": 13.89, "median": 18.92, "max": 22.8, "days": 1255, "currentNote": null}]}};
+const CL_VALUATION = {"peer": {"score": 26.4, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 51.9, "rank": 14, "peers": 27}, {"metric": "pbr", "score": 0.0, "rank": 29, "peers": 28}, {"metric": "psr", "score": 20.0, "rank": 25, "peers": 30}, {"metric": "pcr", "score": 41.4, "rank": 18, "peers": 29}, {"metric": "evebitda", "score": 18.5, "rank": 23, "peers": 27}]}, "self": {"score": 41.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 55.2, "percentile": 44.8, "current": 25.42, "min": 21.0, "median": 25.65, "max": 32.39, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 39.8, "percentile": 60.2, "current": 272.45, "min": 70.61, "median": 198.04, "max": 1471.58, "days": 1054, "currentNote": null}, {"metric": "psr", "score": 36.3, "percentile": 63.7, "current": 3.69, "min": 3.01, "median": 3.59, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 73.0, "percentile": 27.0, "current": 20.71, "min": 17.41, "median": 24.27, "max": 34.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.6, "percentile": 99.4, "current": 22.32, "min": 13.89, "median": 18.92, "max": 22.8, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2117,7 +2117,7 @@ const CL_ACTIVITY = {"ticker": "CL", "status": "ok", "asOf": "2026-09-30", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CL_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 18, mean: 101.11, median: 101,
+const CL_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 18, mean: 101.11, median: 101,
   low: 88, high: 112, strongBuy: 7, buy: 6, hold: 7, sell: 1, strongSell: 0 };
 (function(){
   const A = CL_ANALYST, last = (typeof CL_DAILY !== 'undefined' && CL_DAILY.length) ? CL_DAILY[CL_DAILY.length - 1] : null;

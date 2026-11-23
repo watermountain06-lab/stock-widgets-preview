@@ -1101,7 +1101,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 86.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 13.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$252.72</span> <span class="op-sub op-up" data-an="upside">+5.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1818,7 +1818,7 @@ const WELL_FUNDAMENTAL = {"ticker": "WELL", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py WELL --self v2/WELL_multiples.json --card
 /* VALUATION:BEGIN */
-const WELL_VALUATION = {"peer": {"score": 5.7, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 3.7, "rank": 27, "peers": 27}, {"metric": "pbr", "score": 20.0, "rank": 21, "peers": 25}, {"metric": "psr", "score": 0.0, "rank": 29, "peers": 28}, {"metric": "pcr", "score": 5.0, "rank": 20, "peers": 20}, {"metric": "evebitda", "score": 0.0, "rank": 25, "peers": 24}]}, "self": {"score": 22.2, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.3, "percentile": 31.7, "current": 104.5, "min": 64.46, "median": 118.47, "max": 412.19, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.1, "percentile": 93.9, "current": 3.63, "min": 1.43, "median": 2.3, "max": 4.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 18.0, "percentile": 82.0, "current": 12.78, "min": 4.91, "median": 8.97, "max": 15.12, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 3.8, "percentile": 96.2, "current": 84.77, "min": 27.47, "median": 56.15, "max": 95.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 14.7, "percentile": 85.3, "current": 61.03, "min": 21.17, "median": 32.88, "max": 74.23, "days": 1255, "currentNote": null}]}};
+const WELL_VALUATION = {"peer": {"score": 5.7, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 3.7, "rank": 27, "peers": 27}, {"metric": "pbr", "score": 20.0, "rank": 21, "peers": 25}, {"metric": "psr", "score": 0.0, "rank": 29, "peers": 28}, {"metric": "pcr", "score": 4.8, "rank": 21, "peers": 21}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 22.2, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.3, "percentile": 31.7, "current": 104.5, "min": 64.46, "median": 118.47, "max": 412.19, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.1, "percentile": 93.9, "current": 3.63, "min": 1.43, "median": 2.3, "max": 4.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 18.0, "percentile": 82.0, "current": 12.78, "min": 4.91, "median": 8.97, "max": 15.12, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 3.8, "percentile": 96.2, "current": 84.77, "min": 27.47, "median": 56.15, "max": 95.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 14.7, "percentile": 85.3, "current": 61.03, "min": 21.17, "median": 32.88, "max": 74.23, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2107,7 +2107,7 @@ const WELL_ACTIVITY = {"ticker": "WELL", "status": "N/A", "reason": "매출원�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/well/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const WELL_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 18, mean: 252.72, median: 266,
+const WELL_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 18, mean: 252.72, median: 266,
   low: 5.96, high: 292, strongBuy: 13, buy: 6, hold: 3, sell: 0, strongSell: 0 };
 (function(){
   const A = WELL_ANALYST, last = (typeof WELL_DAILY !== 'undefined' && WELL_DAILY.length) ? WELL_DAILY[WELL_DAILY.length - 1] : null;

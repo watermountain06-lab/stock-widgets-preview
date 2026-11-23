@@ -94,7 +94,7 @@ NEWS = [
      '보통주 순이익 $130M · 희석 EPS $0.19(1년 전 $0.19) · FFO $0.44 — 그날 주가 −1.9%', 'q3old', 'Kimco 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 20, 'mean': 26.56, 'median': 27, 'low': 23, 'high': 30, 'sb': 6, 'b': 4, 'h': 14, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 AUTO = True

@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (1, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 1, -2), '적정'
 CO = 'GE HealthCare'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1932393/'
 SEC = S_
@@ -49,7 +49,7 @@ NEWS = [
      '매출 $5.70B · 순이익 $589M · 희석 EPS $1.29(1년 전 $1.57) · 2025년 EPS $4.55', 'q4', 'GE HealthCare 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 17, 'mean': 86.88, 'median': 85, 'low': 74, 'high': 110, 'sb': 10, 'b': 5, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 부문 3개(영업 부문 차원). 원문 대조: Q3 2026 3,873/846/793(2026-10-28) ──

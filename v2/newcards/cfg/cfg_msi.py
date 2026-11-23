@@ -62,7 +62,7 @@ NEWS = [
      '매출 $3.01B(+8%) · 희석 EPS $3.33(1년 전 $3.29) · 8월 Silvus Technologies 인수 완료 분기', 'q3', 'Motorola Solutions 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 14, 'nt': 6, 'mean': 553.67, 'median': 570, 'low': 476, 'high': 598, 'sb': 7, 'b': 5, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(부문 2개). 원문 대조: Q2 2026 1,908/1,225, 1년 전 1,653/1,112(2026-10-21) ──

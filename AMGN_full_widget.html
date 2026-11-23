@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="amgnPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="amgnPeerVerdict">중간</span></div>
-      <div class="logic-score" id="amgnPeerScore">39.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="amgnPeerScore">38.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="amgnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="amgnSelfVerdict">중간</span></div>
@@ -934,9 +934,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.49 ~ 3.57(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">39.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">63</div><div class="sc-tile low" data-vc="peer" data-m="pbr">8</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">45</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">55</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">60</div><div class="sc-tile low" data-vc="peer" data-m="pbr">8</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">45</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">55</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 25.3배(5년 중앙값 21.6배)로 자기 이력 34.4점(중간), 동종업 39.1점(중간)이다. <strong>현금흐름 내재가치(기본 $124.77)는 현재가의 29%다</strong>.</div>
+    <div class="vs-premise">PER 25.3배(5년 중앙값 21.6배)로 자기 이력 34.4점(중간), 동종업 38.5점(중간)이다. <strong>현금흐름 내재가치(기본 $124.77)는 현재가의 29%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $124.77)는 현재가의 29%다. 현재가를 정당화하려면 영업이익률이 59.6%까지 올라야 한다(최근 4분기 32.4%, 5년 중앙값 28.5%). 내재가치에서 차입금 $54.0B를 빼고 현금·단기투자 $13.2B를 더한다.</div>
   </div>
 
@@ -1126,7 +1126,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 34.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 51.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 14.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$447.38</span> <span class="op-sub op-up" data-an="upside">+2.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1332,14 +1332,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '대형 제약·바이오 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/20 종가',
-    unit: 'PER', max: 55, amgnValue: null,
+    unit: 'PER', max: 125, amgnValue: null,
     peers: [
-      { name:'REGN', value:22.8, status:'reference' },
-      { name:'VRTX', value:30.0, status:'reference' },
-      { name:'BIIB', value:44.3, status:'reference' },
-      { name:'BMY', value:12.9, status:'reference' },
-      { name:'PFE', value:36.0, status:'reference' },
-      { name:'LLY', value:45.2, status:'reference' }
+      { name:'REGN', value:20.3, status:'reference' },
+      { name:'VRTX', value:33.2, status:'reference' },
+      { name:'BIIB', value:106.7, status:'reference' },
+      { name:'BMY', value:13.0, status:'reference' },
+      { name:'PFE', value:39.1, status:'reference' },
+      { name:'LLY', value:43.7, status:'reference' }
     ]
   },
   pbr: {
@@ -1517,7 +1517,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py AMGN
 const AMGN_SCORES = {
   fundamental: 55.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 39.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 38.5,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 34.4,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1848,7 +1848,7 @@ const AMGN_FUNDAMENTAL = {"ticker": "AMGN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py AMGN --self v2/AMGN_multiples.json --card
 /* VALUATION:BEGIN */
-const AMGN_VALUATION = {"peer": {"score": 39.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 63.0, "rank": 18, "peers": 46}, {"metric": "pbr", "score": 7.5, "rank": 50, "peers": 53}, {"metric": "psr", "score": 25.9, "rank": 44, "peers": 58}, {"metric": "pcr", "score": 44.6, "rank": 32, "peers": 56}, {"metric": "evebitda", "score": 54.5, "rank": 26, "peers": 55}]}, "self": {"score": 34.4, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 26.4, "percentile": 73.6, "current": 25.27, "min": 14.57, "median": 21.55, "max": 47.39, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 95.4, "percentile": 4.6, "current": 16.42, "min": 13.63, "median": 22.48, "max": 149.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.2, "percentile": 94.8, "current": 6.06, "min": 4.13, "median": 5.07, "max": 6.65, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 10.5, "percentile": 89.5, "current": 24.59, "min": 12.92, "median": 16.14, "max": 33.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 34.3, "percentile": 65.7, "current": 16.17, "min": 11.57, "median": 15.1, "max": 20.83, "days": 1255, "currentNote": null}]}};
+const AMGN_VALUATION = {"peer": {"score": 38.5, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 60.0, "rank": 21, "peers": 50}, {"metric": "pbr", "score": 7.5, "rank": 50, "peers": 53}, {"metric": "psr", "score": 25.9, "rank": 44, "peers": 58}, {"metric": "pcr", "score": 44.6, "rank": 32, "peers": 56}, {"metric": "evebitda", "score": 54.5, "rank": 26, "peers": 55}]}, "self": {"score": 34.4, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 26.4, "percentile": 73.6, "current": 25.27, "min": 14.57, "median": 21.55, "max": 47.39, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 95.4, "percentile": 4.6, "current": 16.42, "min": 13.63, "median": 22.48, "max": 149.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.2, "percentile": 94.8, "current": 6.06, "min": 4.13, "median": 5.07, "max": 6.65, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 10.5, "percentile": 89.5, "current": 24.59, "min": 12.92, "median": 16.14, "max": 33.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 34.3, "percentile": 65.7, "current": 16.17, "min": 11.57, "median": 15.1, "max": 20.83, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2137,7 +2137,7 @@ const AMGN_ACTIVITY = {"ticker": "AMGN", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/amgn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AMGN_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 35, nTargets: 26, mean: 447.38, median: 460,
+const AMGN_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 35, nTargets: 26, mean: 447.38, median: 460,
   low: 230, high: 542, strongBuy: 8, buy: 4, hold: 18, sell: 2, strongSell: 3 };
 (function(){
   const A = AMGN_ANALYST, last = (typeof AMGN_DAILY !== 'undefined' && AMGN_DAILY.length) ? AMGN_DAILY[AMGN_DAILY.length - 1] : null;

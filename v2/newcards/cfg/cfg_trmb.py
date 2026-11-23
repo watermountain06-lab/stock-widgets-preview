@@ -59,7 +59,7 @@ NEWS = [
      '매출 $901M(유기 +10%) · GAAP 희석 EPS $0.46 · 조정 EPS $0.81 · 연간 전망 상향 — 그날 주가 +2.5%', 'q3p', 'Trimble 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Strong Buy', 'n': 13, 'nt': 9, 'mean': 73, 'median': 73, 'low': 60, 'high': 87, 'sb': 10, 'b': 2, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목).
 ONEOFF_QUARTERS = {'2026-07-03': '운송·물류(T&L) 영업권 손상 $562.0M(영업외, 주당 약 2.4)'}

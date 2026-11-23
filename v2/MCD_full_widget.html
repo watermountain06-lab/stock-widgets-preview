@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="mcdPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="mcdPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="mcdPeerScore">28.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="mcdPeerScore">27.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="mcdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="mcdSelfVerdict">싼 편</span></div>
@@ -901,9 +901,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.17 ~ 2.34(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">28.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">46</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">31</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">31</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">27.2</div><div class="sc-tile lost" data-vc="peer" data-m="per">42</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">31</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">31</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 21.6배(5년 중앙값 26.1배)로 자기 이력 93.3점(싸다), 동종업 28.0점(비싸다)이다. <strong>현금흐름 내재가치(기본 $125.03)는 현재가의 46%다</strong>.</div>
+    <div class="vs-premise">PER 21.6배(5년 중앙값 26.1배)로 자기 이력 93.3점(싸다), 동종업 27.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 $125.03)는 현재가의 46%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $125.03)는 현재가의 46%다. 현재가를 정당화하려면 영업이익률이 78.8%까지 올라야 한다(최근 4분기 46.9%, 5년 중앙값 45.3%). 내재가치에서 차입금·금융리스 $42.2B를 빼고 현금·단기투자 $1.2B를 더한다.</div>
   </div>
 
@@ -1081,7 +1081,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 47.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.9%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$299.28</span> <span class="op-sub op-up" data-an="upside">+9.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1287,12 +1287,12 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '외식·소매 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/20 종가',
-    unit: 'PER', max: 55, mcdValue: null,
+    unit: 'PER', max: 50, mcdValue: null,
     peers: [
       { name:'CMG', value:33.2, status:'reference' },
       { name:'YUM', value:12.9, status:'reference' },
       { name:'DRI', value:21.9, status:'reference' },
-      { name:'SBUX', value:44.1, status:'reference' },
+      { name:'SBUX', value:42.1, status:'reference' },
       { name:'HD', value:23.7, status:'reference' },
       { name:'TJX', value:25.9, status:'reference' }
     ]
@@ -1470,7 +1470,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MCD
 const MCD_SCORES = {
   fundamental: 60.3,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 28.0,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 27.2,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 93.3,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1801,7 +1801,7 @@ const MCD_FUNDAMENTAL = {"ticker": "MCD", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py MCD --self v2/MCD_multiples.json --card
 /* VALUATION:BEGIN */
-const MCD_VALUATION = {"peer": {"score": 28.0, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 45.5, "rank": 25, "peers": 44}, {"metric": "psr", "score": 4.5, "rank": 43, "peers": 44}, {"metric": "pcr", "score": 31.0, "rank": 30, "peers": 42}, {"metric": "evebitda", "score": 31.0, "rank": 30, "peers": 42}]}, "self": {"score": 93.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.1, "percentile": 5.9, "current": 21.62, "min": 18.76, "median": 26.05, "max": 35.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.4, "percentile": 5.6, "current": 6.94, "min": 5.9, "median": 8.25, "max": 9.41, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.8, "percentile": 11.2, "current": 25.74, "min": 21.05, "median": 30.01, "max": 39.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.9, "percentile": 4.1, "current": 15.27, "min": 13.59, "median": 18.3, "max": 22.27, "days": 1255, "currentNote": null}]}};
+const MCD_VALUATION = {"peer": {"score": 27.2, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 42.2, "rank": 27, "peers": 45}, {"metric": "psr", "score": 4.5, "rank": 43, "peers": 44}, {"metric": "pcr", "score": 31.0, "rank": 30, "peers": 42}, {"metric": "evebitda", "score": 31.0, "rank": 30, "peers": 42}]}, "self": {"score": 93.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.1, "percentile": 5.9, "current": 21.62, "min": 18.76, "median": 26.05, "max": 35.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.4, "percentile": 5.6, "current": 6.94, "min": 5.9, "median": 8.25, "max": 9.41, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.8, "percentile": 11.2, "current": 25.74, "min": 21.05, "median": 30.01, "max": 39.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.9, "percentile": 4.1, "current": 15.27, "min": 13.59, "median": 18.3, "max": 22.27, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2100,7 +2100,7 @@ const MCD_ACTIVITY = {"ticker": "MCD", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mcd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MCD_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 34, nTargets: 25, mean: 299.28, median: 300,
+const MCD_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 34, nTargets: 25, mean: 299.28, median: 300,
   low: 230, high: 390, strongBuy: 14, buy: 3, hold: 16, sell: 0, strongSell: 1 };
 (function(){
   const A = MCD_ANALYST, last = (typeof MCD_DAILY !== 'undefined' && MCD_DAILY.length) ? MCD_DAILY[MCD_DAILY.length - 1] : null;

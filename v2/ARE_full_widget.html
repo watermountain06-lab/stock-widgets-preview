@@ -1075,13 +1075,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">16명 · 목표가 10</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">16명 · 목표가 14</span>명</span>
         <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">2</span> · 유지 <span data-an="hold">9</span> · 매도 <span data-an="sell">5</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 12.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 56.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 31.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
-        <span class="op-val"><span data-an="mean">$50.20</span> <span class="op-sub op-up" data-an="upside">+24.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
+        <span class="op-val"><span data-an="mean">$48.93</span> <span class="op-sub op-up" data-an="upside">+21.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1286,14 +1286,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 11/20 종가',
-    unit: 'PER', max: 125, areValue: null,
+    unit: 'PER', max: 130, areValue: null,
     peers: [
-      { name:'KIM', value:23.7, status:'reference' },
+      { name:'KIM', value:29.5, status:'reference' },
       { name:'O', value:40.0, status:'reference' },
       { name:'PLD', value:27.2, status:'reference' },
-      { name:'WELL', value:104.5, status:'reference' },
-      { name:'DLR', value:68.0, status:'reference' },
-      { name:'AMT', value:26.0, status:'reference' }
+      { name:'WELL', value:110.8, status:'reference' },
+      { name:'DLR', value:79.6, status:'reference' },
+      { name:'AMT', value:25.3, status:'reference' }
     ]
   },
   pbr: {
@@ -1795,7 +1795,7 @@ const ARE_FUNDAMENTAL = {"ticker": "ARE", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ARE --self v2/ARE_multiples.json --card
 /* VALUATION:BEGIN */
-const ARE_VALUATION = {"peer": {"score": 64.3, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 25}, {"metric": "psr", "score": 92.9, "rank": 3, "peers": 28}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 66.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 24.08, "median": 58.16, "max": 240.0, "days": 916, "currentNote": "per_na"}, {"metric": "pbr", "score": 99.0, "percentile": 1.0, "current": 0.47, "min": 0.45, "median": 1.08, "max": 2.35, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 98.9, "percentile": 1.1, "current": 2.54, "min": 2.4, "median": 6.89, "max": 17.31, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 16.02, "median": 22.98, "max": 40.88, "days": 1046, "currentNote": "negative"}]}, "perNA": {"netMargin": -0.5201, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const ARE_VALUATION = {"peer": {"score": 64.3, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 25}, {"metric": "psr", "score": 92.9, "rank": 3, "peers": 28}, {"metric": "evebitda", "score": 0.0, "rank": 27, "peers": 26}]}, "self": {"score": 66.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 24.08, "median": 58.16, "max": 240.0, "days": 916, "currentNote": "per_na"}, {"metric": "pbr", "score": 99.0, "percentile": 1.0, "current": 0.47, "min": 0.45, "median": 1.08, "max": 2.35, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 98.9, "percentile": 1.1, "current": 2.54, "min": 2.4, "median": 6.89, "max": 17.31, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 16.02, "median": 22.98, "max": 40.88, "days": 1046, "currentNote": "negative"}]}, "perNA": {"netMargin": -0.5201, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2093,8 +2093,8 @@ const ARE_ACTIVITY = {"ticker": "ARE", "status": "N/A", "reason": "리츠라 재
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/are/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ARE_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 16, nTargets: 10, mean: 50.2, median: 52,
-  low: 42, high: 59, strongBuy: 2, buy: 0, hold: 9, sell: 3, strongSell: 2 };
+const ARE_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 16, nTargets: 14, mean: 48.93, median: 50,
+  low: 41, high: 59, strongBuy: 2, buy: 0, hold: 9, sell: 3, strongSell: 2 };
 (function(){
   const A = ARE_ANALYST, last = (typeof ARE_DAILY !== 'undefined' && ARE_DAILY.length) ? ARE_DAILY[ARE_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

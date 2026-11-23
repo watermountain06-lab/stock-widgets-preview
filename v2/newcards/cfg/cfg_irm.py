@@ -56,7 +56,7 @@ NEWS = [
      '희석 EPS $0.28 · 조정 EPS $0.54 · AFFO 주당 $1.32 — 그날 주가 −2.8%', 'q3old', 'Iron Mountain 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 12, 'nt': 10, 'mean': 140.2, 'median': 140, 'low': 124, 'high': 155, 'sb': 7, 'b': 4, 'h': 0, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 POST = [r"""
 h = h.replace('Q3 2026 10-Q 부문 표 (SEC)', 'Q3 2026 10-Q 부문 주석 (SEC)')

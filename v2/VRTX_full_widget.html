@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="vrtxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="vrtxPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="vrtxPeerScore">20.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="vrtxPeerScore">20.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="vrtxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vrtxSelfVerdict">비싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.35 ~ 2.44(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.2</div><div class="sc-tile lost" data-vc="peer" data-m="per">39</div><div class="sc-tile low" data-vc="peer" data-m="pbr">26</div><div class="sc-tile low" data-vc="peer" data-m="psr">9</div><div class="sc-tile low" data-vc="peer" data-m="pcr">11</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">38</div><div class="sc-tile low" data-vc="peer" data-m="pbr">26</div><div class="sc-tile low" data-vc="peer" data-m="psr">9</div><div class="sc-tile low" data-vc="peer" data-m="pcr">11</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 33.2배(4.0년 중앙값 28.2배)로 자기 이력 20.0점(비싸다), 동종업 20.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 $218.86)는 현재가의 42%다</strong>.</div>
+    <div class="vs-premise">PER 33.2배(4.0년 중앙값 28.2배)로 자기 이력 20.0점(비싸다), 동종업 20.0점(비싸다)이다. <strong>현금흐름 내재가치(기본 $218.86)는 현재가의 42%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $218.86)는 현재가의 42%다. 현재가를 정당화하려면 영업이익률이 75.3%까지 올라야 한다(최근 4분기 33.2%, 5년 중앙값 37.2%). 내재가치에서 차입금·금융리스 $3.6B를 빼고 현금·단기투자 $6.3B를 더한다.</div>
   </div>
 
@@ -1124,7 +1124,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 15.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$592.09</span> <span class="op-sub op-up" data-an="upside">+15.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1330,13 +1330,13 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '바이오 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (GILD 적자) · 11/20 종가',
-    unit: 'PER', max: 75, vrtxValue: null,
+    unit: 'PER', max: 125, vrtxValue: null,
     peers: [
-      { name:'REGN', value:22.8, status:'reference' },
-      { name:'AMGN', value:27.1, status:'reference' },
-      { name:'BIIB', value:44.3, status:'reference' },
+      { name:'REGN', value:20.3, status:'reference' },
+      { name:'AMGN', value:25.3, status:'reference' },
+      { name:'BIIB', value:106.7, status:'reference' },
       { name:'INCY', value:61.0, status:'reference' },
-      { name:'LLY', value:45.2, status:'reference' }
+      { name:'LLY', value:43.7, status:'reference' }
     ]
   },
   pbr: {
@@ -1513,7 +1513,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py VRTX
 const VRTX_SCORES = {
   fundamental: 65.3,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 20.2,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 20.0,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 20.0,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1844,7 +1844,7 @@ const VRTX_FUNDAMENTAL = {"ticker": "VRTX", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py VRTX --self v2/VRTX_multiples.json --card
 /* VALUATION:BEGIN */
-const VRTX_VALUATION = {"peer": {"score": 20.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 39.1, "rank": 29, "peers": 46}, {"metric": "pbr", "score": 26.4, "rank": 40, "peers": 53}, {"metric": "psr", "score": 8.6, "rank": 54, "peers": 58}, {"metric": "pcr", "score": 10.7, "rank": 51, "peers": 56}, {"metric": "evebitda", "score": 16.4, "rank": 47, "peers": 55}]}, "self": {"score": 20.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 2.0, "percentile": 98.0, "current": 33.16, "min": 21.81, "median": 28.18, "max": 35.47, "days": 1004, "currentNote": null}, {"metric": "pbr", "score": 54.7, "percentile": 45.3, "current": 6.25, "min": 4.84, "median": 6.3, "max": 8.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 40.3, "percentile": 59.7, "current": 10.08, "min": 6.47, "median": 9.73, "max": 12.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 1.4, "percentile": 98.6, "current": 40.78, "min": 18.68, "median": 28.58, "max": 43.61, "days": 1004, "currentNote": null}, {"metric": "evebitda", "score": 1.4, "percentile": 98.6, "current": 28.14, "min": 14.04, "median": 21.18, "max": 30.14, "days": 1004, "currentNote": null}]}};
+const VRTX_VALUATION = {"peer": {"score": 20.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 38.0, "rank": 32, "peers": 50}, {"metric": "pbr", "score": 26.4, "rank": 40, "peers": 53}, {"metric": "psr", "score": 8.6, "rank": 54, "peers": 58}, {"metric": "pcr", "score": 10.7, "rank": 51, "peers": 56}, {"metric": "evebitda", "score": 16.4, "rank": 47, "peers": 55}]}, "self": {"score": 20.0, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 2.0, "percentile": 98.0, "current": 33.16, "min": 21.81, "median": 28.18, "max": 35.47, "days": 1004, "currentNote": null}, {"metric": "pbr", "score": 54.7, "percentile": 45.3, "current": 6.25, "min": 4.84, "median": 6.3, "max": 8.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 40.3, "percentile": 59.7, "current": 10.08, "min": 6.47, "median": 9.73, "max": 12.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 1.4, "percentile": 98.6, "current": 40.78, "min": 18.68, "median": 28.58, "max": 43.61, "days": 1004, "currentNote": null}, {"metric": "evebitda", "score": 1.4, "percentile": 98.6, "current": 28.14, "min": 14.04, "median": 21.18, "max": 30.14, "days": 1004, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2133,7 +2133,7 @@ const VRTX_ACTIVITY = {"ticker": "VRTX", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/vrtx/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const VRTX_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 22, mean: 592.09, median: 619,
+const VRTX_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 22, mean: 592.09, median: 619,
   low: 350, high: 725, strongBuy: 20, buy: 6, hold: 5, sell: 0, strongSell: 1 };
 (function(){
   const A = VRTX_ANALYST, last = (typeof VRTX_DAILY !== 'undefined' && VRTX_DAILY.length) ? VRTX_DAILY[VRTX_DAILY.length - 1] : null;

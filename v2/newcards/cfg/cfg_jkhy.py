@@ -52,7 +52,7 @@ NEWS = [
      '희석 EPS $1.72 — 다음 날 주가 +4.6%', 'q2', 'Jack Henry 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 16, 'mean': 198.31, 'median': 199, 'low': 168, 'high': 215, 'sb': 11, 'b': 4, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 POST = [r"""

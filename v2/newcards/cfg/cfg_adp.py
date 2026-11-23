@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 FY_ENDS, FY_LABEL = ('2026-06-30', '2025-06-30'), 'FY2026'
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'ADP'
 S_ = 'https://www.sec.gov/Archives/edgar/data/8670/'
 SEC = S_
@@ -55,7 +55,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 17, 'mean': 302.94, 'median': 305, 'low': 250, 'high': 345, 'sb': 5, 'b': 0, 'h': 11, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-K 부문 주석 Total segment revenues FY26 14,831.4/7,128.1, FY25 13,883.1/6,690.4,

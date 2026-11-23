@@ -57,7 +57,7 @@ NEWS = [
      '희석 EPS $0.23(매각 이익 포함) · NAREIT FFO $0.34 · 동일 호텔 RevPAR +0.2% — 다음 날 주가 +6.8%', 'q3old', 'Host 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 17, 'mean': 26.16, 'median': 27, 'low': 23, 'high': 28, 'sb': 11, 'b': 1, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 POST = [r"""
 h = h.replace('Q3 2026 10-Q 부문 표 (SEC)', 'Q3 2026 10-Q 매출 주석 (SEC)')
 h = h.replace('· GAAP 기준 · FCF는 영업현금흐름 − 설비투자(교체·개보수) ·', '· GAAP 기준(매각 이익은 영업 밖) · FCF는 영업현금흐름 − 설비투자(교체·개보수) ·')

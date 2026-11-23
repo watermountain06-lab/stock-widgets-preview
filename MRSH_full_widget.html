@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="mrshPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="mrshPeerVerdict">중간</span></div>
-      <div class="logic-score" id="mrshPeerScore">50.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="mrshPeerScore">49.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="mrshSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="mrshSelfVerdict">싼 편</span></div>
@@ -900,9 +900,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$104</div><div class="vs-note">현재가 <span data-vs="price">$206.22</span> 대비 <strong data-vs="upside">−49.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.99
 시나리오 범위: 1.99 ~ 2.60(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 보험 중개사와 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">50.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">56</div><div class="sc-tile low" data-vc="peer" data-m="pbr">24</div><div class="sc-tile" data-vc="peer" data-m="psr">73</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">48</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">52</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 보험 중개사와 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">49.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">52</div><div class="sc-tile low" data-vc="peer" data-m="pbr">24</div><div class="sc-tile" data-vc="peer" data-m="psr">73</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">48</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">52</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 24.7배(5년 중앙값 26.3배)로 자기 이력 74.2점(싸다), 동종업 50.4점(중간)이다. <strong>현금흐름 내재가치(기본 $103.87)는 현재가의 50%다</strong>.</div>
+    <div class="vs-premise">PER 24.7배(5년 중앙값 26.3배)로 자기 이력 74.2점(싸다), 동종업 49.8점(중간)이다. <strong>현금흐름 내재가치(기본 $103.87)는 현재가의 50%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $103.87)는 현재가의 50%다. 현재가를 정당화하려면 매출이 5년간 연 22.2% 커야 한다. 내재가치에서 차입금 $20.5B를 빼고 현금·단기투자 $1.8B를 더한다.</div>
   </div>
 
@@ -1085,7 +1085,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 39.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 56.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-23</span></span>
         <span class="op-val"><span data-an="mean">$210.06</span> <span class="op-sub op-up" data-an="upside">+1.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1291,14 +1291,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '보험 중개·금융 데이터 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) · 11/20 종가',
-    unit: 'PER', max: 55, mrshValue: null,
+    unit: 'PER', max: 50, mrshValue: null,
     peers: [
-      { name:'AON', value:24.5, status:'reference' },
-      { name:'AJG', value:46.3, status:'reference' },
-      { name:'BRO', value:23.4, status:'reference' },
-      { name:'WTW', value:20.5, status:'reference' },
+      { name:'AON', value:24.1, status:'reference' },
+      { name:'AJG', value:42.7, status:'reference' },
+      { name:'BRO', value:23.1, status:'reference' },
+      { name:'WTW', value:20.2, status:'reference' },
       { name:'SPGI', value:25.8, status:'reference' },
-      { name:'MCO', value:29.6, status:'reference' }
+      { name:'MCO', value:28.4, status:'reference' }
     ]
   },
   pbr: {
@@ -1472,7 +1472,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py MRSH
 const MRSH_SCORES = {
   fundamental: 52.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 50.4,          // S&P500 보험 중개 + 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/brokers_fees.json)
+  peer: 49.8,          // S&P500 보험 중개 + 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/brokers_fees.json)
   selfHistory: 74.2,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1798,7 +1798,7 @@ const MRSH_FUNDAMENTAL = {"ticker": "MRSH", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py MRSH --self v2/MRSH_multiples.json --card
 /* VALUATION:BEGIN */
-const MRSH_VALUATION = {"peer": {"score": 50.4, "sector": "Financials (S&P500 24종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 55.6, "rank": 9, "peers": 18}, {"metric": "pbr", "score": 23.8, "rank": 17, "peers": 21}, {"metric": "psr", "score": 72.7, "rank": 7, "peers": 22}, {"metric": "pcr", "score": 47.6, "rank": 12, "peers": 21}, {"metric": "evebitda", "score": 52.4, "rank": 11, "peers": 21}]}, "self": {"score": 74.2, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.1, "percentile": 31.9, "current": 24.67, "min": 19.66, "median": 26.34, "max": 32.93, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.2, "percentile": 26.8, "current": 6.68, "min": 5.2, "median": 7.87, "max": 9.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.4, "percentile": 19.6, "current": 3.45, "min": 2.75, "median": 4.15, "max": 4.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 73.4, "percentile": 26.6, "current": 23.61, "min": 15.38, "median": 26.95, "max": 32.46, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 75.9, "percentile": 24.1, "current": 16.71, "min": 13.81, "median": 18.25, "max": 20.98, "days": 1255, "currentNote": null}]}};
+const MRSH_VALUATION = {"peer": {"score": 49.8, "sector": "Financials (S&P500 24종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 52.4, "rank": 11, "peers": 21}, {"metric": "pbr", "score": 23.8, "rank": 17, "peers": 21}, {"metric": "psr", "score": 72.7, "rank": 7, "peers": 22}, {"metric": "pcr", "score": 47.6, "rank": 12, "peers": 21}, {"metric": "evebitda", "score": 52.4, "rank": 11, "peers": 21}]}, "self": {"score": 74.2, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.1, "percentile": 31.9, "current": 24.67, "min": 19.66, "median": 26.34, "max": 32.93, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.2, "percentile": 26.8, "current": 6.68, "min": 5.2, "median": 7.87, "max": 9.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.4, "percentile": 19.6, "current": 3.45, "min": 2.75, "median": 4.15, "max": 4.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 73.4, "percentile": 26.6, "current": 23.61, "min": 15.38, "median": 26.95, "max": 32.46, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 75.9, "percentile": 24.1, "current": 16.71, "min": 13.81, "median": 18.25, "max": 20.98, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2086,7 +2086,7 @@ const MRSH_ACTIVITY = {"ticker": "MRSH", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mrsh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MRSH_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 16, mean: 210.06, median: 215,
+const MRSH_ANALYST = { asOf: '2026-11-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 16, mean: 210.06, median: 215,
   low: 180, high: 235, strongBuy: 7, buy: 2, hold: 13, sell: 1, strongSell: 0 };
 (function(){
   const A = MRSH_ANALYST, last = (typeof MRSH_DAILY !== 'undefined' && MRSH_DAILY.length) ? MRSH_DAILY[MRSH_DAILY.length - 1] : null;

@@ -57,7 +57,7 @@ NEWS = [
      '희석 EPS $2.20 · AFFO 주당 $3.30 · 캐나다 타워 매각 완료(분기 말 뒤), 버라이즌과 장기 임대 계약 — 다음 날 주가 +1.4%', 'q3old', 'SBA 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 14, 'mean': 218.07, 'median': 215, 'low': 200, 'high': 256, 'sb': 7, 'b': 4, 'h': 11, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-22'
+ANALYST_ASOF = '2026-11-23'
 POST = [r"""
 h = h.replace('Q3 2026 10-Q 부문 표 (SEC)', 'Q3 2026 10-Q 부문 주석 (SEC)')
 import re as _rs
