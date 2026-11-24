@@ -2,35 +2,30 @@
  "etf": "SPY",
  "name": "SPDR S&P 500 ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-20 ≠ 허용 ['2026-11-23'] (P=2026-11-23, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 387장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-20 ≠ 허용 ['2026-11-23'] (P=2026-11-23, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 387장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8792822846747677,
+ "coverage": 0.8822759112088842,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.003011422959063392,
-  "적정~저평가": 0.08308852372237965,
-  "적정": 0.028882980590187807,
-  "적정~고평가": 0.4329969061531384,
-  "고평가": 0.33130245124999835,
-  "카드 없음": 0.06207366456721656,
-  "판정 보류": 0.051957505573982814,
-  "그 밖 제외": 0.006686545184033079,
+  "저평가": 0.002957687035208118,
+  "적정~저평가": 0.09684448716272696,
+  "적정": 0.028164538943869683,
+  "적정~고평가": 0.4307643362179664,
+  "고평가": 0.323544861849113,
+  "카드 없음": 0.060947328040970215,
+  "판정 보류": 0.05013800548727156,
+  "그 밖 제외": 0.006638755262873993,
   "분류 안 됨": 0
  },
  "top10": [
@@ -40,22 +35,10 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.08392889286805215,
+   "weight": 0.08168651020586858,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
-   "excluded": []
-  },
-  {
-   "company": "MSFT",
-   "name": "MICROSOFT CORP",
-   "lines": [
-    "MSFT"
-   ],
-   "weight": 0.060399338248370744,
-   "card": "MSFT",
-   "verdict": "적정~고평가",
-   "n": -2.0,
    "excluded": []
   },
   {
@@ -64,10 +47,22 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.05099835463776318,
+   "weight": 0.06404345044962587,
    "card": "NVDA",
    "verdict": "적정~저평가",
    "n": 2.0,
+   "excluded": []
+  },
+  {
+   "company": "MSFT",
+   "name": "MICROSOFT CORP",
+   "lines": [
+    "MSFT"
+   ],
+   "weight": 0.0586377370038144,
+   "card": "MSFT",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "excluded": []
   },
   {
@@ -77,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.04720351888249258,
+   "weight": 0.04784965824249424,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -89,7 +84,7 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.04067050036498651,
+   "weight": 0.040193295262720474,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -101,7 +96,7 @@
    "lines": [
     "AVGO"
    ],
-   "weight": 0.024314961138587585,
+   "weight": 0.023920590383428208,
    "card": "AVGO",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -113,7 +108,7 @@
    "lines": [
     "META"
    ],
-   "weight": 0.020763219290691776,
+   "weight": 0.021130839535234727,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -125,10 +120,22 @@
    "lines": [
     "LLY"
    ],
-   "weight": 0.01809610923612679,
+   "weight": 0.017508031406101163,
    "card": "LLY",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "excluded": []
+  },
+  {
+   "company": "TSLA",
+   "name": "TESLA INC",
+   "lines": [
+    "TSLA"
+   ],
+   "weight": 0.017418997870590393,
+   "card": "TSLA",
+   "verdict": "고평가",
+   "n": -4.0,
    "excluded": []
   },
   {
@@ -137,25 +144,13 @@
    "lines": [
     "BRK.B"
    ],
-   "weight": 0.017822137673685682,
+   "weight": 0.01709246474868223,
    "card": "BRKB",
    "verdict": "판정 보류",
    "n": null,
    "excluded": [
     "판정 보류"
    ]
-  },
-  {
-   "company": "TSLA",
-   "name": "TESLA INC",
-   "lines": [
-    "TSLA"
-   ],
-   "weight": 0.016362271797523056,
-   "card": "TSLA",
-   "verdict": "고평가",
-   "n": -4.0,
-   "excluded": []
   }
  ],
  "counts": {
@@ -1451,8 +1446,8 @@
   },
   {
    "card": "GS",
-   "verdict": "고평가",
-   "n": -3.0,
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "date": "2026-11-23",
    "excluded": []
   },
@@ -3120,7 +3115,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-20",
+ "S": "2026-11-23",
  "builtFor": "2026-11-23",
  "expense": {
   "pct": 0.0945,
@@ -3131,10 +3126,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-24T08:12:28Z",
- "fetchedAt": "2026-11-24T08:12:28Z",
+ "runAt": "2026-11-24T21:54:15Z",
+ "fetchedAt": "2026-11-24T21:54:16Z",
  "inputHash": {
-  "xlsx": "416c2ee060d40afa0b41a943a7537be0bb1ffc5f4af281c68212c00b2012f7ae",
+  "xlsx": "32dc5c01ec4f123d440291b0d946593b93bc9e84da246c7303b00958601271aa",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -3143,16 +3138,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-20"
+  "S": "2026-11-23"
  },
- "runId": "45354035345.1",
+ "runId": "45495641435.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",

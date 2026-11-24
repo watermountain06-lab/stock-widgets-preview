@@ -14,18 +14,18 @@
  "detail": "승인 목록에 없는 판정 코드 해시 76장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8947847854381509,
+ "coverage": 0.895887965808977,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.006726856920317581,
-  "적정~저평가": 0.10456194098830157,
-  "적정": 0.019567249174111106,
-  "적정~고평가": 0.34892769178163,
-  "고평가": 0.41500104657379067,
-  "카드 없음": 0.06278849823867225,
-  "판정 보류": 0.03393501118790838,
-  "그 밖 제외": 0.008491705135268523,
+  "저평가": 0.006492090594451832,
+  "적정~저평가": 0.12042281354558212,
+  "적정": 0.019282894835191387,
+  "적정~고평가": 0.3411425492696939,
+  "고평가": 0.40854761756405783,
+  "카드 없음": 0.06271384746462776,
+  "판정 보류": 0.03291502347242499,
+  "그 밖 제외": 0.008483163253970217,
   "분류 안 됨": 0
  },
  "top10": [
@@ -35,22 +35,10 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.09219669593965125,
+   "weight": 0.08792479259789128,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
-   "excluded": []
-  },
-  {
-   "company": "MSFT",
-   "name": "Microsoft Corp",
-   "lines": [
-    "MSFT"
-   ],
-   "weight": 0.06648380161271618,
-   "card": "MSFT",
-   "verdict": "적정~고평가",
-   "n": -2.0,
    "excluded": []
   },
   {
@@ -59,10 +47,22 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.055790951334724365,
+   "weight": 0.06864979785135011,
    "card": "NVDA",
    "verdict": "적정~저평가",
    "n": 2.0,
+   "excluded": []
+  },
+  {
+   "company": "MSFT",
+   "name": "Microsoft Corp",
+   "lines": [
+    "MSFT"
+   ],
+   "weight": 0.06324204198487594,
+   "card": "MSFT",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "excluded": []
   },
   {
@@ -72,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.05561717171042388,
+   "weight": 0.05523328456138342,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -84,22 +84,10 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.04909670501072529,
+   "weight": 0.047542673420237845,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
-   "excluded": []
-  },
-  {
-   "company": "AMD",
-   "name": "Advanced Micro Devices Inc",
-   "lines": [
-    "AMD"
-   ],
-   "weight": 0.035271865357257744,
-   "card": "AMD",
-   "verdict": "고평가",
-   "n": -3.0,
    "excluded": []
   },
   {
@@ -108,10 +96,22 @@
    "lines": [
     "MU"
    ],
-   "weight": 0.03418384726454636,
+   "weight": 0.03808189171818087,
    "card": "MU",
    "verdict": "적정~저평가",
    "n": 2.0,
+   "excluded": []
+  },
+  {
+   "company": "AMD",
+   "name": "Advanced Micro Devices Inc",
+   "lines": [
+    "AMD"
+   ],
+   "weight": 0.03527035129671644,
+   "card": "AMD",
+   "verdict": "고평가",
+   "n": -3.0,
    "excluded": []
   },
   {
@@ -120,20 +120,8 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.033502650367124104,
+   "weight": 0.03494748899186729,
    "card": "TSLA",
-   "verdict": "고평가",
-   "n": -4.0,
-   "excluded": []
-  },
-  {
-   "company": "WMT",
-   "name": "Walmart Inc",
-   "lines": [
-    "WMT"
-   ],
-   "weight": 0.03167998244316003,
-   "card": "WMT",
    "verdict": "고평가",
    "n": -4.0,
    "excluded": []
@@ -144,10 +132,22 @@
    "lines": [
     "META"
    ],
-   "weight": 0.030755037363120002,
+   "weight": 0.030668704856162465,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
+   "excluded": []
+  },
+  {
+   "company": "WMT",
+   "name": "Walmart Inc",
+   "lines": [
+    "WMT"
+   ],
+   "weight": 0.030025503468694627,
+   "card": "WMT",
+   "verdict": "고평가",
+   "n": -4.0,
    "excluded": []
   }
  ],
@@ -728,10 +728,10 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-24T08:12:31Z",
- "fetchedAt": "2026-11-24T08:12:31Z",
+ "runAt": "2026-11-24T21:54:18Z",
+ "fetchedAt": "2026-11-24T21:54:18Z",
  "inputHash": {
-  "json": "dcb7ee7035615035385dc84d175d6c545bdbad4fd861620ce7e7061a8763a6c2",
+  "json": "803abb6cc237444d7bd8283f6e90195a71e2f06c502abaa9bdbcedd0b9bc8b54",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -744,7 +744,7 @@
   ],
   "S": "2026-11-23"
  },
- "runId": "45354035345.1",
+ "runId": "45495641435.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
