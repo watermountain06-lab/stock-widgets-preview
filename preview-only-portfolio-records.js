@@ -51,7 +51,7 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
     const s = bundle.snapshot || {};
     if (s.date) {
       const hs = Object.entries(s.holdings || {}).sort();
-      const list = hs.slice(0, 6).map(([t, q]) => `${t} ${shares(q)}`).join(' · ') + (hs.length > 6 ? ` 외 ${hs.length - 6}종목` : '');
+      const list = hs.slice(0, 6).map(([t, q]) => `${t}\u00a0${shares(q)}`).join(' · ') + (hs.length > 6 ? ` 외 ${hs.length - 6}종목` : '');
       out.push({ kind: 'snap', id: 'snap', date: s.date, title: `시작 스냅샷 (묶음 ${bundleNo})`,
         detail: `${list || '종목 없음'} · 현금 ${usd(s.cash)}` + ((s.holdOnly || []).length ? ` · 그대로 두는 보유 ${s.holdOnly.join(', ')}` : ''), amount: '', raw: s });
     }
@@ -242,7 +242,9 @@ export function renderManage(mg, model, smodel, handlers, h) {
       }
       card.appendChild(dh);
       const tiles = el('div', 'pf-r2tiles');
-      for (const it of g.moves) {
+      // 같은 날 칸 순서를 고정한다(매매는 티커 순, 그다음 입출금 — 기록 id로 마무리). 저장 순서는 열 때마다 달라질 수 있다
+      const mkey = (it) => (it.kind === 'trade' ? '0' + (it.raw?.ticker || '') : '1') + '\u0000' + it.id;
+      for (const it of [...g.moves].sort((a, b) => (mkey(a) < mkey(b) ? -1 : mkey(a) > mkey(b) ? 1 : 0))) {
         const tile = el('div', 'pf-r2tile' + (it.state === '취소됨' ? ' pf-r2dead' : ''));
         const main = el('div', 'pf-r2tmain');
         const x = it.raw;

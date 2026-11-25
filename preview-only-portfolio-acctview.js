@@ -100,7 +100,7 @@ function card(title, tone, acct, sub, since) {
   if (acct.missing?.length) c.appendChild(el('p', 'pf-warn', `가격 없음 ${acct.missing.join(', ')} — 평가액에서 빠진 부분합입니다.`));
   const known = acct.rows.filter((x) => x.value > 0);
   const total = acct.value;
-  const SHADE = [1, 0.8, 0.62, 0.46, 0.34, 0.25];   // 큰 종목일수록 진하게, 여섯째부터는 같은 옅은 색
+  const SHADE = [1, 0.8, 0.62, 0.46, 0.34, 0.25];   // 큰 종목일수록 진하게, 여섯째부터는 같은 옅은 색 — 투명도가 아니라 --sh로 넘겨 CSS가 화면 밝기에 맞는 색과 섞는다(어두운 화면에서 묻히지 않게)
   const shade = (i) => SHADE[Math.min(i, SHADE.length - 1)];
   const mixOk = total > 0 && !(acct.cash < 0);   // 현금이 음수면 종목 비중 합이 100%를 넘는다 — 막대와 비중 글을 그리지 않는다
   if (mixOk && (known.length || acct.cash > 0)) {
@@ -109,7 +109,7 @@ function card(title, tone, acct, sub, since) {
     const parts = known.map((x) => ({ label: x.ticker, share: x.value / total }));
     if (acct.cash > 0) parts.push({ label: '현금', share: acct.cash / total, cash: true });
     const pcT = (v) => (v / total < 0.01 ? '<1' : Math.round((v / total) * 100)) + '%';
-    known.forEach((x, i) => { const b = el('span'); b.style.width = (x.value / total) * 100 + '%'; b.style.opacity = shade(i); b.title = `${x.ticker} ${pcT(x.value)}`; bar.appendChild(b); });
+    known.forEach((x, i) => { const b = el('span'); b.style.width = (x.value / total) * 100 + '%'; b.style.setProperty('--sh', shade(i)); b.title = `${x.ticker} ${pcT(x.value)}`; bar.appendChild(b); });
     if (acct.cash > 0) { const b = el('span', 'pf-ac2cash'); b.style.width = (acct.cash / total) * 100 + '%'; b.title = `현금 ${pcT(acct.cash)}`; bar.appendChild(b); }
     const cap = acct.missing?.length ? '' : mixCaption(parts);   // 가격 없는 종목이 있으면 비중이 부분합 기준이라 문장을 쓰지 않는다
     // 막대 이름에는 모든 구간을 적는다(한 줄 설명은 큰 것만) — 가격 없는 종목이 있으면 부분합 기준임을 밝힌다
@@ -123,7 +123,7 @@ function card(title, tone, acct, sub, since) {
   let ki = 0;
   for (const x of acct.rows) {
     const r = el('div', 'pf-ac2row');
-    const dot = el('i', 'pf-ac2dot'); dot.setAttribute('aria-hidden', 'true'); if (x.value > 0) dot.style.opacity = shade(ki++); else dot.classList.add('pf-ac2none'); r.appendChild(dot);
+    const dot = el('i', 'pf-ac2dot'); dot.setAttribute('aria-hidden', 'true'); if (x.value > 0) dot.style.setProperty('--sh', shade(ki++)); else dot.classList.add('pf-ac2none'); r.appendChild(dot);
     const n = el('div', 'pf-ac2name'); n.appendChild(el('strong', null, x.ticker));
     n.appendChild(el('small', null, `${Math.round(x.qty * 1e4) / 1e4}주` + (x.value > 0 && mixOk ? ` · 계좌의 ${x.value / total < 0.01 ? '<1' : Math.round((x.value / total) * 100)}%` : '')));
     r.appendChild(n);

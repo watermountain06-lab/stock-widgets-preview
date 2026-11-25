@@ -6,11 +6,11 @@
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=21';
-import { renderManage } from './preview-only-portfolio-records.js?v=17';
+import { renderManage } from './preview-only-portfolio-records.js?v=18';
 import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, PICK_MAX, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=14';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=8';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=9';
 import { sectorGroups, catOf, TOPS, SUB_LABEL, EXTRA_LABEL } from './preview-only-portfolio-sectors.js?v=5';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.

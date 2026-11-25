@@ -156,7 +156,6 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-alerts p{margin:6px 0;font-size:14px}
 #pf-home .pf-legend{margin:4px 0 14px}
 #pf-home .pf-legend i{display:inline-block;width:10px;height:10px;border-radius:3px}
-.pf-scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .pf-sc{border:1px solid var(--line);border-radius:18px;padding:18px 16px;background:#fff;text-align:center}
 .pf-sc-name{font-size:14px;font-weight:800}.pf-sc-kind{font-size:11px;color:var(--muted);margin-bottom:4px}
 .pf-donut{width:150px;height:150px;margin:4px auto;display:block}
@@ -200,17 +199,11 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-pill{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer}
 .pf-pill[aria-pressed=true]{background:#23232d;border-color:#23232d;color:#fff}
 .pf-ranklist{display:grid;gap:2px}
-.pf-rankrow{display:grid;grid-template-columns:22px minmax(110px,170px) minmax(0,1fr) 78px 92px;gap:12px;align-items:center;min-height:44px;padding:6px 10px;border:1px solid transparent;border-radius:12px;background:transparent;font:inherit;color:var(--ink);text-align:left;cursor:pointer}
-.pf-rankrow:hover{background:#f8f7fb}.pf-rankrow[aria-pressed=true]{background:#f2f0f7;border-color:var(--purple)}
 .pf-rankn{font-size:12px;font-weight:700;color:var(--muted);text-align:right}
 .pf-rankname{display:flex;align-items:center;gap:8px;font-size:13px;min-width:0}.pf-rankname span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pf-auto{font-weight:700}
 .pf-sdot{display:inline-block;flex:none;width:10px;height:10px;border-radius:50%;background:var(--pf-base)}
-.pf-rankbar{position:relative;display:block;height:14px;border-radius:999px;background:#f2f0f7}
-.pf-rankbar i{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--pf-base)}
-.pf-rankbar b{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--ink)}
-.pf-rankbar small{position:absolute;left:8px;top:-2px;font-size:11px;color:var(--muted);white-space:nowrap}
 .pf-ranknum{font-size:14px;text-align:right}.pf-ranksub{font-size:11px;color:var(--muted);text-align:right}
-.pf-sdot.pf-c1,.pf-rankbar i.pf-c1{background:var(--pf-c1)}.pf-sdot.pf-c2,.pf-rankbar i.pf-c2{background:var(--pf-c2)}.pf-sdot.pf-c3,.pf-rankbar i.pf-c3{background:var(--pf-c3)}.pf-sdot.pf-c4,.pf-rankbar i.pf-c4{background:var(--pf-c4)}.pf-sdot.pf-c5,.pf-rankbar i.pf-c5{background:var(--pf-c5)}.pf-sdot.pf-c6,.pf-rankbar i.pf-c6{background:var(--pf-c6)}.pf-sdot.pf-c7,.pf-rankbar i.pf-c7{background:var(--pf-c7)}.pf-sdot.pf-c8,.pf-rankbar i.pf-c8{background:var(--pf-c8)}
+.pf-sdot.pf-c1{background:var(--pf-c1)}.pf-sdot.pf-c2{background:var(--pf-c2)}.pf-sdot.pf-c3{background:var(--pf-c3)}.pf-sdot.pf-c4{background:var(--pf-c4)}.pf-sdot.pf-c5{background:var(--pf-c5)}.pf-sdot.pf-c6{background:var(--pf-c6)}.pf-sdot.pf-c7{background:var(--pf-c7)}.pf-sdot.pf-c8{background:var(--pf-c8)}
 .pf-editor{border:2px solid var(--purple);border-radius:16px;padding:18px 20px;margin-top:18px}
 .pf-edhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .pf-edtitle{display:flex;align-items:center;gap:10px}.pf-edtitle small{font-size:11px;color:var(--muted)}.pf-edtitle h3{margin:0;font-size:18px}
@@ -226,36 +219,25 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-segbtn[aria-pressed=true]{background:#fff;font-weight:700;box-shadow:0 1px 4px #20202a22}
 .pf-edsent{margin:0;padding:12px 14px;border-radius:12px;background:#f8f7fb;font-size:13px;line-height:1.7}
 .pf-edacts{justify-content:flex-start}
-.pf-scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.pf-scard{display:grid;gap:10px;align-content:start;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#fff}
-.pf-scard.pf-on{border:2px solid var(--purple)}
-.pf-scardtop{display:flex;align-items:center;gap:8px}.pf-scardtop h4{margin:0;font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.pf-scardtop strong{font-size:16px}
 .pf-chips{display:flex;flex-wrap:wrap;gap:4px}.pf-chips span{font-size:11px;padding:2px 8px;border-radius:999px;background:#f2f0f7}
 .pf-sstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.pf-sstats span{font-size:11px;color:var(--muted);display:flex;flex-direction:column}.pf-sstats b{font-size:13px;color:var(--ink)}
-.pf-scardnew{min-height:150px;place-items:center;border:2px dashed #cfc9e4;background:transparent;font:inherit;font-size:15px;font-weight:700;color:var(--purple);cursor:pointer}
 .pf-stfold>summary{font-size:14px;margin-bottom:6px}
 /* 기록·관리: 모든 기록 한 줄 타임라인 */
 .pf-recs .pf-seg{margin:10px 0 6px}
 .pf-reclist{display:grid}
-.pf-recrow{display:grid;grid-template-columns:92px 64px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
-.pf-recdate{font-size:12px;color:var(--muted)}
-.pf-recbadge{font-size:11px;font-weight:700;text-align:center;padding:2px 0;border-radius:999px;background:#f2f0f7;color:#4f3aa8}
 .pf-rb-trade{background:#e8f0fc;color:#1d5bb0}.pf-rb-deposit{background:#e6f6ee;color:#11734f}.pf-rb-upload{background:#fdf3e2;color:#8a5a00}
 .pf-rectext{display:flex;flex-direction:column;min-width:0}.pf-rectext strong{font-size:14px}.pf-rectext small{font-size:11px;color:var(--muted)}
-.pf-recamt{font-size:14px;text-align:right}
 .pf-addform{display:grid;gap:10px;margin:6px 0 12px}
-:root[data-theme="dark"] .pf-pill,:root[data-theme="dark"] .pf-tierchip,:root[data-theme="dark"] .pf-scard{background:var(--panel);color:var(--text);border-color:var(--border)}
+:root[data-theme="dark"] .pf-pill,:root[data-theme="dark"] .pf-tierchip{background:var(--panel);color:var(--text);border-color:var(--border)}
 :root[data-theme="dark"] .pf-pill[aria-pressed=true],:root[data-theme="dark"] .pf-tierchip[aria-pressed=true]{background:#51428c;border-color:#51428c;color:#fff}
-:root[data-theme="dark"] .pf-rankrow{color:var(--text)}:root[data-theme="dark"] .pf-rankrow:hover,:root[data-theme="dark"] .pf-rankrow[aria-pressed=true]{background:var(--bg3)}
-:root[data-theme="dark"] .pf-rankbar,:root[data-theme="dark"] .pf-segbox,:root[data-theme="dark"] .pf-lockbox,:root[data-theme="dark"] .pf-edsent,:root[data-theme="dark"] .pf-chips span,:root[data-theme="dark"] .pf-recbadge{background:var(--bg3);color:var(--text)}
-:root[data-theme="dark"] .pf-rankbar b{background:var(--text)}:root[data-theme="dark"] .pf-segbtn{color:var(--text)}:root[data-theme="dark"] .pf-segbtn[aria-pressed=true]{background:var(--panel)}
+:root[data-theme="dark"] .pf-segbox,:root[data-theme="dark"] .pf-lockbox,:root[data-theme="dark"] .pf-edsent,:root[data-theme="dark"] .pf-chips span{background:var(--bg3);color:var(--text)}
+:root[data-theme="dark"] .pf-segbtn{color:var(--text)}:root[data-theme="dark"] .pf-segbtn[aria-pressed=true]{background:var(--panel)}
 :root[data-theme="dark"] .pf-ednums b,:root[data-theme="dark"] .pf-sstats b{color:var(--text)}
-@media(max-width:760px){.pf-rankrow{grid-template-columns:18px minmax(0,1fr) 70px;row-gap:4px}.pf-rankbar{grid-column:2/4;order:5}.pf-ranksub{display:none}
-.pf-recrow{grid-template-columns:64px minmax(0,1fr) auto;row-gap:4px}.pf-recdate{grid-column:1/4}.pf-recbadge{grid-row:2}.pf-acts{grid-column:1/4;justify-content:flex-start}}
+@media(max-width:760px){.pf-ranksub{display:none}
+.pf-acts{grid-column:1/4;justify-content:flex-start}}
 .pf-edpart{display:grid;gap:14px}.pf-edpart[hidden]{display:none}
 .pf-edleft,.pf-edpart{align-content:start}.pf-tierchips,.pf-segbox{align-items:center}
-button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;width:100%}button.pf-scard:hover{border-color:var(--purple)}.pf-pilladd{background:var(--purple);border-color:var(--purple);color:#fff}
-:root[data-theme="dark"] button.pf-scard{color:var(--text)}
+.pf-pilladd{background:var(--purple);border-color:var(--purple);color:#fff}
 :root[data-theme="dark"] .pf-pilladd{background:#51428c;border-color:#51428c;color:#fff}
 /* 2026-10-21 최종 시안(Claude 안 + ChatGPT 안): 탭 줄 + 매매 기록 버튼, 자산 요약 띠, 다음 할 일, 오른쪽 칸, 접는 카드, 기록 2단 */
 .pf-tabbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 18px}.pf-tabbar .pf-tabs{margin:0}
@@ -292,14 +274,11 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-h2q{font-size:20px;letter-spacing:-.03em;margin:2px 0 0}
 .pf-titleline{display:flex;align-items:center;gap:8px}
 .pf-help{width:28px;height:28px;border-radius:50%;border:1px solid #d6d3e0;background:#fff;font:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
-.pf-helpbox{padding:12px 14px;border-radius:12px;background:#f8f7fb;font-size:12px;color:#3d3d48}.pf-helpbox p{margin:0 0 4px}.pf-helpbox[hidden]{display:none}
-.pf-rankrow{grid-template-columns:22px minmax(130px,190px) minmax(0,1fr) 78px 86px 18px}
 .pf-rankname{flex-direction:column;align-items:flex-start;gap:0}.pf-ranknl{display:flex;align-items:center;gap:8px;min-width:0}.pf-rankname small{font-size:11px;font-weight:400;color:var(--muted);padding-left:18px}
 .pf-rankmark{font-size:13px;color:var(--muted);text-align:center}
 .pf-cardlink{font-size:12px;font-weight:700;color:#4f3aa8}
 .pf-recgrid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}.pf-recs{flex:999 1 560px;min-width:0;display:grid;gap:12px}.pf-recside{flex:1 1 300px;min-width:0}
 .pf-recs .pf-segbox{justify-self:start}
-.pf-recrow{grid-template-columns:84px 32px minmax(0,1fr) auto 36px}
 .pf-recicon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;background:#f2f0f7;color:#4f3aa8}
 .pf-recicon.pf-rb-trade{background:#e8f0fc;color:#1d5bb0}.pf-recicon.pf-rb-deposit{background:#e6f6ee;color:#11734f}
 .pf-more{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:16px;color:var(--muted);cursor:pointer}.pf-more[aria-expanded=true]{border-color:#6851cd;color:#4f3aa8}
@@ -312,12 +291,12 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-v-accent,:root[data-theme="dark"] .pf-eyebrow2,:root[data-theme="dark"] .pf-linkbtn,:root[data-theme="dark"] .pf-cardlink,:root[data-theme="dark"] .pf-dmmark,:root[data-theme="dark"] .pf-mine,:root[data-theme="dark"] .pf-minifold summary{color:var(--accent)}
 :root[data-theme="dark"] .pf-next{border-color:#3d3561}
 :root[data-theme="dark"] .pf-lossline{background:#3a3020}:root[data-theme="dark"] .pf-lossline strong{color:#f2c46b}
-:root[data-theme="dark"] .pf-badge,:root[data-theme="dark"] .pf-helpbox,:root[data-theme="dark"] .pf-segs span,:root[data-theme="dark"] .pf-minirow i,:root[data-theme="dark"] .pf-recicon{background:var(--bg3);color:var(--text)}
+:root[data-theme="dark"] .pf-badge,:root[data-theme="dark"] .pf-segs span,:root[data-theme="dark"] .pf-minirow i,:root[data-theme="dark"] .pf-recicon{background:var(--bg3);color:var(--text)}
 :root[data-theme="dark"] .pf-foldcard,:root[data-theme="dark"] .pf-dialog,:root[data-theme="dark"] .pf-help,:root[data-theme="dark"] .pf-more{background:var(--panel)!important;color:var(--text);border-color:var(--border)}
 :root[data-theme="dark"] .pf-minifold{background:none!important}
 :root[data-theme="dark"] .pf-dmrow{color:var(--text)}
-@media(max-width:760px){.pf-bandcell+.pf-bandcell{border-left:0;padding-left:0}.pf-v{font-size:24px}.pf-rankrow{grid-template-columns:18px minmax(0,1fr) 70px 16px}.pf-rankmark{grid-column:4;grid-row:1}
-.pf-recrow{grid-template-columns:32px minmax(0,1fr) 36px}.pf-recdate{grid-column:1/-1}.pf-recamt{grid-column:2}.pf-tradeopen{width:100%}}
+@media(max-width:760px){.pf-bandcell+.pf-bandcell{border-left:0;padding-left:0}.pf-v{font-size:24px}.pf-rankmark{grid-column:4;grid-row:1}
+.pf-tradeopen{width:100%}}
 :root[data-theme="dark"] .pf-tradeopen,:root[data-theme="dark"] .pf-dialog .pf-btn:not(.pf-btn-quiet){background:#51428c;color:#fff}
 
 /* 원칙 10 매수 금액(다음 할 일 카드 안, 2026-10-22 디자인 캔버스 최종안) */
@@ -407,7 +386,6 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-accfxrow small{color:var(--muted,#5f5f6b)}
 @media (max-width:760px){.pf-accgrid{grid-template-columns:1fr}.pf-acctbig{font-size:26px}}
 /* 전략 비교 막대(2026-10-28, Tracking 탭 판정 성적표처럼) */
-.pf-rankbar.pf-sc{height:40px;border-radius:0;background:transparent;border:0}
 .pf-sc .pf-sc-zero{position:absolute;top:16px;bottom:0;left:50%;width:1px;background:var(--muted);border-radius:0}
 .pf-sc .pf-sc-fill{position:absolute;top:20px;bottom:4px;border-radius:3px;border:1px solid currentColor;background:color-mix(in srgb,currentColor 18%,transparent)}
 .pf-sc-up{color:#14804a}.pf-sc-down{color:#c42b1c}
@@ -417,7 +395,6 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-sc .pf-sc-p1{font-weight:700;padding:0 4px}
 .pf-sc .pf-sc-spy{position:absolute;top:14px;bottom:0;width:0;margin-left:0;background:transparent;border-left:1.5px dashed var(--muted)}
 .pf-sc small{top:20px}
-:root[data-theme="dark"] .pf-rankbar.pf-sc{background:transparent}
 /* 알림 칸 B안(2026-10-29): 한 줄 목록 — 배지 · 종목 · 숫자 */
 .pf-alerthead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .pf-alerthead h2 small{font-size:12px;font-weight:500;color:var(--muted)}
@@ -665,3 +642,24 @@ div.pf-sgline{cursor:default;opacity:.6}
 :root[data-theme="dark"] .pf-s2rank,:root[data-theme="dark"] .pf-s2tag,:root[data-theme="dark"] .pf-s2common span{background:var(--bg3);color:var(--text)}
 :root[data-theme="dark"] .pf-s2track::before{background:#4a4756}:root[data-theme="dark"] .pf-s2dot{border-color:var(--panel)}
 :root[data-theme="dark"] .pf-s2ahead{background:#1d2f4d;color:#9cc3ff}:root[data-theme="dark"] .pf-s2behind{background:#40201f;color:#ff8a80}
+/* 폰·어두운 화면 다듬기 (2026-11-24) */
+.pf-buy .pf-st-msg:empty{display:none}
+.pf-receiptcell strong{margin-top:auto}
+.pf-acccard{--pf-acc:#2f6fd6;--pf-fade:#fff}.pf-acccard.pf-ac2-kr{--pf-acc:#e07a2f}
+:root[data-theme="dark"] .pf-acccard{--pf-fade:#dce7fb}:root[data-theme="dark"] .pf-acccard.pf-ac2-kr{--pf-fade:#fbe4d3}
+.pf-acccard .pf-ac2bar span:not(.pf-ac2cash),.pf-acccard .pf-ac2dot:not(.pf-ac2none){background:color-mix(in srgb,var(--pf-acc) calc(var(--sh,1)*100%),var(--pf-fade))}
+@supports not (background:color-mix(in srgb,#000 50%,#fff)){.pf-acccard .pf-ac2bar span:not(.pf-ac2cash),.pf-acccard .pf-ac2dot:not(.pf-ac2none){opacity:var(--sh,1)}}
+:root[data-theme="dark"] .pf-ac2fx .pf-ac2add{color:var(--accent);border-color:var(--accent)}
+.pf-ac2how>summary::before,.pf-r2foot .pf-minifold>summary::before,.pf-rankpart .pf-stfold>summary::before{content:"▸";display:inline-block;margin-right:6px;transition:transform .15s}
+.pf-ac2how[open]>summary::before,.pf-r2foot .pf-minifold[open]>summary::before,.pf-rankpart .pf-stfold[open]>summary::before{transform:rotate(90deg)}
+@media (max-width:760px){
+#pf-logout,.pf-tradeopen,#pf-manage .pf-segbtn{min-height:44px}
+.pf-r2acts>.pf-r2act:last-child:nth-child(odd){grid-column:1/-1}
+}
+@media (min-width:521px) and (max-width:760px){.pf-s2stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-s2stats>.pf-s2stat:nth-child(3):last-child{grid-column:1/-1}}
+@media (max-width:520px){
+.pf-top{flex-wrap:nowrap;align-items:center;gap:8px}.pf-top #pf-updated{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-top .pf-account{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}#pf-logout{flex:none}
+.pf-tabbar .pf-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
+.pf-tabs button{padding:0 4px;min-height:44px;font-size:13px;white-space:nowrap}
+}
