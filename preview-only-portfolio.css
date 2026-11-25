@@ -656,7 +656,7 @@ div.pf-sgline{cursor:default;opacity:.6}
 #pf-logout,.pf-tradeopen,#pf-manage .pf-segbtn{min-height:44px}
 .pf-r2acts>.pf-r2act:last-child:nth-child(odd){grid-column:1/-1}
 }
-@media (min-width:521px) and (max-width:760px){.pf-s2stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-s2stats>.pf-s2stat:nth-child(3):last-child{grid-column:1/-1}}
+@media (min-width:481px) and (max-width:760px){.pf-s2stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-s2stats>.pf-s2stat:nth-child(3):last-child{grid-column:1/-1}}
 @media (max-width:520px){
 .pf-top{flex-wrap:nowrap;align-items:center;gap:8px}.pf-top #pf-updated{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pf-top .pf-account{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}#pf-logout{flex:none}
