@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Daily price refresh: update every ticker's price block in
-site_data/stocks.json from Yahoo's daily chart and set priceSession.
+site_data/stocks.json and set priceSession.
+
+Source (2026-11-25): Polygon's grouped daily through the committed per-session cache in
+pipeline/polygon_bars.py (sync first, then one Yahoo-shaped chart per ticker from the cache). Yahoo
+served unsettled evening bars and lost SNDK's post-split bars; see polygon_bars.py. fetch_chart below
+still reads Yahoo - FX (KRW=X), the strategy ledger and fetch_macro use it - and --fixtures still
+takes Yahoo-shaped responses, which is the shape polygon_bars.chart returns.
 
 Rules (from the 2026-09-11 spike):
-  - Yahoo's daily-bar timestamp is the session OPEN, so completeness is
+  - A daily-bar timestamp is the session OPEN, so completeness is
     judged by the clock: the bar for ET date D counts only once it's past
     D 16:20 ET (the close plus a settling buffer). An in-progress bar is
     dropped. Half-day sessions (13:00 close) are deliberately not
@@ -14,7 +20,8 @@ Rules (from the 2026-09-11 spike):
     declined 2026-09-11: hand-kept holiday dates for no correctness gain.)
   - meta.chartPreviousClose is the close before the requested RANGE, not the
     previous session, so prevClose is the prior completed bar's close.
-  - Raw close, not adjclose (they differ by dividend adjustment).
+  - Raw close, not adjclose (they differ by dividend adjustment). Polygon's adjusted=true is
+    split-adjusted only, which is what Yahoo's close was.
   - Trailing null closes (holidays, gaps) are skipped, except that the LAST
     bar's blank close may be filled from the response's meta (fill_from_meta,
     2026-10-20); a duplicated date keeps its last bar.
@@ -26,10 +33,12 @@ priceSession is the latest completed session found this run. A ticker whose
 latest completed bar is older (halt, missing bar), whose fetch failed (its
 previous block is kept), or that wasn't refreshed this run is "stale".
 
-Network: every request is retried (3 attempts, 5s then 15s apart; a 4xx
-other than 429 won't fix itself and is not retried). After 3 consecutive
-tickers fail on the network, the rest are recorded as fetch failures without
-trying - a blocked provider must not push the job past its time limit.
+Network: stock bars are fetched only by polygon_bars.sync, which stops after one session's 3
+attempts when Polygon is unreachable; the per-ticker charts then read the cache and make no
+requests. The Yahoo requests that remain (fetch_chart: FX, the strategy ledger, fetch_macro) are
+retried 3 times, 5s then 15s apart (a 4xx other than 429 won't fix itself and is not retried), and
+the per-ticker breaker below (3 consecutive network failures) now only matters for --fixtures
+runs - a cache gap raises ValueError, not a network error, and costs no request.
 
 Usage: python3 pipeline/fetch_prices.py [--tickers A,B] [--write]
                                         [--data PATH] [--fixtures DIR] [--now ISO]
@@ -46,8 +55,11 @@ import urllib.parse
 import urllib.request
 from collections import Counter
 from datetime import datetime, time as dtime, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+import polygon_bars as pg
 
 ROOT = Path(__file__).resolve().parents[1]
 ET = ZoneInfo("America/New_York")
@@ -55,6 +67,8 @@ CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1m
 SETTLE = dtime(16, 20)
 VOLUME_FLOOR = 0.15
 BIG_MOVE = 0.15  # reported for a news check, not treated as an error
+SPLIT_LIKE_MOVE = 0.18  # with a stale splits list, a move this big is held (a 5:4 split is -20%)
+SPLIT_HOLD_TAG = "the splits list was not refreshed"
 RETRY_DELAYS = (5, 15)  # seconds before the 2nd and 3rd attempt
 MAX_NET_FAILURES = 3
 
@@ -95,6 +109,22 @@ def fetch_chart(symbol, fixtures=None):
     return data
 
 
+def cents(x):
+    """Half-up to the cent. Polygon serves sub-penny prices (106.675) where Yahoo served the cent
+    rounded up; with round() on the float, 329 of the 360 one-cent Yahoo/Polygon differences over
+    2026-11-18..24 came from this alone (half-up leaves 31, Yahoo's own float32 storage). The
+    homepage price and the card bars both use it, so the two show the same cent."""
+    return float(Decimal(str(x)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+
+def fetch_stock_chart(symbol, fixtures=None, now_et=None):
+    """A stock's daily chart for the homepage price: a fixture, or Polygon's cache (polygon_bars.chart),
+    with split events judged against now_et's date (so --now replays see the splits of that day)."""
+    if fixtures:
+        return fetch_chart(symbol, fixtures)
+    return pg.chart(symbol, pg.RANGE_DAYS["1mo"], today=now_et.date().isoformat() if now_et else None)
+
+
 def fill_from_meta(r, now_et):
     """Fill a blanked close on the LATEST bar from the response's own meta, in place.
 
@@ -104,7 +134,8 @@ def fill_from_meta(r, now_et):
     meta.regularMarketPrice/Time stayed current. An evening run landing in that window read the
     previous session for every ticker (2026-10-19 21:05 ET; the 2026-10-16 20:28 ET run's log shows
     the same symptom, but that evening wasn't probed).
-    The workflow waits the window out first (wait_yahoo_close.py); this is the fallback after that.
+    Stock prices come from Polygon since 2026-11-25 (no meta, so nothing is filled there) and
+    wait_yahoo_close.py is gone; this still covers the Yahoo charts that remain (^GSPC/^VIX, FX).
     Applies to every caller of completed_bars: fetch_macro's ^GSPC/^VIX bars get it too (their
     meta time is after 16:00, so the same rule holds), and site_ui/build_strategy_ledger.py, whose
     records are never rewritten, skips a session while any of its closes is meta-filled. Half-days (13:00 close) are never filled:
@@ -182,7 +213,7 @@ def resolve_price(chart, now_et, acked=()):
     if len(bars) < 2:
         raise ValueError(f"only {len(bars)} completed bar(s)")
     (day, close, vol), (prev_day, prev_close, _) = bars[-1], bars[-2]
-    rec = {"close": round(close, 4), "prevClose": round(prev_close, 4),
+    rec = {"close": cents(close), "prevClose": cents(prev_close),
            "session": day, "prevSession": prev_day, "status": "fresh",
            # what the provider actually served, so main can tell a session it lost from one that
            # simply predates the window. main strips this key before anything is written.
@@ -226,6 +257,13 @@ def main():
         if unknown:
             sys.exit(f"unknown ticker(s) in --tickers: {', '.join(sorted(unknown))} - nothing written")
 
+    splits_fresh = True
+    if not args.fixtures:
+        # one grouped call per new session; per-ticker charts below then come from the cache
+        for w in pg.sync(pg.universe_from(data), now_et):
+            print(f"::warning::{w}")
+        splits_fresh = pg.SPLITS_FRESH[0]
+
     results, net_failures = {}, 0
     for t in data["tickers"]:
         tk = t["ticker"]
@@ -235,7 +273,8 @@ def main():
             results[tk] = RuntimeError(f"skipped after {MAX_NET_FAILURES} consecutive network failures")
             continue
         try:
-            results[tk] = resolve_price(fetch_chart(t.get("yahooSymbol", tk), args.fixtures), now_et, split_acks(tk))
+            results[tk] = resolve_price(fetch_stock_chart(t.get("yahooSymbol", tk), args.fixtures, now_et), now_et,
+                                        split_acks(tk))
             net_failures = 0
         except Exception as e:  # one ticker's failure must not stop the rest
             results[tk] = e
@@ -347,6 +386,19 @@ def main():
             new = t["price"]
             if new["status"] == "fresh" and new.get("session") != target:
                 new = dict(new, status="stale", statusReason="not refreshed in this run")
+        held_tag = SPLIT_HOLD_TAG in (t["price"].get("statusReason") or "")
+        if not splits_fresh and tk in results and held_tag and isinstance(r, dict):
+            # still no splits list: the held "possible split" stays held - the next session's small
+            # move would otherwise publish a series that may straddle an unlisted split (Codex r2)
+            new = dict(t["price"])
+        elif (not splits_fresh and new["status"] == "fresh" and tk in results
+                and abs(new["close"] / new["prevClose"] - 1) >= SPLIT_LIKE_MOVE):
+            # Polygon re-bases the history on a split once it serves the split's session; if the
+            # splits list could not be refreshed this run, a move this big may be an unlisted split
+            # and prevClose would be on the old basis (Codex 2026-11-25).
+            new = dict(new, status="suspicious",
+                       statusReason=f"{new['close'] / new['prevClose'] - 1:+.0%} move and {SPLIT_HOLD_TAG} "
+                                    "this run - possibly an unlisted split")
         if new["status"] == "fresh" and abs(new["close"] / new["prevClose"] - 1) >= BIG_MOVE:
             big.append(f"{tk} {new['close'] / new['prevClose'] - 1:+.1%}")
         if new["status"] != "fresh" and tk in results:

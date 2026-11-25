@@ -2,7 +2,8 @@
 """Stage 2A: keep each card's market data in step with the daily pipeline.
 
 For every ticker card ({T}_full_widget.html in the preview repo root) this:
-  1. fetches completed daily bars from Yahoo (fetch_prices.py's rule: the bar
+  1. reads completed daily bars from Polygon's cache (polygon_bars.py, since 2026-11-25;
+     Yahoo before) with fetch_prices.py's rule (the bar
      for ET date D counts only after D 16:20 ET) up to the homepage's
      priceSession, and treats them as authoritative for their dates - a bar
      the card already has is replaced when it differs (12 cards were built on
@@ -47,8 +48,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import time
-import urllib.parse
 from datetime import date, datetime, timezone
 from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
@@ -57,6 +56,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(ROOT / "scripts"))
 import fetch_prices as fp  # noqa: E402
+import polygon_bars as pg  # noqa: E402
 from compute_breakout_signal import compute_active_breakout  # noqa: E402
 from compute_technical_score import compute_signal  # noqa: E402
 import valuation  # noqa: E402
@@ -67,7 +67,8 @@ import prose_stamp  # noqa: E402
 VALUATION_TICKERS = None
 
 MAX_BARS = 1255
-CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range={range}&interval=1d&events=split"
+BASIS_HOLD = 0.01   # a re-synced close moving more than this holds the card (no settled close did, 2026-11-25)
+VOLUME_TOLERANCE = 0.01   # Polygon volumes carry fractions and never equal Yahoo's (0 of 2,017 bars, 2026-11-25)
 TECH_CONFIG = ROOT / "scripts" / "tech_score_config_v1.json"
 BREAKOUT_CONFIG = ROOT / "scripts" / "breakout_config_v1.json"
 
@@ -195,7 +196,8 @@ def close_decimal(token):
 
 
 def close_matches(homepage_close, token):
-    """stocks.json keeps 4dp and the card 2dp, so a raw close a hair above a half-cent
+    """Both are half-up cents since 2026-11-25 (fetch_prices.cents); older stocks.json records kept 4dp
+    and the card 2dp, so a raw close a hair above a half-cent
     legitimately lands exactly 0.005 apart (SNDK 2026-09-15: 1530.895 vs 1530.9). The
     tolerance therefore includes 0.005, and the comparison is Decimal - in float that
     tie comes out as 0.005000000000109139 and failed the card."""
@@ -207,14 +209,27 @@ def array_dp(tokens):
     return max(decs) if decs else None
 
 
-# ---------- bars from Yahoo ----------
+# ---------- bars from the provider ----------
+
+cents = fp.cents   # half-up to the cent, the same as the homepage price
+
 
 def fetch_bars(symbol, rng, fixtures, now_et, max_date):
+    """Completed bars up to max_date as [(date, o, h, l, c, v)] and the split dates in the window.
+    Fixtures are Yahoo-shaped responses; otherwise polygon_bars.chart, which has the same shape."""
     if fixtures:
         chart = json.loads((Path(fixtures) / f"{symbol}.json").read_text(encoding="utf-8"))
     else:
-        chart = json.loads(fp.http_get(CHART_URL.format(symbol=urllib.parse.quote(symbol, safe=""), range=rng)))
-        time.sleep(0.2)
+        try:
+            chart = pg.chart(symbol, pg.RANGE_DAYS[rng], today=now_et.date().isoformat())
+        except ValueError as e:
+            if "price cache has no" not in str(e):
+                raise
+            first = (pg.cached_days() or ["9999"])[0]
+            missing = re.search(r"\d{4}-\d{2}-\d{2}", str(e))
+            if missing and missing.group(0) < first:   # a 3mo/1y window deeper than the cache
+                raise Hold(f"{e} ({rng} window, cache starts {first}) - price history needs a rebuild") from None
+            raise Hold(f"{e} - a gap in the price cache; the next price sync fills it") from None
     body = chart.get("chart") or {}
     if not body.get("result"):
         raise ValueError(f"no chart result ({body.get('error')})")
@@ -229,7 +244,7 @@ def fetch_bars(symbol, rng, fixtures, now_et, max_date):
         d = datetime.fromtimestamp(ts, fp.ET).date()
         if now_et < datetime.combine(d, fp.SETTLE, fp.ET) or d.isoformat() > max_date:
             continue  # not a completed session yet, or past the homepage's session
-        bars[d.isoformat()] = (round(o, 2), round(h, 2), round(l, 2), round(c, 2), int(v or 0))
+        bars[d.isoformat()] = (cents(o), cents(h), cents(l), cents(c), int(round(v or 0)))
     ev = (r.get("events") or {}).get("splits") or {}
     splits = SplitDays(sorted(datetime.fromtimestamp(int(s.get("date", k)), fp.ET).date().isoformat() for k, s in ev.items()))
     for k, s in ev.items():
@@ -321,6 +336,7 @@ def sync_bars(arrays, fetched, splits, notes, insertable=(), acked=()):
         raise Hold(f"trading day(s) missing inside the card's history: {', '.join(blocked[:5])}")
 
     changed, replaced, appended, inserted = None, 0, 0, 0
+    moved = []   # re-synced closes that moved by more than a cent: a basis shift shows up as many
     # Insertions run before the replace/append pass so that pass sees final indices.
     for d, o, h, l, c, v in [b for b in fetched if b[0] in set(missing_in_card)]:
         at = bisect.bisect_left(dates, d)
@@ -336,7 +352,16 @@ def sync_bars(arrays, fetched, splits, notes, insertable=(), acked=()):
             i = index[d]
             old = bar_values(tokens[i])
             if (abs(old[1] - o) > 0.005 or abs(old[2] - h) > 0.005 or abs(old[3] - l) > 0.005
-                    or abs(old[4] - c) > 0.005 or old[5] != v):
+                    or abs(old[4] - c) > 0.005 or abs(old[5] - v) > VOLUME_TOLERANCE * max(old[5], v)):
+                if old[4] and abs(c / old[4] - 1) > BASIS_HOLD:
+                    # A settled close does not move by this much; the two series are on different
+                    # bases (a corporate action one provider adjusted for and the other did not).
+                    # Replacing only the fetched window would leave the older bars on the old basis
+                    # inside every moving-average window (Codex 2026-11-25).
+                    raise Hold(f"{d} close {old[4]} -> {c} ({c / old[4] - 1:+.1%}) - the provider's basis "
+                               "differs from the card's, price history needs a rebuild")
+                if abs(old[4] - c) > 0.015:
+                    moved.append((d, c / old[4] - 1))
                 tokens[i] = new
                 replaced += 1
                 notes.append(f"re-synced {d}: close {old[4]} -> {c}, volume {old[5]:,} -> {v:,}")
@@ -347,6 +372,11 @@ def sync_bars(arrays, fetched, splits, notes, insertable=(), acked=()):
             appended += 1
             changed = len(tokens) - 1 if changed is None else changed
     extra = [d for d in dates if d >= fetched[0][0] and d not in fetched_dates] if fetched else []
+    if len(moved) >= 3 and (all(m > 0 for _, m in moved) or all(m < 0 for _, m in moved)):
+        # a settled close is not revised by more than a cent (0 of 2,017 bars, 2026-11-25); three or
+        # more moving the same way is a basis shift below BASIS_HOLD (Codex r2)
+        raise Hold(f"{len(moved)} re-synced closes moved the same way ({moved[0][0]} {moved[0][1]:+.2%} ..) "
+                   "- the provider's basis differs from the card's, price history needs a rebuild")
     return changed, replaced, appended, inserted, extra
 
 
@@ -896,7 +926,7 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
         if b[0] <= a[0]:
             raise EditError(f"dates not strictly increasing at {b[0]}")
     if bars[-1][0] != target:
-        raise Hold(f"no completed Yahoo bar for {target} yet (card ends {bars[-1][0]})")
+        raise Hold(f"no completed provider bar for {target} yet (card ends {bars[-1][0]})")
     if not close_matches(p["close"], tokens[-1]):
         raise EditError(f"last close {bars[-1][4]} != homepage close {p['close']} for {target}")
     check_from = max(0, (changed if changed is not None else len(bars)) - trimmed)
@@ -1063,7 +1093,7 @@ def main():
                                                               path.read_text(encoding="utf-8"), re.S).group(1)[-400:])
             last_v2 = m[-1] if m else None   # 카드 마지막 봉 — health_check가 v2 재빌드가 멈췄는지 본다
             st, last, counts, notes, html, tech = ("v2", last_v2, {}, ["v2 카드 — v2 재빌드가 갱신한다"], None, None)
-        elif net_failures >= fp.MAX_NET_FAILURES:  # Yahoo is down - don't spend the job's time limit retrying
+        elif net_failures >= fp.MAX_NET_FAILURES:  # fixtures / Yahoo-era breaker; Polygon charts read the cache - don't spend the job's time limit retrying
             st, last, counts, notes, html, tech = ("failed", None, {}, [f"skipped after {fp.MAX_NET_FAILURES} "
                                                    "consecutive network failures"], None, None)
         else:

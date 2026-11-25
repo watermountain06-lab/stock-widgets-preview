@@ -39,7 +39,8 @@ concurrency:
   group: daily-refresh
   cancel-in-progress: false
   # keep every pending run (default "single" cancels an older pending one when a newer queues) -
-  # the refresh can now hold the group for up to 2 h waiting out Yahoo's blank close (2026-10-20)
+  # (2026-10-20, when the refresh could wait up to 2 h for Yahoo's blank close; that wait is gone,
+  # but a v2 rebuild in the same group can still hold it for hours)
   queue: max
 
 defaults:
@@ -49,10 +50,11 @@ defaults:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # worst case with every provider down: prices stop after 3 tickers x 3
-    # attempts (~6 min), macro ~9 min (Yahoo 3 series + one FRED series at 60s),
-    # cards stop the same way as prices (~6 min); a normal run takes ~3 min
-    # plus up to 6 x 20 min in "Wait out Yahoo's blank close" (2026-10-20)
+    # worst case with every provider down: Polygon's sync stops after one call's attempts
+    # (~3 min at 60s timeouts, ~4 min on repeated 429) and prices/cards then read the committed
+    # cache; a slow-but-answering Polygon is cut at 45 min by sync's own deadline; macro ~9 min
+    # (Yahoo 3 series + one FRED series at 60s); a normal run takes ~3 min plus 13 s per Polygon
+    # call (the 2 h Yahoo blank-close wait was removed 2026-11-25)
     timeout-minutes: 160
     steps:
       - uses: actions/checkout@v4
@@ -67,15 +69,13 @@ jobs:
       - name: Offline tests (guard against broken pipeline code)
         run: python3 pipeline/test_pipeline.py
 
-      # Yahoo blanks the day's close on stocks' daily bars for a while in the evening (2026-10-19
-      # probe: 20:16-21:16 ET). Waits while it is blank, up to 2 h; fetch_prices falls back to
-      # meta after that. Never fails the job.
-      - name: Wait out Yahoo's blank close
-        timeout-minutes: 130
-        continue-on-error: true
-        run: python3 pipeline/wait_yahoo_close.py
-
+      # Stock prices come from Polygon's grouped daily (2026-11-25), cached per session in
+      # site_data/polygon_daily/ and committed below; the key is a repo secret. The free plan does
+      # not release a session before its end of day - a run that is too early keeps the previous
+      # session and a later pass picks it up. (Yahoo's blank-close wait step is gone with Yahoo.)
       - name: Fetch prices
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
         run: python3 pipeline/fetch_prices.py --write | tee prices.log
 
       # FRED's public CSV drops connections from GitHub's runners; its official
@@ -100,9 +100,11 @@ jobs:
 
       - name: Commit if the data changed
         id: commit
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}   # the retry below may fetch newly added tickers
         run: |
           git add site_data/stocks.json site_data/macro.json index.html \
-                  ./*_full_widget.html site_data/card_status.json site_data/tech_state
+                  ./*_full_widget.html site_data/card_status.json site_data/tech_state site_data/polygon_daily
           if git diff --cached --quiet; then
             echo "No data change (e.g. a market holiday) - nothing to commit"
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -121,6 +123,7 @@ jobs:
           cp site_data/stocks.json "$RUNNER_TEMP/stocks.json"
           git show HEAD~1:site_data/stocks.json > "$RUNNER_TEMP/base.json"   # 이 실행이 시작한 커밋
           cp site_data/macro.json "$RUNNER_TEMP/macro.json"
+          cp -R site_data/polygon_daily "$RUNNER_TEMP/polygon_daily"   # this run's price cache, restored after a reset
           pushed=false
           for i in 1 2 3; do
             if git push; then pushed=true; break; fi
@@ -130,6 +133,7 @@ jobs:
             git fetch -q origin main
             git reset -q --hard origin/main
             cp "$RUNNER_TEMP/macro.json" site_data/macro.json
+            python3 pipeline/polygon_bars.py merge "$RUNNER_TEMP/polygon_daily"   # per session the better file wins (OK, then newer)
             added=$(python3 pipeline/carry_prices.py carry "$RUNNER_TEMP/stocks.json" "$RUNNER_TEMP/base.json")
             { echo "--- push 거절 ${i}: 받은 main 위에서 다시 (따로 받을 종목: ${added:-없음}, 매크로는 첫 조회 값)"; } \
               | tee -a prices.log macro.log validate.log cards.log
@@ -144,7 +148,7 @@ jobs:
             python3 pipeline/validate_site_data.py | tee -a validate.log
             python3 pipeline/update_cards.py --write | tee -a cards.log
             git add site_data/stocks.json site_data/macro.json index.html \
-                    ./*_full_widget.html site_data/card_status.json site_data/tech_state
+                    ./*_full_widget.html site_data/card_status.json site_data/tech_state site_data/polygon_daily
             if git diff --cached --quiet; then pushed=true; break; fi   # 받은 main이 이미 같은 세션·같은 값을 담고 있다
             git commit -q -m "Daily data refresh: session ${session}"
           done

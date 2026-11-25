@@ -180,16 +180,539 @@ def test_blank_close_fallback():
     check("card behind the session: not this check's business (the date path handles it)",
           not pa.home_close_off(arr, ent(101.0, "2026-09-11"), "2026-09-11"))
 
-    import wait_yahoo_close as wy
-    check("expected session after the cutoff is today", wy.expected_session(AFTER) == "2026-09-10")
-    check("expected session before the cutoff is the previous weekday", wy.expected_session(DURING) == "2026-09-09")
-    check("expected session on Saturday is Friday",
-          wy.expected_session(datetime(2026, 9, 12, 18, 0, tzinfo=ET)) == "2026-09-11")
-    check("wait: blank close on the expected session", wy.blank_close(chart(DAYS, blank), "2026-09-10"))
-    check("no wait: close served", not wy.blank_close(chart(DAYS, CLOSES), "2026-09-10"))
-    check("no wait: no bar for the expected session (holiday / late)",
-          not wy.blank_close(chart(DAYS[:-1], CLOSES[:-1]), "2026-09-10"))
-    check("no wait: chart error", not wy.blank_close({"chart": {"result": None}}, "2026-09-10"))
+
+def test_polygon_bars():
+    """polygon_bars: the cache read back as a Yahoo-shaped chart, and sync's caching rules, with a fake
+    provider. No network: get is replaced."""
+    import polygon_bars as pg
+    import update_cards as uc
+    check("polygon SETTLE == fetch_prices SETTLE", pg.SETTLE == fp.SETTLE)
+    check("class shares map to Polygon's dot form", pg.psym("BRK-B") == "BRK.B" and pg.psym("AAPL") == "AAPL")
+    check("half-up to the cent (Polygon's sub-penny)", fp.cents(106.675) == 106.68 and fp.cents(106.6749) == 106.67)
+    check("Yahoo's float32 cent stays put", fp.cents(160.63499450683594) == 160.63)
+    check("the card uses the homepage's rounding", uc.cents is fp.cents)
+    tmp = Path(tempfile.mkdtemp())
+    saved = (pg.CACHE, None, pg.get, pg.GAP, os.environ.get("POLYGON_API_KEY"))
+    pg.CACHE, pg.GAP = tmp / "cache", 0
+    os.environ["POLYGON_API_KEY"] = "test"
+    T = "2026-09-10"
+    try:
+        days = [d.isoformat() for d in weekdays_back("2026-09-10", 24)]   # 31 calendar days back: 08-10
+        for i, d in enumerate(days):
+            bars = {"AAA": [100 + i, 101 + i, 99 + i, 100.5 + i, 1000.4], "BRK.B": [1, 2, 0.5, 1.5, 10], "HLT": None}
+            if d == "2026-09-07":   # Labor Day: a holiday file, every ticker null (Polygon: OK, 0 results)
+                bars = {k: None for k in bars}
+            pg.save_day({"session": d, "status": "OK", "fetchedAt": d + "T23:00:00Z",
+                         "count": 0 if d == "2026-09-07" else 12000, "bars": bars})
+        check("no temporary file is left in the cache", not list(pg.CACHE.glob("*.tmp")) and not list(tmp.glob("*.tmp")))
+        c = pg.chart("AAA", 31, today=T)
+        r = c["chart"]["result"][0]
+        check("chart: one bar per session, holiday skipped", len(r["timestamp"]) == 23 and "2026-09-07" not in
+              [datetime.fromtimestamp(t, ET).date().isoformat() for t in r["timestamp"]], len(r["timestamp"]))
+        check("chart: timestamps are the 09:30 ET open", datetime.fromtimestamp(r["timestamp"][-1], ET).time() == dtime(9, 30))
+        bars, _ = fp.completed_bars(c, AFTER)
+        check("chart reads through completed_bars unchanged", bars[-1] == ("2026-09-10", 123.5, 1000.4), bars[-1])
+        check("a null bar (halt) gives no result", pg.chart("HLT", 31, today=T)["chart"]["result"] is None)
+        check("BRK-B is read as BRK.B", pg.chart("BRK-B", 31, today=T)["chart"]["result"] is not None)
+        calls = []
+        pg.get = lambda u: calls.append(u) or {}
+        for name, setup, want in (("a ticker missing from the cache", None, "no NEW entry"),
+                                  ("a missing session file inside the window", "2026-09-02", "no file for 2026-09-02")):
+            if setup:
+                os.remove(pg.day_path(setup))
+            try:
+                pg.chart("NEW" if not setup else "AAA", 31, today=T); ok = False
+            except ValueError as e:
+                ok = want in str(e)
+            check(f"chart: {name} raises and fetches nothing", ok and not calls, calls)
+        pg.save_day({"session": "2026-09-02", "status": "OK", "fetchedAt": "2026-09-02T23:00:00Z", "count": 1,
+                     "bars": {"AAA": [1, 1, 1, 1, 1], "BRK.B": [1, 1, 1, 1, 1], "HLT": None}})
+
+        pg.save_splits({"checked": T, "splits": {
+            "AAA": [["2026-09-08", 1, 2], ["2026-09-14", 1, 3]], "BBB": [["2020-01-02", 4, 1]]}})
+        ev = lambda today: sorted((datetime.fromtimestamp(v["date"], ET).date().isoformat(), v["numerator"], v["denominator"])
+                                  for v in pg.chart("AAA", 31, today=today)["chart"]["result"][0].get("events", {}).get("splits", {}).values())
+        check("a split in the window is reported, a future one is not", ev(T) == [("2026-09-08", 2, 1)], ev(T))
+        check("a split effective today is reported before its session is cached",
+              ev("2026-09-14") == [("2026-09-08", 2, 1), ("2026-09-14", 3, 1)], ev("2026-09-14"))
+        rec = fp.resolve_price(pg.chart("AAA", 31, today=T), AFTER)
+        check("... and fetch_prices marks it suspicious as with Yahoo", rec["status"] == "suspicious"
+              and rec["statusReason"].startswith("split-in-window 2026-09-08"), rec)
+        rec = fp.resolve_price(pg.chart("AAA", 31, today=T), AFTER, [("2026-09-08", 2.0)])
+        check("an acknowledged split (split_acks.json: same day and ratio) does not flag the price", rec["status"] == "fresh", rec)
+        rec = fp.resolve_price(pg.chart("AAA", 31, today=T), AFTER, [("2026-09-08", 3.0)])
+        check("... an acknowledgement with another ratio does", rec["status"] == "suspicious", rec)
+        check("splits_for: ratio = to / from, future left out",
+              pg.splits_for("AAA", T) == [("2026-09-08", 2.0)] and pg.splits_for("BBB", T) == [("2020-01-02", 0.25)])
+
+        # sync with a fake provider
+        def fake(n=12000, status="OK", not_yet=False, hist=None, splits=(), split_status="OK", slow=0):
+            def g(u):
+                calls.append(u)
+                if slow:
+                    pg.time.monotonic_offset[0] += slow
+                if "/grouped/" in u:
+                    if not_yet:
+                        raise pg.NotYet("before end of day")
+                    if "/stocks/2026-09-07?" in u:   # Labor Day: Polygon answers a holiday with OK and no results
+                        return {"status": "OK", "results": []}
+                    return {"status": status, "results": [{"T": f"X{i}", "o": 1, "h": 1, "l": 1, "c": 1, "v": 1} for i in range(n)]
+                            + ([{"T": "AAA", "o": 9, "h": 10, "l": 8, "c": 9.5, "v": 5}] if n else [])}
+                if "/v3/reference/splits" in u:
+                    return {"status": split_status, "results": [{"ticker": t, "execution_date": d, "split_from": a, "split_to": b}
+                                                                for t, d, a, b in splits]}
+                if "/range/1/day/" in u:
+                    rows = hist if hist is not None else [(d, 50) for d in days]
+                    return {"status": "OK", "results": [{"t": int(datetime.combine(date.fromisoformat(d), dtime(0), ET).timestamp() * 1000),
+                                                         "o": c, "h": c, "l": c, "c": c, "v": 7} for d, c in rows]}
+                raise AssertionError(u)
+            return g
+        quiet = lambda *_: None
+        late = datetime(2026, 9, 11, 17, 0, tzinfo=ET)
+        U = ["AAA", "BRK.B"]
+        pg.save_splits({"checked": T, "splits": {}})
+        pg.get = fake(not_yet=True)
+        pg.sync(U, late, days=5, log=quiet)
+        check("NotYet: the session is not cached", not pg.day_path("2026-09-11").exists())
+        pg.get = fake(n=6000)
+        w = pg.sync(U, late, days=5, log=quiet)
+        check("a partial answer (6,000 tickers) is not cached and warns",
+              not pg.day_path("2026-09-11").exists() and any("only" in x for x in w), w)
+        pg.get = fake(status="ERROR")
+        w = pg.sync(U, late, days=5, log=quiet)
+        check("an answer with a bad status is not cached", not pg.day_path("2026-09-11").exists() and any("status ERROR" in x for x in w), w)
+        pg.get = fake(n=0)
+        pg.sync(U, late, days=5, log=quiet)
+        check("an empty answer on the same evening is not taken for a holiday", not pg.day_path("2026-09-11").exists())
+        pg.get = fake(n=0, status="DELAYED")
+        pg.sync(U, datetime(2026, 9, 12, 13, 0, tzinfo=ET), days=5, log=quiet)
+        check("an empty DELAYED answer the next afternoon is a holiday kept as DELAYED (re-fetched later)",
+              pg.load_day("2026-09-11")["status"] == "DELAYED" and pg.load_day("2026-09-11")["bars"] == {"AAA": None, "BRK.B": None})
+        pg.get = fake(n=0)
+        pg.sync(U, datetime(2026, 9, 12, 13, 0, tzinfo=ET), days=5, log=quiet)
+        check("... and turns OK on a later answer (all null)",
+              pg.load_day("2026-09-11")["status"] == "OK" and pg.load_day("2026-09-11")["bars"] == {"AAA": None, "BRK.B": None},
+              pg.load_day("2026-09-11"))
+        pg.get = fake()   # the "holiday" was a real session answered empty: asked again within a week
+        pg.sync(U, datetime(2026, 9, 14, 13, 0, tzinfo=ET), days=1, log=quiet)
+        check("an empty session file is asked again within a week and a real answer replaces it",
+              pg.load_day("2026-09-11")["bars"]["AAA"] == [9, 10, 8, 9.5, 5], pg.load_day("2026-09-11"))
+        for d in ("2026-09-14",):
+            if pg.day_path(d).exists():
+                os.remove(pg.day_path(d))
+        rec = pg.load_day("2026-09-11"); rec.update(bars={"AAA": None, "BRK.B": None}, count=0); pg.save_day(rec)
+        calls.clear(); pg.get = fake()
+        pg.sync(U, datetime(2026, 9, 25, 13, 0, tzinfo=ET), days=1, log=quiet)
+        check("... but not after a week", not any("2026-09-11?" in u for u in calls), calls)
+        for d in pg.cached_days():   # that sync filled 09-14..09-25; the tests below start from 09-11
+            if d > "2026-09-11":
+                os.remove(pg.day_path(d))
+        os.remove(pg.day_path("2026-09-11"))
+        def two(u):
+            if "/grouped/" in u and "2026-09-11" in u:
+                return fake(n=6000)(u)
+            return fake()(u)
+        pg.get = two
+        w = pg.sync(U, datetime(2026, 9, 14, 18, 0, tzinfo=ET), days=5, log=quiet)
+        check("a session past an uncached window day is not cached (no hole behind the newest file)",
+              not pg.day_path("2026-09-11").exists() and not pg.day_path("2026-09-14").exists()
+              and any("2026-09-11 is not cached yet" in x for x in w), w)
+        pg.get = fake(status="DELAYED")
+        pg.sync(U, late, days=5, log=quiet)
+        check("a served session is cached with its status", pg.load_day("2026-09-11")["status"] == "DELAYED"
+              and pg.load_day("2026-09-11")["bars"]["AAA"] == [9, 10, 8, 9.5, 5])
+        pg.get = fake(n=0)
+        w = pg.sync(U, datetime(2026, 9, 14, 13, 0, tzinfo=ET), days=1, log=quiet)
+        check("an empty answer never overwrites a cached session", pg.load_day("2026-09-11")["bars"]["AAA"] == [9, 10, 8, 9.5, 5]
+              and any("empty answer over a cached session" in x for x in w), w)
+        for d in ("2026-09-14",):
+            if pg.day_path(d).exists():
+                os.remove(pg.day_path(d))
+        calls.clear(); pg.get = fake()
+        pg.sync(U, datetime(2026, 9, 30, 17, 0, tzinfo=ET), days=1, log=quiet)
+        check("a non-OK file is fetched again at any age, OK files are not",
+              "/v2/aggs/grouped/locale/us/market/stocks/2026-09-11?adjusted=true" in calls
+              and not any("2026-09-10?" in u for u in calls) and pg.load_day("2026-09-11")["status"] == "OK", calls)
+        check("holes older than the window are filled too (09-14..09-28)",
+              all(pg.day_path(d).exists() for d in ("2026-09-14", "2026-09-21", "2026-09-28")))
+        for d in pg.cached_days():
+            if d > "2026-09-11":
+                os.remove(pg.day_path(d))
+        rec = pg.load_day("2026-09-11"); rec.update(status="DELAYED", fetchedAt="2026-09-11T23:00:00Z"); pg.save_day(rec)
+        before = pg.day_path("2026-09-11").read_text()
+        calls.clear(); pg.get = fake(status="DELAYED")   # the same bars, still DELAYED
+        pg.sync(U, late, days=5, log=quiet)
+        check("an unchanged re-fetch does not rewrite the file",
+              any("2026-09-11" in u for u in calls) and pg.day_path("2026-09-11").read_text() == before, calls)
+        pg.get = fake(); pg.sync(U, late, days=5, log=quiet)   # back to OK for what follows
+        calls.clear()
+        pg.sync(U + ["NEW"], late, days=5, log=quiet)
+        check("a ticker new to the universe is backfilled with one per-ticker call, stamped as today's basis",
+              sum("/NEW/" in u for u in calls) == 1 and pg.load_day("2026-09-10")["bars"]["NEW"][3] == 50
+              and pg.load_day("2026-08-10")["bars"]["NEW"][3] == 50 and pg.load_day("2026-09-11")["bars"]["NEW"] is None
+              and pg.load_day("2026-09-10")["rebased"]["NEW"] == "2026-09-11", calls)
+        pg.get = fake(hist=[])
+        w = pg.sync(U + ["NEW2"], late, days=5, log=quiet)
+        check("an empty backfill writes nothing", "NEW2" not in pg.load_day("2026-09-10")["bars"] and any("empty answer" in x for x in w), w)
+
+        # the splits list
+        pg.save_splits({"checked": "2026-09-01", "splits": {"AAA": [["2026-08-03", 1, 2], ["2026-09-20", 1, 4]]}})
+        pg.get = fake(splits=[("ZZZ", "2026-09-25", 1, 3)])
+        pg.update_splits("2026-09-15")
+        check("a split missing from a later pull is dropped, older ones kept",
+              pg.load_splits()["splits"] == {"AAA": [["2026-08-03", 1, 2]], "ZZZ": [["2026-09-25", 1, 3]]}, pg.load_splits())
+        before = pg.splits_path().read_text()
+        pg.update_splits("2026-09-16")
+        check("an unchanged list is not rewritten within a week", pg.splits_path().read_text() == before)
+        pg.save_splits(dict(pg.load_splits(), checked="2026-09-15"))   # due again, with ZZZ 09-25 inside its window
+        before = pg.splits_path().read_text()
+        for name, f in (("a bad status (with rows)", fake(split_status="ERROR", splits=[("YYY", "2026-09-20", 1, 2)])),
+                        ("an empty answer over cached splits", fake())):
+            pg.get = f
+            try:
+                pg.update_splits("2026-09-17"); ok = False
+            except ValueError:
+                ok = True
+            check(f"splits list: {name} is refused and the list kept", ok and pg.splits_path().read_text() == before)
+        pg.get = fake(split_status="ERROR")
+        pg.sync(U, late, days=5, log=quiet)
+        check("a refused splits list leaves SPLITS_FRESH false", pg.SPLITS_FRESH[0] is False)
+
+        # a split: re-adjusted once its own session is cached and the answer moved by the ratio
+        SP = [("AAA", "2026-09-14", 1, 2)]   # the list keeps listing it
+        pg.save_splits({"checked": T, "splits": {}})
+        aaa = lambda d: pg.load_day(d)["bars"]["AAA"][3]
+        old10 = aaa("2026-09-10")
+        traded = [d for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA")]
+        calls.clear(); pg.get = fake(splits=SP, hist=[(d, aaa(d) / 2) for d in traded])
+        pg.sync(U, datetime(2026, 9, 14, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("not before the split's session is cached", not any("/AAA/" in u for u in calls) and aaa("2026-09-10") == old10, calls)
+        pg.save_day({"session": "2026-09-14", "status": "OK", "fetchedAt": "2026-09-14T23:00:00Z", "count": 12000,
+                     "bars": {"AAA": [1, 1, 1, 1, 1], "BRK.B": [1, 1, 1, 1, 1], "NEW": None}})
+        pg.get = fake(splits=SP, hist=[(d, aaa(d)) for d in traded + ["2026-09-14"]])     # Polygon has not re-based yet
+        w = pg.sync(U, datetime(2026, 9, 15, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("an answer not yet on the new basis writes nothing",
+              aaa("2026-09-10") == old10 and "AAA" not in (pg.load_day("2026-09-10").get("rebased") or {})
+              and any("not the 2 split" in x for x in w), w)
+        pg.get = fake(splits=SP, hist=[(d, aaa(d) / 2) for d in traded][3:] + [("2026-09-14", 1)])   # re-based but short
+        w = pg.sync(U, datetime(2026, 9, 15, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("an answer missing cached sessions writes nothing", aaa("2026-09-10") == old10 and any("lacks" in x for x in w), w)
+        pg.get = fake(splits=SP, hist=[(d, aaa(d) / 2) for d in traded] + [("2026-09-14", 1)])
+        pg.sync(U, datetime(2026, 9, 15, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("re-based answer: the cached history moves by the ratio and is stamped in each file",
+              aaa("2026-09-10") == old10 / 2 and pg.load_day("2026-09-10")["rebased"]["AAA"] == "2026-09-15")
+        calls.clear()
+        pg.sync(U, datetime(2026, 9, 15, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("... and not again", not any("/AAA/" in u for u in calls), calls)
+        # two splits during a gap combine: the last good sync was 09-15; 3:1 on 09-16 and 2:1 on 09-17;
+        # the next sync (09-18) caches 09-16/17 on the new basis, so 09-15 and older are 6x off
+        SP2 = SP + [("AAA", "2026-09-16", 1, 3), ("AAA", "2026-09-17", 1, 2)]
+        pg.save_day({"session": "2026-09-15", "status": "OK", "fetchedAt": "2026-09-15T23:00:00Z", "count": 12000,
+                     "bars": {"AAA": [1, 1, 1, 1, 1], "BRK.B": [1, 1, 1, 1, 1], "NEW": None}})
+        for d in ("2026-09-16", "2026-09-17"):
+            pg.save_day({"session": d, "status": "OK", "fetchedAt": "2026-09-18T13:00:00Z", "count": 12000,
+                         "bars": {"AAA": [2, 2, 2, 2, 2], "BRK.B": [1, 1, 1, 1, 1], "NEW": None}})
+        traded = [d for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA")]
+        old10 = aaa("2026-09-10")
+        pg.get = fake(splits=SP2, hist=[(d, aaa(d) / 6 if d < "2026-09-16" else aaa(d)) for d in traded])
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("two splits in a gap are checked against their combined ratio (6, not 3 or 2)",
+              aaa("2026-09-10") == old10 / 6 and aaa("2026-09-15") == 1 / 6, w)
+        # a file fetched ON the execution date: checked either way, rewritten and stamped
+        for state, bar in (("old basis", 6.0), ("already re-based", 3.0)):
+            pg.save_splits({"checked": T, "splits": {}})
+            rec = pg.load_day("2026-09-17"); rec["bars"]["AAA"] = [3.1] * 5; rec["fetchedAt"] = "2026-09-18T13:00:00Z"; pg.save_day(rec)   # no step from 09-16's 3.0
+            rec = pg.load_day("2026-09-16"); rec["bars"]["AAA"] = [bar] * 5; rec["fetchedAt"] = "2026-09-17T12:00:00Z"
+            rec.pop("rebased", None); pg.save_day(rec)
+            SPX = [("AAA", "2026-09-17", 1, 2)]
+            hist = [(d, aaa(d)) for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA") and d != "2026-09-16"] + [("2026-09-16", 3.0)]
+            pg.get = fake(splits=SPX, hist=hist)
+            for d in pg.cached_days():   # everything else already stamped past the split
+                if d != "2026-09-16" and pg.load_day(d)["bars"].get("AAA"):
+                    r2 = pg.load_day(d); r2.setdefault("rebased", {})["AAA"] = "2026-09-18"; pg.save_day(r2)
+            w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+            check(f"a file fetched on the execution date ({state}) is checked and ends on the new basis",
+                  aaa("2026-09-16") == 3.0 and pg.load_day("2026-09-16")["rebased"]["AAA"] == "2026-09-18", w)
+        # an execution-date file next to an older one, and an answer that has NOT re-based: nothing written
+        pg.save_splits({"checked": T, "splits": {}})
+        rec = pg.load_day("2026-09-16"); rec["bars"]["AAA"] = [6.0] * 5; rec["fetchedAt"] = "2026-09-17T12:00:00Z"
+        rec.pop("rebased", None); pg.save_day(rec)
+        rec = pg.load_day("2026-09-15"); rec["bars"]["AAA"] = [6.0] * 5; rec["fetchedAt"] = "2026-09-15T23:00:00Z"
+        rec.pop("rebased", None); pg.save_day(rec)
+        unmoved = [(d, aaa(d)) for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA")]
+        pg.get = fake(splits=[("AAA", "2026-09-17", 1, 2)], hist=unmoved)
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("same-day file + older file + unmoved answer: nothing written, not stamped",
+              aaa("2026-09-16") == 6.0 and "AAA" not in (pg.load_day("2026-09-16").get("rebased") or {})
+              and any("not the 2 split" in x for x in w), w)
+        # only an execution-date file is stale: an unmoved close passes only without a split-sized step
+        r2 = pg.load_day("2026-09-15"); r2.setdefault("rebased", {})["AAA"] = "2026-09-18"; pg.save_day(r2)
+        stepped = [(d, 6.0 if d <= "2026-09-16" else 3.0) for d, _ in unmoved]
+        pg.get = fake(splits=[("AAA", "2026-09-17", 1, 2)], hist=stepped)
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("same-day file only, unmoved answer WITH a 2x step: nothing written",
+              "AAA" not in (pg.load_day("2026-09-16").get("rebased") or {}) and any("not shown" in x for x in w), w)
+        smooth = [(d, 6.0) for d, _ in unmoved]
+        pg.get = fake(splits=[("AAA", "2026-09-17", 1, 2)], hist=smooth)
+        pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("same-day file only, unmoved answer without a step: taken as re-based and stamped",
+              pg.load_day("2026-09-16")["rebased"]["AAA"] == "2026-09-18")
+        # two splits on consecutive days, every stale file fetched on an execution date, and an answer
+        # still missing the second split: the step check must compare distinct sessions (Codex r5)
+        pg.save_splits({"checked": T, "splits": {}})
+        for d, fetched, c in (("2026-09-15", "2026-09-16T12:00:00Z", 30.0), ("2026-09-16", "2026-09-17T12:00:00Z", 30.0)):
+            rec = pg.load_day(d); rec["bars"]["AAA"] = [c] * 5; rec["fetchedAt"] = fetched; rec.pop("rebased", None); pg.save_day(rec)
+        rec = pg.load_day("2026-09-17"); rec["bars"]["AAA"] = [15.0] * 5; rec["fetchedAt"] = "2026-09-18T13:00:00Z"; pg.save_day(rec)
+        for d in pg.cached_days():
+            if d < "2026-09-15" and pg.load_day(d)["bars"].get("AAA"):
+                r2 = pg.load_day(d); r2.setdefault("rebased", {})["AAA"] = "2026-09-18"; pg.save_day(r2)
+        two = [("AAA", "2026-09-16", 1, 3), ("AAA", "2026-09-17", 1, 2)]
+        hist = [(d, aaa(d)) for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA")]   # 30, 30, 15: not re-based for 2:1
+        pg.get = fake(splits=two, hist=hist)
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("two consecutive splits, execution-date files only, answer missing the second: nothing written",
+              aaa("2026-09-16") == 30.0 and "AAA" not in (pg.load_day("2026-09-16").get("rebased") or {})
+              and any("not shown" in x for x in w), w)
+        pg.get = fake(splits=two, hist=[(d, c / 2 if d < "2026-09-17" else c) for d, c in hist])   # now re-based
+        pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("... and once the answer is re-based it is written and stamped",
+              aaa("2026-09-16") == 15.0 and pg.load_day("2026-09-16")["rebased"]["AAA"] == "2026-09-18")
+        # the same two splits, but only 09-15 is stale (fetched on 09-16, so it already has the 3:1) and the
+        # answer still lacks the 2:1 (30, 30, 15): the 2x step at 09-17 alone must refuse it (Codex r6)
+        pg.save_splits({"checked": T, "splits": {}})
+        rec = pg.load_day("2026-09-15"); rec["bars"]["AAA"] = [30.0] * 5; rec["fetchedAt"] = "2026-09-16T12:00:00Z"; rec.pop("rebased", None); pg.save_day(rec)
+        for d in ("2026-09-16", "2026-09-17"):
+            r2 = pg.load_day(d); r2["fetchedAt"] = "2026-09-18T13:00:00Z"; r2.pop("rebased", None); pg.save_day(r2)
+        rec = pg.load_day("2026-09-16"); rec["bars"]["AAA"] = [15.0] * 5; pg.save_day(rec)
+        rec = pg.load_day("2026-09-17"); rec["bars"]["AAA"] = [15.0] * 5; pg.save_day(rec)
+        hist = [(d, 30.0 if d <= "2026-09-16" else 15.0) if d >= "2026-09-15" else (d, aaa(d))
+                for d in pg.cached_days() if pg.load_day(d)["bars"].get("AAA")]
+        pg.get = fake(splits=two, hist=hist)
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("one stale file missing one of two splits, answer with that split's step: nothing written",
+              aaa("2026-09-15") == 30.0 and "AAA" not in (pg.load_day("2026-09-15").get("rebased") or {})
+              and any("not shown" in x for x in w), w)
+        # a ratio near 1 (a 2% stock dividend): an answer that has not moved must not pass as re-based
+        for d in pg.cached_days():   # every file fetched the evening of its own session, BRK.B never re-stamped
+            r2 = pg.load_day(d); r2["fetchedAt"] = d + "T23:00:00Z"; (r2.get("rebased") or {}).pop("BRK.B", None); pg.save_day(r2)
+        SP3 = SP2 + [("BRK.B", "2026-09-17", 100, 102)]
+        pg.save_splits(dict(pg.load_splits(), checked=T))   # due again, so this run pulls SP3
+        brk = pg.load_day("2026-09-15")["bars"]["BRK.B"][3]
+        pg.get = fake(splits=SP3, hist=[(d, pg.load_day(d)["bars"]["BRK.B"][3]) for d in pg.cached_days() if pg.load_day(d)["bars"].get("BRK.B")])
+        w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+        check("a 1.02 split with an unmoved answer writes nothing",
+              "BRK.B" not in (pg.load_day("2026-09-15").get("rebased") or {}) and any("BRK.B" in x and "not the" in x for x in w), w)
+
+        # null re-check: a ticker null between two traded sessions is asked about once; holidays are not
+        pg.save_splits(dict(pg.load_splits(), checked=T))   # the next pull (SP2) drops the 1.02 test split
+        rec = pg.load_day("2026-09-09"); rec["bars"]["BRK.B"] = None; pg.save_day(rec)
+        calls.clear(); pg.get = fake(splits=SP2, hist=[(d, 3) for d in traded])
+        pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=31, log=quiet)
+        check("a null between traded sessions is re-checked and filled",
+              pg.load_day("2026-09-09")["bars"]["BRK.B"][3] == 3 and sum("/BRK.B/" in u for u in calls) == 1, calls)
+        check("the holiday (all null) is not re-checked", "nullChecked" not in pg.load_day("2026-09-07"))
+        rec = pg.load_day("2026-09-08"); rec["bars"]["BRK.B"] = None; pg.save_day(rec)
+        def delayed_hist(u):
+            if "/range/1/day/" in u:
+                calls.append(u)
+                return {"status": "DELAYED", "results": [{"t": int(datetime.combine(date.fromisoformat(d), dtime(0), ET).timestamp() * 1000),
+                                                          "o": 3, "h": 3, "l": 3, "c": 3, "v": 7} for d in traded if d != "2026-09-08"]}
+            return fake(splits=SP2)(u)
+        calls.clear(); pg.get = delayed_hist
+        pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=31, log=quiet)
+        check("a DELAYED re-check that lacks the bar does not mark it checked (asked again later)",
+              any("/BRK.B/" in u for u in calls) and pg.load_day("2026-09-08")["bars"]["BRK.B"] is None
+              and "BRK.B" not in (pg.load_day("2026-09-08").get("nullChecked") or []), calls)
+
+        # the deadline stops a slow provider
+        pg.time.monotonic_offset = [0.0]
+        real_mono = pg.time.monotonic
+        pg.time.monotonic = lambda: real_mono() + pg.time.monotonic_offset[0]
+        try:
+            for d in ("2026-09-15", "2026-09-16", "2026-09-17"):
+                os.remove(pg.day_path(d))
+            calls.clear(); pg.get = fake(splits=SP2, slow=3000)
+            w = pg.sync(U, datetime(2026, 9, 18, 9, 0, tzinfo=ET), days=5, log=quiet)
+            check("a slow provider is cut at the deadline", len([u for u in calls if "/grouped/" in u]) == 1
+                  and any("deadline" in x for x in w), (calls, w))
+        finally:
+            pg.time.monotonic = real_mono
+
+        # the deadline also stops pagination inside one step (the real get(), with urlopen faked)
+        class Page:
+            def __init__(self): self.body = json.dumps({"status": "OK", "next_url": "https://api.polygon.io/v3/reference/splits?cursor=x",
+                                                        "results": [{"ticker": "Q", "execution_date": "2026-09-20", "split_from": 1, "split_to": 2}]}).encode()
+            def read(self): return self.body
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+        pages, real_open, real_get = [], pg.urllib.request.urlopen, pg.get
+        def slow_open(req, timeout=None):
+            pages.append(req.full_url); pg.time.monotonic_offset[0] += 1000
+            if len(pages) >= 10:   # a bounded provider, so a missing deadline fails the check instead of hanging
+                page = Page(); page.body = json.dumps({"status": "OK", "results": []}).encode(); return page
+            return Page()
+        pg.time.monotonic = lambda: real_mono() + pg.time.monotonic_offset[0]
+        pg.urllib.request.urlopen, pg.get = slow_open, saved[2]
+        try:
+            pg._deadline[0] = pg.time.monotonic() + 2500
+            try:
+                pg.pull_splits("2026-09-01"); stopped = False
+            except pg.ProviderDown:
+                stopped = True
+            check("the deadline stops a paginated pull inside get()", stopped and len(pages) == 3, pages)
+        finally:
+            pg._deadline[0] = None
+            pg.urllib.request.urlopen, pg.get, pg.time.monotonic = real_open, real_get, real_mono
+        # merge after a push retry: per session the better file wins, stamps travel with the file
+        other = tmp / "other"; other.mkdir()
+        mine = pg.load_day("2026-09-10")
+        delayed = dict(mine, status="DELAYED", updatedAt="2099-01-01T00:00:00Z", bars={"AAA": [0, 0, 0, 0, 0]})
+        (other / "2026-09-09.json").write_text(json.dumps(delayed))
+        newer = dict(mine, session="2026-09-08", updatedAt="2099-01-01T00:00:00Z", bars={"AAA": [7, 7, 7, 7, 7]},
+                     rebased={"AAA": "2026-09-30"})
+        (other / "2026-09-08.json").write_text(json.dumps(newer))
+        sp_other = dict(pg.load_splits(), updatedAt="2099-01-01T00:00:00Z", splits={"QQQ": [["2026-09-01", 1, 2]]})
+        (other / "_splits.json").write_text(json.dumps(sp_other))
+        pg.merge_from(other)
+        check("merge: an OK file is not replaced by a DELAYED one, an older one is replaced with its stamps",
+              pg.load_day("2026-09-09")["status"] == "OK" and pg.load_day("2026-09-08")["bars"] == {"AAA": [7, 7, 7, 7, 7]}
+              and pg.load_day("2026-09-08")["rebased"] == {"AAA": "2026-09-30"})
+        check("merge: the splits list with the later updatedAt wins", pg.load_splits()["splits"] == {"QQQ": [["2026-09-01", 1, 2]]})
+    finally:
+        pg.CACHE, pg.get, pg.GAP = saved[0], saved[2], saved[3]
+        if saved[4] is None:
+            os.environ.pop("POLYGON_API_KEY", None)
+        else:
+            os.environ["POLYGON_API_KEY"] = saved[4]
+        shutil.rmtree(tmp)
+
+    # sync_bars: a re-synced close that moves by more than 1% holds the card (another basis)
+    style0 = ('"', ",")
+    base = {"DAILY": {"style": style0, "tokens": [uc.bar_token(style0, "2026-09-10", 1, 2, 0.5, 100.0, 1000)]}}
+    try:
+        uc.sync_bars(base, [("2026-09-10", 1, 2, 0.5, 98.5, 1000)], [], []); held = False
+    except uc.Hold as e:
+        held = "basis" in str(e) and "rebuild" in str(e)
+    check("a re-synced close 1.5% off holds the card (and reads as needs-a-person)", held)
+    out = uc.sync_bars(base, [("2026-09-10", 1, 2, 0.5, 99.5, 1000)], [], [])
+    check("a re-synced close 0.5% off is replaced", out[1] == 1, out)
+
+    # sync_bars: a volume within 1% is the same bar, beyond it the bar is re-synced
+    style = ('"', ",")
+    def arrays(v):
+        return {"DAILY": {"style": style, "tokens": [uc.bar_token(style, "2026-09-09", 1, 2, 0.5, 1.5, 1000),
+                                                      uc.bar_token(style, "2026-09-10", 1, 2, 0.5, 1.5, v)]}}
+    a = arrays(1000)
+    out = uc.sync_bars(a, [("2026-09-10", 1, 2, 0.5, 1.5, 1009)], [], [])
+    check("volume 0.9% off: not re-synced", out[1] == 0 and out[0] is None, out)
+    out = uc.sync_bars(a, [("2026-09-10", 1, 2, 0.5, 1.5, 1011)], [], [])
+    check("volume 1.1% off: re-synced", out[1] == 1 and out[0] == 1, out)
+
+
+def test_split_guard():
+    """fetch_prices on Polygon's cache: a split-sized move is held only when the splits list could not
+    be refreshed in this run. get is faked; no network."""
+    import polygon_bars as pg
+    tmp = Path(tempfile.mkdtemp())
+    saved = (pg.CACHE, pg.get, pg.GAP, os.environ.get("POLYGON_API_KEY"), fp.SPLIT_ACKS)
+    pg.CACHE, pg.GAP, os.environ["POLYGON_API_KEY"], fp.SPLIT_ACKS = tmp / "cache", 0, "test", tmp / "split_acks.json"
+    try:
+        stocks = tmp / "stocks.json"
+        data = seed_stocks(stocks)
+        syms = pg.universe_from(data)
+        days = [d.isoformat() for d in weekdays_back("2026-09-10", 24)]
+        for i, d in enumerate(days):
+            c = 50.0 if d == days[-1] else 100.0 + i / 10
+            pg.save_day({"session": d, "status": "OK", "fetchedAt": d + "T23:00:00Z", "count": 12000,
+                         "bars": {s: [c, c, c, c, 1000] for s in syms}})
+        pg.save_splits({"checked": "2026-09-01", "splits": {}})
+        def fake(splits_ok):
+            def g(u):
+                if "/v3/reference/splits" in u:
+                    if splits_ok:
+                        return {"status": "OK", "results": []}
+                    raise RuntimeError("polygon HTTP 400: test")
+                raise pg.NotYet("before end of day")
+            return g
+        def aapl_inproc(splits_ok):
+            stocks.write_text(json.dumps(data))
+            pg.get = fake(splits_ok)
+            argv = sys.argv
+            sys.argv = ["fetch_prices.py", "--data", str(stocks), "--now", AFTER.isoformat(), "--write"]
+            try:
+                fp.main()
+            finally:
+                sys.argv = argv
+            return next(t["price"] for t in json.loads(stocks.read_text())["tickers"] if t["ticker"] == "AAPL")
+        p = aapl_inproc(False)
+        check("splits list not refreshed: a -50% move is held as a possible split",
+              p["status"] == "suspicious" and "splits list" in p.get("statusReason", ""), p)
+        # the next session, still without a splits list: the held record stays held
+        held = json.loads(stocks.read_text())
+        nxt = "2026-09-11"
+        pg.save_day({"session": nxt, "status": "OK", "fetchedAt": nxt + "T23:00:00Z", "count": 12000,
+                     "bars": {s: [51.0, 51.0, 51.0, 51.0, 1000] for s in syms}})
+        data_held = held
+        def run_on(d, now, splits_ok):
+            stocks.write_text(json.dumps(d))
+            pg.get = fake(splits_ok)
+            argv = sys.argv
+            sys.argv = ["fetch_prices.py", "--data", str(stocks), "--now", now.isoformat(), "--write"]
+            try:
+                fp.main()
+            finally:
+                sys.argv = argv
+            return next(t["price"] for t in json.loads(stocks.read_text())["tickers"] if t["ticker"] == "AAPL")
+        nxt_after = datetime(2026, 9, 11, 18, 0, tzinfo=ET)
+        p = run_on(data_held, nxt_after, False)
+        check("still no splits list: the held possible split stays held the next session",
+              p["status"] == "suspicious" and p["session"] == "2026-09-10" and "splits list" in p["statusReason"], p)
+        os.remove(pg.day_path(nxt))
+        p = aapl_inproc(True)
+        check("splits list refreshed: the same move is published (and only flagged for news)",
+              p["status"] == "fresh" and p["close"] == 50.0, p)
+        # --now replays judge split events against that day, not the real clock
+        pg.save_splits({"checked": "2026-09-10", "splits": {s: [["2026-09-14", 1, 2]] for s in syms}})
+        p = aapl_inproc(True)
+        check("--now 09-10: a split listed for 09-14 is not reported", p["status"] == "fresh", p)
+        pg.save_splits({"checked": "2026-09-10", "splits": {s: [["2026-09-11", 1, 2]] for s in syms}})
+        p = aapl_inproc(True)
+        check("--now 09-10: a split listed for the next day is reported (a day early, on purpose)",
+              p["status"] == "suspicious" and "split-in-window 2026-09-11" in p["statusReason"], p)
+        # the card side: a window deeper than the cache holds the card for a rebuild
+        import update_cards as uc
+        try:
+            uc.fetch_bars("AAPL", "1y", None, AFTER, "2026-09-10"); held = False
+        except uc.Hold as e:
+            held = "rebuild" in str(e) and "1y" in str(e)
+        check("a 1y window deeper than the cache holds the card (needs-a-person)", held)
+        gone = pg.day_path("2026-09-02"); keep = gone.read_text(); gone.unlink()
+        try:
+            uc.fetch_bars("AAPL", "1mo", None, AFTER, "2026-09-10"); held = None
+        except uc.Hold as e:
+            held = str(e)
+        gone.write_text(keep)
+        check("a gap inside the cache holds the card without calling for a rebuild",
+              held is not None and "gap" in held and "rebuild" not in held, held)
+        # a basis shift below 1% that shows on three or more re-synced closes holds the card
+        st = ('"', ",")
+        toks = [uc.bar_token(st, d, 1, 2, 0.5, 100.0, 1000) for d in ("2026-09-08", "2026-09-09", "2026-09-10")]
+        try:
+            uc.sync_bars({"DAILY": {"style": st, "tokens": list(toks)}},
+                         [(d, 1, 2, 0.5, 99.5, 1000) for d in ("2026-09-08", "2026-09-09", "2026-09-10")], [], []); held = False
+        except uc.Hold as e:
+            held = "same way" in str(e) and "rebuild" in str(e)
+        check("three re-synced closes 0.5% lower hold the card", held)
+        out = uc.sync_bars({"DAILY": {"style": st, "tokens": list(toks)}},
+                           [(d, 1, 2, 0.5, c, 1000) for d, c in (("2026-09-08", 99.5), ("2026-09-09", 100.5), ("2026-09-10", 99.5))], [], [])
+        check("... mixed directions are separate corrections and are replaced", out[1] == 3, out)
+    finally:
+        pg.CACHE, pg.get, pg.GAP, fp.SPLIT_ACKS = saved[0], saved[1], saved[2], saved[4]
+        if saved[3] is None:
+            os.environ.pop("POLYGON_API_KEY", None)
+        else:
+            os.environ["POLYGON_API_KEY"] = saved[3]
+        shutil.rmtree(tmp)
 
 
 def test_macro_rules():
@@ -700,7 +1223,14 @@ def test_retries_and_breakers():
         seed_stocks(stocks)
         before = stocks.read_text(encoding="utf-8")
 
-        # the price provider is down: only 3 tickers are tried, then the rest are skipped
+        # the price provider (Polygon, through polygon_bars.sync) is down: the first session gets its
+        # 3 attempts and the sync stops; the tickers then read a temporary cache - never the real one
+        import polygon_bars as pg
+        real_cache, real_key = pg.CACHE, os.environ.get("POLYGON_API_KEY")
+        pg.CACHE, os.environ["POLYGON_API_KEY"] = tmp / "polygon_cache", "test"
+        # a cache with holes in the window (not an empty one, which would pass for the wrong reason)
+        pg.save_day({"session": "2026-09-01", "status": "OK", "fetchedAt": "2026-09-01T23:00:00Z", "count": 12000,
+                     "bars": {"AAPL": [1, 1, 1, 1, 1]}})
         calls.clear()
         fp.urllib.request.urlopen = scripted(TimeoutError("t"))
         sys.argv = ["fetch_prices.py", "--data", str(stocks), "--now", AFTER.isoformat(), "--write"]
@@ -708,7 +1238,14 @@ def test_retries_and_breakers():
             fp.main()
         except SystemExit:
             pass
-        check("price breaker stops after 3 unreachable tickers", len(calls) == 9, len(calls))
+        finally:
+            pg.CACHE = real_cache
+            if real_key is None:
+                del os.environ["POLYGON_API_KEY"]
+            else:
+                os.environ["POLYGON_API_KEY"] = real_key
+        check("price breaker: Polygon unreachable -> one session tried 3 times, then the sync stops",
+              len(calls) == 3 and all("polygon.io" in u for u in calls), calls)
         check("nothing written when no ticker produced a session", stocks.read_text(encoding="utf-8") == before)
 
         # FRED is down: one series uses its 3 attempts, the others are skipped
@@ -810,7 +1347,9 @@ def test_card_updater():
         c = round(bars[-1][4] * 1.01, 2)
         bars.append([nxt.isoformat(), c, round(c * 1.01, 2), round(c * 0.99, 2), c, 5_000_000])
         if tk == "NVDA":
-            bars[-2][5] += 1000  # the card's last bar was captured mid-session
+            # the card's last bar was captured mid-session: the served bar has half again the volume
+            # (a volume within 1% is the same bar since Polygon, 2026-11-25 - see test_polygon_bars)
+            bars[-2][5] = int(bars[-2][5] * 1.5) + 1000
         new_close[tk] = (nxt.isoformat(), c)
         card_last[tk] = (bars[-2][0], bars[-2][4])
         t["price"] = {"close": c, "prevClose": bars[-2][4], "session": nxt.isoformat(),
@@ -1665,6 +2204,8 @@ if __name__ == "__main__":
     test_valuation_base_units()
     test_price_rules()
     test_blank_close_fallback()
+    test_polygon_bars()
+    test_split_guard()
     test_macro_rules()
     test_end_to_end_with_failures()
     test_no_change_and_health()
