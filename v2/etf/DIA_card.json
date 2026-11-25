@@ -3527,78 +3527,78 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-23",
+   "S": "2026-11-24",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "GS",
      "name": "GOLDMAN SACHS GROUP INC",
-     "weight": 0.09872012164497118,
+     "weight": 0.09577740561992427,
      "card": "GS",
      "verdict": "적정~고평가"
     },
     {
      "company": "CAT",
      "name": "CATERPILLAR INC",
-     "weight": 0.06556890076843419,
+     "weight": 0.06424174936683355,
      "card": "CAT",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.059031660451114645,
+     "weight": 0.058953923044024095,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMGN",
      "name": "AMGEN INC",
-     "weight": 0.05382249769269191,
+     "weight": 0.05631654972622373,
      "card": "AMGN",
      "verdict": "고평가"
     },
     {
      "company": "V",
      "name": "VISA INC CLASS A SHARES",
-     "weight": 0.04907119884959189,
+     "weight": 0.04952495967088104,
      "card": "V",
      "verdict": "고평가"
     },
     {
      "company": "TRV",
      "name": "TRAVELERS COS INC/THE",
-     "weight": 0.04731043628800902,
+     "weight": 0.04763440947268775,
      "card": "TRV",
      "verdict": "판정 보류"
     },
     {
-     "company": "SHW",
-     "name": "SHERWIN WILLIAMS CO/THE",
-     "weight": 0.04188791326829321,
-     "card": "SHW",
-     "verdict": "고평가"
-    },
-    {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.04184116815663749,
+     "weight": 0.04207328073390995,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "HD",
      "name": "HOME DEPOT INC",
-     "weight": 0.04147918626117635,
+     "weight": 0.04202812729191621,
      "card": "HD",
      "verdict": "적정~고평가"
     },
     {
+     "company": "SHW",
+     "name": "SHERWIN WILLIAMS CO/THE",
+     "weight": 0.04189384784052613,
+     "card": "SHW",
+     "verdict": "고평가"
+    },
+    {
      "company": "UNH",
      "name": "UNITEDHEALTH GROUP INC",
-     "weight": 0.040282967745562726,
+     "weight": 0.04062476792186597,
      "card": "UNH",
      "verdict": "적정"
     }
@@ -3723,35 +3723,35 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-11-23",
+   "asOf": "2026-11-24",
    "rows": [
     [
      "Financials",
-     26.98
+     26.73
     ],
     [
      "Information Technology",
-     18.24
+     18.16
     ],
     [
      "Health Care",
-     14.27
+     14.66
     ],
     [
      "Industrials",
-     13.37
+     13.26
     ],
     [
      "Consumer Discretionary",
-     10.92
-    ],
-    [
-     "Communication Services",
-     4.82
+     10.96
     ],
     [
      "Consumer Staples",
-     4.73
+     4.78
+    ],
+    [
+     "Communication Services",
+     4.77
     ],
     [
      "Materials",
@@ -3759,13 +3759,13 @@
     ],
     [
      "Energy",
-     2.47
+     2.48
     ]
    ]
   },
   "chars": {
-   "pe": 19.52,
-   "peAsOf": "2026-11-23"
+   "pe": 19.69,
+   "peAsOf": "2026-11-24"
   },
   "dgs10": {
    "date": "2026-11-23",
@@ -3774,7 +3774,7 @@
  },
  "index": "DIA",
  "name": "DIA",
- "runId": "45598329805.1",
- "runAt": "2026-11-25T10:48:02Z",
+ "runId": "45686082155.1",
+ "runAt": "2026-11-25T19:32:28Z",
  "source": "Yahoo Finance DIA 일봉 종가"
 }
