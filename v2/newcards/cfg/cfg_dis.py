@@ -124,6 +124,7 @@ SEG_MAP = {
   ]
  },
  "ignore": [
-  "dis:SegmentEliminationsMember"
+  "dis:SegmentEliminationsMember",
+  "dis:EliminationsAndOtherMember"
  ]
 }
