@@ -1,80 +1,80 @@
 {
  "ticker": "NFLX",
  "window": [
-  "2021-11-23",
-  "2026-11-23"
+  "2021-11-24",
+  "2026-11-24"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 19.71,
+   "current": 19.97,
    "min": 15.1,
-   "p10": 21.4,
-   "median": 40.92,
-   "p90": 52.15,
+   "p10": 21.36,
+   "median": 40.77,
+   "p90": 52.11,
    "max": 63.28,
-   "mean": 39.03,
-   "percentile": 5.7,
-   "score": 94.3,
+   "mean": 39.0,
+   "percentile": 6.5,
+   "score": 93.5,
    "eps": 2.9484
   },
   "PSR": {
    "days": 1255,
-   "current": 4.8,
+   "current": 4.86,
    "min": 2.43,
    "p10": 3.58,
    "median": 7.12,
    "p90": 11.55,
    "max": 14.19,
    "mean": 7.32,
-   "percentile": 19.6,
-   "score": 80.4
+   "percentile": 20.0,
+   "score": 80.0
   },
   "PBR": {
    "days": 1255,
-   "current": 8.15,
+   "current": 8.25,
    "min": 4.21,
    "p10": 5.72,
-   "median": 11.42,
+   "median": 11.41,
    "p90": 19.23,
    "max": 23.72,
    "mean": 11.93,
-   "percentile": 25.9,
-   "score": 74.1
+   "percentile": 26.7,
+   "score": 73.3
   },
   "PCR": {
    "days": 1135,
-   "current": 20.97,
+   "current": 21.25,
    "min": 20.48,
-   "p10": 29.97,
-   "median": 47.37,
-   "p90": 204.23,
+   "p10": 29.93,
+   "median": 46.81,
+   "p90": 203.22,
    "max": 1949.28,
-   "mean": 152.95,
-   "percentile": 0.1,
-   "score": 99.9
+   "mean": 151.28,
+   "percentile": 0.3,
+   "score": 99.7
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 15.38,
+   "current": 15.58,
    "min": 12.78,
-   "p10": 18.1,
-   "median": 31.11,
-   "p90": 41.08,
+   "p10": 18.04,
+   "median": 31.08,
+   "p90": 41.07,
    "max": 50.35,
-   "mean": 30.49,
-   "percentile": 4.6,
-   "score": 95.4
+   "mean": 30.47,
+   "percentile": 4.9,
+   "score": 95.1
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 26.61,
-  "per_p75": 36.91,
+  "per_p25": 26.52,
+  "per_p75": 36.89,
   "low": 80,
   "high": 110,
-  "asOf": "2026-11-23",
+  "asOf": "2026-11-24",
   "basis": "diluted"
  }
 }

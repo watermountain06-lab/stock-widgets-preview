@@ -1,80 +1,80 @@
 {
  "ticker": "CRM",
  "window": [
-  "2021-11-23",
-  "2026-11-23"
+  "2021-11-24",
+  "2026-11-24"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 23.96,
+   "current": 24.97,
    "min": 18.2,
-   "p10": 26.05,
-   "median": 62.64,
+   "p10": 25.96,
+   "median": 62.51,
    "p90": 688.01,
    "max": 1098.83,
-   "mean": 241.21,
-   "percentile": 5.3,
-   "score": 94.7,
+   "mean": 240.92,
+   "percentile": 7.4,
+   "score": 92.6,
    "eps": 7.7393
   },
   "PSR": {
    "days": 1255,
-   "current": 3.47,
+   "current": 3.62,
    "min": 2.87,
-   "p10": 4.23,
+   "p10": 4.22,
    "median": 6.35,
-   "p90": 8.43,
+   "p90": 8.42,
    "max": 12.34,
-   "mean": 6.37,
-   "percentile": 3.0,
-   "score": 97.0
+   "mean": 6.36,
+   "percentile": 3.7,
+   "score": 96.3
   },
   "PBR": {
    "days": 1255,
-   "current": 3.98,
+   "current": 4.14,
    "min": 2.16,
    "p10": 2.75,
    "median": 3.85,
    "p90": 4.99,
    "max": 6.02,
    "mean": 3.87,
-   "percentile": 55.7,
-   "score": 44.3
+   "percentile": 62.6,
+   "score": 37.4
   },
   "PCR": {
    "days": 1255,
-   "current": 10.07,
+   "current": 10.5,
    "min": 8.39,
-   "p10": 12.3,
-   "median": 26.26,
-   "p90": 33.01,
+   "p10": 12.26,
+   "median": 26.24,
+   "p90": 32.99,
    "max": 53.11,
-   "mean": 24.73,
-   "percentile": 2.9,
-   "score": 97.1
+   "mean": 24.7,
+   "percentile": 3.6,
+   "score": 96.4
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 17.65,
+   "current": 18.28,
    "min": 14.92,
-   "p10": 19.41,
-   "median": 43.14,
-   "p90": 135.37,
+   "p10": 19.4,
+   "median": 43.13,
+   "p90": 135.34,
    "max": 178.74,
-   "mean": 63.21,
-   "percentile": 4.1,
-   "score": 95.9
+   "mean": 63.09,
+   "percentile": 6.7,
+   "score": 93.3
   }
  },
  "perBasis": "core",
  "perNA": null,
  "fairBand": {
   "per_p25": 23.91,
-  "per_p75": 30.76,
+  "per_p75": 30.75,
   "low": 190,
   "high": 240,
-  "asOf": "2026-11-23",
+  "asOf": "2026-11-24",
   "basis": "core"
  }
 }

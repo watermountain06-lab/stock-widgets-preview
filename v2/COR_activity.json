@@ -1,32 +1,32 @@
 {
  "ticker": "COR",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 27.6,
+  "dio": 24.3,
+  "dpo": 61.8,
+  "op": 51.9,
+  "ccc": -9.9
+ },
+ "prev": {
   "dso": 27.7,
   "dio": 24.3,
   "dpo": 61.5,
   "op": 52.0,
   "ccc": -9.5
  },
- "prev": {
-  "dso": 27.8,
-  "dio": 24.3,
-  "dpo": 61.4,
-  "op": 52.1,
-  "ccc": -9.3
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
-  "min": 49.9,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 51.0,
   "max": 52.7,
-  "longer": 6,
-  "dsoLonger": 7,
-  "dioLonger": 7
+  "longer": 9,
+  "dsoLonger": 11,
+  "dioLonger": 10
  },
- "score": 30.0,
- "tone": "red"
+ "score": 45.0,
+ "tone": "yellow"
 }
