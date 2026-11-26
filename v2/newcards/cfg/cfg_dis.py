@@ -7,7 +7,7 @@ CUR, YO, QO = '2026-06-27', '2025-06-28', '2026-03-28'
 QLABEL, YL, QQL = 'Q3 FY26', 'Q3 FY25', 'Q2 FY26'
 L8 = ['Q4 FY24', 'Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26']
 RELEASE = {'rev': 25248, 'op': 3943, 'ni': 2638, 'ocf': 4866, 'cap': 1794}   # 보도자료 표(영업이익 = 세전 3,645 + 순이자 298)
-VOTES, VERDICT = (1, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'Disney'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1744489/'
 SEC = S_

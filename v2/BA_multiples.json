@@ -1,21 +1,21 @@
 {
  "ticker": "BA",
  "window": [
-  "2021-11-24",
-  "2026-11-24"
+  "2021-11-26",
+  "2026-11-25"
  ],
  "multiples": {
   "PER": {
-   "days": 207,
-   "current": 17.8,
+   "days": 208,
+   "current": 17.9,
    "min": 16.96,
-   "p10": 55.6,
-   "median": 103.14,
-   "p90": 114.78,
+   "p10": 19.21,
+   "median": 102.91,
+   "p90": 114.75,
    "max": 121.75,
-   "mean": 93.63,
-   "percentile": 1.9,
-   "score": 98.1,
+   "mean": 93.26,
+   "percentile": 2.9,
+   "score": 97.1,
    "eps": 9.19
   },
   "PSR": {
@@ -27,54 +27,54 @@
    "p90": 2.15,
    "max": 2.57,
    "mean": 1.75,
-   "percentile": 12.0,
-   "score": 88.0
+   "percentile": 12.4,
+   "score": 87.6
   },
   "PBR": {
-   "days": 207,
-   "current": 19.8,
+   "days": 208,
+   "current": 19.91,
    "min": 18.87,
-   "p10": 22.9,
-   "median": 28.74,
-   "p90": 32.87,
+   "p10": 21.37,
+   "median": 28.73,
+   "p90": 32.84,
    "max": 35.24,
-   "mean": 28.28,
-   "percentile": 1.9,
-   "score": 98.1
+   "mean": 28.24,
+   "percentile": 2.9,
+   "score": 97.1
   },
   "PCR": {
-   "days": 399,
-   "current": 8102.31,
+   "days": 400,
+   "current": 8148.86,
    "min": 13.87,
    "p10": 17.29,
-   "median": 28.14,
-   "p90": 87.94,
+   "median": 28.16,
+   "p90": 87.96,
    "max": 8766.48,
-   "mean": 478.39,
-   "percentile": 95.7,
-   "score": 4.3
+   "mean": 497.56,
+   "percentile": 96.0,
+   "score": 4.0
   },
   "EV/EBITDA": {
-   "days": 457,
-   "current": 12.88,
+   "days": 458,
+   "current": 12.94,
    "min": 12.37,
-   "p10": 26.85,
-   "median": 130.63,
-   "p90": 1081.29,
+   "p10": 26.83,
+   "median": 130.41,
+   "p90": 1081.26,
    "max": 1251.86,
-   "mean": 247.68,
-   "percentile": 0.9,
-   "score": 99.1
+   "mean": 247.17,
+   "percentile": 1.3,
+   "score": 98.7
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 89.19,
-  "per_p75": 109.74,
+  "per_p25": 88.94,
+  "per_p75": 109.63,
   "low": 820,
   "high": 1010,
-  "asOf": "2026-11-24",
+  "asOf": "2026-11-25",
   "basis": "diluted"
  }
 }

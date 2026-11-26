@@ -1,32 +1,32 @@
 {
  "ticker": "SJM",
  "status": "ok",
- "asOf": "2026-07-31",
- "prevAsOf": "2026-04-30",
+ "asOf": "2026-10-31",
+ "prevAsOf": "2026-07-31",
  "now": {
+  "dso": 25.9,
+  "dio": 78.0,
+  "dpo": 76.2,
+  "op": 104.0,
+  "ccc": 27.8
+ },
+ "prev": {
   "dso": 26.0,
   "dio": 80.2,
   "dpo": 75.2,
   "op": 106.2,
   "ccc": 31.0
  },
- "prev": {
-  "dso": 26.2,
-  "dio": 77.0,
-  "dpo": 71.3,
-  "op": 103.3,
-  "ccc": 32.0
- },
  "history": {
   "n": 20,
-  "from": "2021-07-31",
-  "to": "2026-04-30",
-  "min": 98.9,
-  "max": 105.8,
-  "longer": 0,
+  "from": "2021-10-31",
+  "to": "2026-07-31",
+  "min": 99.9,
+  "max": 106.2,
+  "longer": 9,
   "dsoLonger": 16,
-  "dioLonger": 0
+  "dioLonger": 7
  },
- "score": 0.0,
- "tone": "red"
+ "score": 45.0,
+ "tone": "yellow"
 }
