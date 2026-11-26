@@ -4665,11 +4665,11 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "Invesco QQQ NAV 이력과 2535거래일(2016-10-25~2026-11-24) 대조: 거래일마다 NAV 있음, 비거래일 NAV는 직전 값 반복, 종가와 NAV 차이 최대 -1.43%(2020-03-13), 최근 250거래일 최대 0.25% · 마지막 2026-11-25 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "Invesco QQQ NAV 이력과 2536거래일(2016-10-25~2026-11-25) 대조: 거래일마다 NAV 있음, 비거래일 NAV는 직전 값 반복, 종가와 NAV 차이 최대 -1.43%(2020-03-13), 최근 250거래일 최대 0.25%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-24",
+   "S": "2026-11-26",
    "held": true,
    "reasonText": "보유 파일 날짜",
    "bar": null,
@@ -4677,72 +4677,72 @@
     {
      "company": "AAPL",
      "name": "Apple Inc",
-     "weight": 0.09098781807842682,
+     "weight": 0.09196013337467271,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
-     "company": "NVDA",
-     "name": "NVIDIA Corp",
-     "weight": 0.0659365841424284,
-     "card": "NVDA",
-     "verdict": "적정~저평가"
-    },
-    {
      "company": "MSFT",
      "name": "Microsoft Corp",
-     "weight": 0.06499682935629521,
+     "weight": 0.06459574412954532,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
+     "company": "NVDA",
+     "name": "NVIDIA Corp",
+     "weight": 0.0637615942493098,
+     "card": "NVDA",
+     "verdict": "적정~저평가"
+    },
+    {
      "company": "GOOGL",
      "name": "Alphabet Inc",
-     "weight": 0.05574962664254977,
+     "weight": 0.054938932917915725,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "Amazon.com Inc",
-     "weight": 0.04791675157808592,
+     "weight": 0.04672076342665774,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "TSLA",
      "name": "Tesla Inc",
-     "weight": 0.035583143294443724,
+     "weight": 0.035388023218069414,
      "card": "TSLA",
      "verdict": "고평가"
     },
     {
      "company": "MU",
      "name": "Micron Technology Inc",
-     "weight": 0.034575799769457426,
+     "weight": 0.03322004851613703,
      "card": "MU",
      "verdict": "적정~저평가"
     },
     {
      "company": "AMD",
      "name": "Advanced Micro Devices Inc",
-     "weight": 0.03279536561708293,
+     "weight": 0.032426848212325214,
      "card": "AMD",
-     "verdict": "고평가"
-    },
-    {
-     "company": "WMT",
-     "name": "Walmart Inc",
-     "weight": 0.03127896906058651,
-     "card": "WMT",
      "verdict": "고평가"
     },
     {
      "company": "META",
      "name": "Meta Platforms Inc",
-     "weight": 0.03088242710109997,
+     "weight": 0.03213749790458814,
      "card": "META",
      "verdict": "적정~고평가"
+    },
+    {
+     "company": "WMT",
+     "name": "Walmart Inc",
+     "weight": 0.03139093406214101,
+     "card": "WMT",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -5109,7 +5109,7 @@
  },
  "index": "QQQ",
  "name": "QQQ",
- "runId": "45771674144.1",
- "runAt": "2026-11-26T06:56:53Z",
+ "runId": "45881922198.1",
+ "runAt": "2026-11-26T19:13:12Z",
  "source": "Yahoo Finance QQQ 일봉 종가"
 }
