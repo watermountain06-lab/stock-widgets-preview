@@ -1,80 +1,80 @@
 {
  "ticker": "MRVL",
  "window": [
-  "2021-11-26",
-  "2026-11-25"
+  "2021-11-29",
+  "2026-11-27"
  ],
  "multiples": {
   "PER": {
-   "days": 247,
-   "current": 101.37,
+   "days": 248,
+   "current": 108.81,
    "min": 75.66,
    "p10": 81.56,
-   "median": 150.72,
-   "p90": 215.42,
+   "median": 150.63,
+   "p90": 215.08,
    "max": 276.11,
-   "mean": 146.96,
-   "percentile": 34.0,
-   "score": 66.0,
+   "mean": 146.81,
+   "percentile": 36.7,
+   "score": 63.3,
    "eps": 1.2917
   },
   "PSR": {
-   "days": 1184,
-   "current": 12.45,
+   "days": 1185,
+   "current": 13.36,
    "min": 5.06,
    "p10": 6.46,
-   "median": 9.95,
-   "p90": 19.33,
+   "median": 9.96,
+   "p90": 19.32,
    "max": 32.55,
    "mean": 11.43,
-   "percentile": 76.4,
-   "score": 23.6
+   "percentile": 78.1,
+   "score": 21.9
   },
   "PBR": {
    "days": 1255,
-   "current": 6.35,
+   "current": 6.82,
    "min": 1.9,
    "p10": 2.37,
    "median": 4.08,
    "p90": 9.53,
    "max": 15.57,
    "mean": 4.85,
-   "percentile": 82.6,
-   "score": 17.4
+   "percentile": 83.4,
+   "score": 16.6
   },
   "PCR": {
-   "days": 1184,
-   "current": 68.01,
+   "days": 1185,
+   "current": 73.0,
    "min": 27.08,
    "p10": 35.22,
-   "median": 52.05,
-   "p90": 104.83,
+   "median": 52.08,
+   "p90": 104.79,
    "max": 170.35,
-   "mean": 60.01,
-   "percentile": 76.2,
-   "score": 23.8
+   "mean": 60.02,
+   "percentile": 81.8,
+   "score": 18.2
   },
   "EV/EBITDA": {
-   "days": 680,
-   "current": 48.37,
+   "days": 681,
+   "current": 51.89,
    "min": 30.33,
    "p10": 36.67,
-   "median": 96.2,
-   "p90": 192.89,
+   "median": 96.11,
+   "p90": 192.86,
    "max": 1090.35,
-   "mean": 172.72,
-   "percentile": 12.9,
-   "score": 87.1
+   "mean": 172.54,
+   "percentile": 13.7,
+   "score": 86.3
   }
  },
  "perBasis": "core",
  "perNA": null,
  "fairBand": {
-  "per_p25": 87.84,
-  "per_p75": 189.65,
+  "per_p25": 87.92,
+  "per_p75": 189.57,
   "low": 110,
   "high": 240,
-  "asOf": "2026-11-25",
+  "asOf": "2026-11-27",
   "basis": "core"
  }
 }
